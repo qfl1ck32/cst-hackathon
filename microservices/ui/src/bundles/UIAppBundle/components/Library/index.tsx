@@ -1,13 +1,23 @@
 import { EndUserBook } from "@app/graphql/generated/graphql";
 
 export interface Props {
-  books: EndUserBook[];
+  endUserBooks: EndUserBook[];
+  onGoToEndUserBook: (endUserBookId: string) => void;
 }
 
 const Library: React.FC<Props> = (props) => {
   return (
     <div>
       <h1>Library</h1>
+
+      <div>
+        {props.endUserBooks.map((endUserBook, index) => (
+          <div onClick={() => props.onGoToEndUserBook(endUserBook._id)} key={index}>
+            <h2>{endUserBook.book.title}</h2>
+            <h2>Progress: {endUserBook.progress}</h2>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

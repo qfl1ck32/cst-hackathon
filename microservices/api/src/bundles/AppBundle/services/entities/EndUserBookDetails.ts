@@ -1,4 +1,8 @@
+import { ObjectId } from "@bluelibs/ejson";
+
 export class EndUserBookChapterDetails {
+  _id: ObjectId;
+
   title: string;
   isPassed: boolean;
   numberOfTries: number;

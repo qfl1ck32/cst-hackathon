@@ -4,7 +4,7 @@ import PageLoader from "@app/components/PageLoader";
 
 export interface Props {
   bookDetails: EndUserBookDetails;
-  startTest: (chapter: string) => Promise<void>;
+  startTest: (chapterId: string) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -31,7 +31,7 @@ const LibraryBook: React.FC<Props> = (props) => {
           <p>Is passed: {chapter.isPassed ? "Yes" : "No"}</p>
           <p>Tried to pass it: {chapter.numberOfTries}</p>
 
-          <Button onClick={() => props.startTest(chapter.title)}>Start test</Button>
+          <Button onClick={() => props.startTest(chapter._id)}>Start test</Button>
 
           <hr />
         </div>

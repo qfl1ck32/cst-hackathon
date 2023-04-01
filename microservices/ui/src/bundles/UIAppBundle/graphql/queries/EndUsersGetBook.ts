@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 export default gql`
-  query EndUserGetBook($input: EndUsersGetBookInput!) {
+  query EndUsersGetBook($input: EndUsersGetBookInput!) {
     EndUsersGetBook(input: $input) {
       progress
 
@@ -9,6 +9,8 @@ export default gql`
       author
 
       chapters {
+        _id
+
         title
 
         isPassed

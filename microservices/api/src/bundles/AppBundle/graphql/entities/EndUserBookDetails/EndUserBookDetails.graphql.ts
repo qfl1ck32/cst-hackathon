@@ -7,6 +7,8 @@ export default /* GraphQL */ `
   }
 
   type EndUserBookChapterDetails {
+    _id: ObjectId!
+
     title: String!
     isPassed: Boolean!
     numberOfTries: Int!

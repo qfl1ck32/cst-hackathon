@@ -1,6 +1,6 @@
 import LibraryBook from "@app/components/LibraryBook";
 import PageLoader from "@app/components/PageLoader";
-import { EndUserBookDetails, useEndUserGetBookQuery } from "@app/graphql/generated/graphql";
+import { EndUserBookDetails, useEndUsersGetBookQuery } from "@app/graphql/generated/graphql";
 import useOnSubmit from "@app/hooks/useOnSubmit";
 import { Test } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
@@ -13,7 +13,7 @@ export interface Props {
 }
 
 const LibraryBookContainer: React.FC<Props> = (props) => {
-  const { data, loading } = useEndUserGetBookQuery({
+  const { data, loading } = useEndUsersGetBookQuery({
     variables: {
       input: {
         endUserBookId: props.endUserBookId,
@@ -34,7 +34,7 @@ const LibraryBookContainer: React.FC<Props> = (props) => {
 
       router.go(Test, {
         params: {
-          chapter: chapterId,
+          chapterId,
           endUserBookId: props.endUserBookId,
         },
       });

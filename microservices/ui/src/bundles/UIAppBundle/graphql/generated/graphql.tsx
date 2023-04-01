@@ -172,6 +172,7 @@ export type EndUserBook = {
 
 export type EndUserBookChapterDetails = {
   __typename?: "EndUserBookChapterDetails";
+  _id: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
   title: Scalars["String"];
@@ -282,6 +283,11 @@ export type EndUsersGetBookInput = {
   endUserBookId: Scalars["ObjectId"];
 };
 
+export type EndUsersGetChapterTestInput = {
+  chapterId: Scalars["ObjectId"];
+  endUserBookId: Scalars["ObjectId"];
+};
+
 export type EndUsersLoginInput = {
   password: Scalars["String"];
   usernameOrEmail: Scalars["String"];
@@ -303,6 +309,12 @@ export type EndUsersSearchBookResponse = {
   bookId?: Maybe<Scalars["ObjectId"]>;
   exists: Scalars["Boolean"];
   title?: Maybe<Scalars["String"]>;
+};
+
+export type EndUsersSubmitTestInput = {
+  answers: Array<InputMaybe<Scalars["String"]>>;
+  chapterId: Scalars["ObjectId"];
+  endUserBookId: Scalars["ObjectId"];
 };
 
 export type ForgotPasswordInput = {
@@ -349,6 +361,7 @@ export type Mutation = {
   EndUsersLogin: Scalars["String"];
   EndUsersRegister?: Maybe<Scalars["Boolean"]>;
   EndUsersSearchBook: EndUsersSearchBookResponse;
+  EndUsersSubmitTest: Scalars["JSON"];
   EndUsersUpdateOne: EndUser;
   UsersDeleteOne?: Maybe<Scalars["Boolean"]>;
   UsersInsertOne?: Maybe<User>;
@@ -482,6 +495,10 @@ export type MutationEndUsersSearchBookArgs = {
   input: EndUsersSearchBookInput;
 };
 
+export type MutationEndUsersSubmitTestArgs = {
+  input: EndUsersSubmitTestInput;
+};
+
 export type MutationEndUsersUpdateOneArgs = {
   _id: Scalars["ObjectId"];
   document: EndUserUpdateInput;
@@ -561,6 +578,8 @@ export type Query = {
   EndUsersFind: Array<Maybe<EndUser>>;
   EndUsersFindOne?: Maybe<EndUser>;
   EndUsersGetBook: EndUserBookDetails;
+  EndUsersGetBooks: Array<Maybe<EndUserBook>>;
+  EndUsersGetChapterTest: Array<Maybe<EndUserBookTestQuestion>>;
   UsersCount: Scalars["Int"];
   UsersFind: Array<Maybe<User>>;
   UsersFindOne?: Maybe<User>;
@@ -658,6 +677,10 @@ export type QueryEndUsersFindOneArgs = {
 
 export type QueryEndUsersGetBookArgs = {
   input: EndUsersGetBookInput;
+};
+
+export type QueryEndUsersGetChapterTestArgs = {
+  input: EndUsersGetChapterTestInput;
 };
 
 export type QueryUsersCountArgs = {
@@ -923,11 +946,20 @@ export type EndUsersSearchBookMutation = {
   };
 };
 
-export type EndUserGetBookQueryVariables = Exact<{
+export type EndUsersSubmitTestMutationVariables = Exact<{
+  input: EndUsersSubmitTestInput;
+}>;
+
+export type EndUsersSubmitTestMutation = {
+  __typename?: "Mutation";
+  EndUsersSubmitTest: any;
+};
+
+export type EndUsersGetBookQueryVariables = Exact<{
   input: EndUsersGetBookInput;
 }>;
 
-export type EndUserGetBookQuery = {
+export type EndUsersGetBookQuery = {
   __typename?: "Query";
   EndUsersGetBook: {
     __typename?: "EndUserBookDetails";
@@ -936,11 +968,38 @@ export type EndUserGetBookQuery = {
     author: string;
     chapters: Array<{
       __typename?: "EndUserBookChapterDetails";
+      _id: any;
       title: string;
       isPassed: boolean;
       numberOfTries: number;
     }>;
   };
+};
+
+export type EndUsersGetBooksQueryVariables = Exact<{ [key: string]: never }>;
+
+export type EndUsersGetBooksQuery = {
+  __typename?: "Query";
+  EndUsersGetBooks: Array<{
+    __typename?: "EndUserBook";
+    _id?: any | null;
+    progress: number;
+    book: { __typename?: "Book"; title: string };
+  } | null>;
+};
+
+export type EndUsersGetChapterTestQueryVariables = Exact<{
+  input: EndUsersGetChapterTestInput;
+}>;
+
+export type EndUsersGetChapterTestQuery = {
+  __typename?: "Query";
+  EndUsersGetChapterTest: Array<{
+    __typename?: "EndUserBookTestQuestion";
+    text: string;
+    type: EndUserBookTestQuestionType;
+    choices?: Array<string | null> | null;
+  } | null>;
 };
 
 export const EndUsersAddBookToLibraryDocument = gql`
@@ -1189,13 +1248,62 @@ export type EndUsersSearchBookMutationOptions = Apollo.BaseMutationOptions<
   EndUsersSearchBookMutation,
   EndUsersSearchBookMutationVariables
 >;
-export const EndUserGetBookDocument = gql`
-  query EndUserGetBook($input: EndUsersGetBookInput!) {
+export const EndUsersSubmitTestDocument = gql`
+  mutation EndUsersSubmitTest($input: EndUsersSubmitTestInput!) {
+    EndUsersSubmitTest(input: $input)
+  }
+`;
+export type EndUsersSubmitTestMutationFn = Apollo.MutationFunction<
+  EndUsersSubmitTestMutation,
+  EndUsersSubmitTestMutationVariables
+>;
+
+/**
+ * __useEndUsersSubmitTestMutation__
+ *
+ * To run a mutation, you first call `useEndUsersSubmitTestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersSubmitTestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [endUsersSubmitTestMutation, { data, loading, error }] = useEndUsersSubmitTestMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEndUsersSubmitTestMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EndUsersSubmitTestMutation,
+    EndUsersSubmitTestMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EndUsersSubmitTestMutation,
+    EndUsersSubmitTestMutationVariables
+  >(EndUsersSubmitTestDocument, options);
+}
+export type EndUsersSubmitTestMutationHookResult = ReturnType<
+  typeof useEndUsersSubmitTestMutation
+>;
+export type EndUsersSubmitTestMutationResult =
+  Apollo.MutationResult<EndUsersSubmitTestMutation>;
+export type EndUsersSubmitTestMutationOptions = Apollo.BaseMutationOptions<
+  EndUsersSubmitTestMutation,
+  EndUsersSubmitTestMutationVariables
+>;
+export const EndUsersGetBookDocument = gql`
+  query EndUsersGetBook($input: EndUsersGetBookInput!) {
     EndUsersGetBook(input: $input) {
       progress
       title
       author
       chapters {
+        _id
         title
         isPassed
         numberOfTries
@@ -1205,52 +1313,173 @@ export const EndUserGetBookDocument = gql`
 `;
 
 /**
- * __useEndUserGetBookQuery__
+ * __useEndUsersGetBookQuery__
  *
- * To run a query within a React component, call `useEndUserGetBookQuery` and pass it any options that fit your needs.
- * When your component renders, `useEndUserGetBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useEndUsersGetBookQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersGetBookQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useEndUserGetBookQuery({
+ * const { data, loading, error } = useEndUsersGetBookQuery({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useEndUserGetBookQuery(
+export function useEndUsersGetBookQuery(
   baseOptions: Apollo.QueryHookOptions<
-    EndUserGetBookQuery,
-    EndUserGetBookQueryVariables
+    EndUsersGetBookQuery,
+    EndUsersGetBookQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<EndUserGetBookQuery, EndUserGetBookQueryVariables>(
-    EndUserGetBookDocument,
+  return Apollo.useQuery<EndUsersGetBookQuery, EndUsersGetBookQueryVariables>(
+    EndUsersGetBookDocument,
     options
   );
 }
-export function useEndUserGetBookLazyQuery(
+export function useEndUsersGetBookLazyQuery(
   baseOptions?: Apollo.LazyQueryHookOptions<
-    EndUserGetBookQuery,
-    EndUserGetBookQueryVariables
+    EndUsersGetBookQuery,
+    EndUsersGetBookQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<EndUserGetBookQuery, EndUserGetBookQueryVariables>(
-    EndUserGetBookDocument,
+  return Apollo.useLazyQuery<
+    EndUsersGetBookQuery,
+    EndUsersGetBookQueryVariables
+  >(EndUsersGetBookDocument, options);
+}
+export type EndUsersGetBookQueryHookResult = ReturnType<
+  typeof useEndUsersGetBookQuery
+>;
+export type EndUsersGetBookLazyQueryHookResult = ReturnType<
+  typeof useEndUsersGetBookLazyQuery
+>;
+export type EndUsersGetBookQueryResult = Apollo.QueryResult<
+  EndUsersGetBookQuery,
+  EndUsersGetBookQueryVariables
+>;
+export const EndUsersGetBooksDocument = gql`
+  query EndUsersGetBooks {
+    EndUsersGetBooks {
+      _id
+      progress
+      book {
+        title
+      }
+    }
+  }
+`;
+
+/**
+ * __useEndUsersGetBooksQuery__
+ *
+ * To run a query within a React component, call `useEndUsersGetBooksQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersGetBooksQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEndUsersGetBooksQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEndUsersGetBooksQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    EndUsersGetBooksQuery,
+    EndUsersGetBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<EndUsersGetBooksQuery, EndUsersGetBooksQueryVariables>(
+    EndUsersGetBooksDocument,
     options
   );
 }
-export type EndUserGetBookQueryHookResult = ReturnType<
-  typeof useEndUserGetBookQuery
+export function useEndUsersGetBooksLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EndUsersGetBooksQuery,
+    EndUsersGetBooksQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    EndUsersGetBooksQuery,
+    EndUsersGetBooksQueryVariables
+  >(EndUsersGetBooksDocument, options);
+}
+export type EndUsersGetBooksQueryHookResult = ReturnType<
+  typeof useEndUsersGetBooksQuery
 >;
-export type EndUserGetBookLazyQueryHookResult = ReturnType<
-  typeof useEndUserGetBookLazyQuery
+export type EndUsersGetBooksLazyQueryHookResult = ReturnType<
+  typeof useEndUsersGetBooksLazyQuery
 >;
-export type EndUserGetBookQueryResult = Apollo.QueryResult<
-  EndUserGetBookQuery,
-  EndUserGetBookQueryVariables
+export type EndUsersGetBooksQueryResult = Apollo.QueryResult<
+  EndUsersGetBooksQuery,
+  EndUsersGetBooksQueryVariables
+>;
+export const EndUsersGetChapterTestDocument = gql`
+  query EndUsersGetChapterTest($input: EndUsersGetChapterTestInput!) {
+    EndUsersGetChapterTest(input: $input) {
+      text
+      type
+      choices
+    }
+  }
+`;
+
+/**
+ * __useEndUsersGetChapterTestQuery__
+ *
+ * To run a query within a React component, call `useEndUsersGetChapterTestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersGetChapterTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEndUsersGetChapterTestQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEndUsersGetChapterTestQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    EndUsersGetChapterTestQuery,
+    EndUsersGetChapterTestQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    EndUsersGetChapterTestQuery,
+    EndUsersGetChapterTestQueryVariables
+  >(EndUsersGetChapterTestDocument, options);
+}
+export function useEndUsersGetChapterTestLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    EndUsersGetChapterTestQuery,
+    EndUsersGetChapterTestQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    EndUsersGetChapterTestQuery,
+    EndUsersGetChapterTestQueryVariables
+  >(EndUsersGetChapterTestDocument, options);
+}
+export type EndUsersGetChapterTestQueryHookResult = ReturnType<
+  typeof useEndUsersGetChapterTestQuery
+>;
+export type EndUsersGetChapterTestLazyQueryHookResult = ReturnType<
+  typeof useEndUsersGetChapterTestLazyQuery
+>;
+export type EndUsersGetChapterTestQueryResult = Apollo.QueryResult<
+  EndUsersGetChapterTestQuery,
+  EndUsersGetChapterTestQueryVariables
 >;
