@@ -1,0 +1,39 @@
+{
+  "en": {
+    "management": {
+      "end_user_books": {
+        "fields": {
+          "_id": "ID",
+          "tests": "Tests",
+          "tests.chapter": "Tests — Chapter",
+          "tests.numberOfTries": "Tests — Number Of Tries",
+          "tests.isPassed": "Tests — Is Passed",
+          "progress": "Progress",
+          "bookId": "bookId",
+          "endUserId": "endUserId",
+          "book": "Book",
+          "endUser": "End User"
+        },
+        "menu": {
+          "title": "EndUserBooks"
+        },
+        "list": {
+          "header": "EndUserBooks List",
+          "create_btn": "New EndUserBook"
+        },
+        "create": {
+          "header": "Create EndUserBook"
+        },
+        "edit": {
+          "header": "Edit EndUserBook"
+        },
+        "view": {
+          "header": "View EndUserBook"
+        },
+        "delete_confirmation": "You have deleted the EndUserBook",
+        "create_confirmation": "You successfully added a new EndUserBook",
+        "edit_confirmation": "You successfully edited the EndUserBook"
+      }
+    }
+  }
+}

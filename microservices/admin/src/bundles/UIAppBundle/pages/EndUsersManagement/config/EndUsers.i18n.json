@@ -1,0 +1,40 @@
+{
+  "en": {
+    "management": {
+      "end_users": {
+        "fields": {
+          "_id": "ID",
+          "fullName": "Full Name",
+          "level": "Level",
+          "experience": "Experience",
+          "gold": "Gold",
+          "ownerId": "ownerId",
+          "booksId": "booksId",
+          "badgesId": "badgesId",
+          "owner": "Owner",
+          "books": "Books",
+          "badges": "Badges"
+        },
+        "menu": {
+          "title": "EndUsers"
+        },
+        "list": {
+          "header": "EndUsers List",
+          "create_btn": "New EndUser"
+        },
+        "create": {
+          "header": "Create EndUser"
+        },
+        "edit": {
+          "header": "Edit EndUser"
+        },
+        "view": {
+          "header": "View EndUser"
+        },
+        "delete_confirmation": "You have deleted the EndUser",
+        "create_confirmation": "You successfully added a new EndUser",
+        "edit_confirmation": "You successfully edited the EndUser"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "en": {
+    "management": {
+      "badges": {
+        "fields": {
+          "_id": "ID",
+          "name": "Name",
+          "description": "Description",
+          "iconId": "iconId",
+          "icon": "Icon"
+        },
+        "menu": {
+          "title": "Badges"
+        },
+        "list": {
+          "header": "Badges List",
+          "create_btn": "New Badge"
+        },
+        "create": {
+          "header": "Create Badge"
+        },
+        "edit": {
+          "header": "Edit Badge"
+        },
+        "view": {
+          "header": "View Badge"
+        },
+        "delete_confirmation": "You have deleted the Badge",
+        "create_confirmation": "You successfully added a new Badge",
+        "edit_confirmation": "You successfully edited the Badge"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "en": {
+    "management": {
+      "books": {
+        "fields": {
+          "_id": "ID",
+          "title": "Title",
+          "author": "Author",
+          "genres": "Genres",
+          "chapters": "Chapters"
+        },
+        "menu": {
+          "title": "Books"
+        },
+        "list": {
+          "header": "Books List",
+          "create_btn": "New Book"
+        },
+        "create": {
+          "header": "Create Book"
+        },
+        "edit": {
+          "header": "Edit Book"
+        },
+        "view": {
+          "header": "View Book"
+        },
+        "delete_confirmation": "You have deleted the Book",
+        "create_confirmation": "You successfully added a new Book",
+        "edit_confirmation": "You successfully edited the Book"
+      }
+    }
+  }
+}
