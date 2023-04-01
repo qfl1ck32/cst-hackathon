@@ -691,7 +691,6 @@ export type User = {
   email: Scalars['String'];
   fullName: Scalars['String'];
   isEnabled: Scalars['Boolean'];
-  profile: UserProfile;
   roles: Array<Maybe<UserRole>>;
   /** Represents the last time when the object was updated */
   updatedAt: Scalars['Date'];
@@ -699,23 +698,12 @@ export type User = {
   updatedBy?: Maybe<User>;
   /** Represents the user's id who has made the latest update on this object */
   updatedById?: Maybe<Scalars['ObjectId']>;
+  username: Scalars['String'];
 };
 
 export type UserInsertInput = {
   isEnabled: Scalars['Boolean'];
-  profile: UserProfileInput;
   roles: Array<Maybe<UserRole>>;
-};
-
-export type UserProfile = {
-  __typename?: 'UserProfile';
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
-};
-
-export type UserProfileInput = {
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
 };
 
 export enum UserRole {
@@ -725,7 +713,6 @@ export enum UserRole {
 
 export type UserUpdateInput = {
   isEnabled?: Maybe<Scalars['Boolean']>;
-  profile?: Maybe<UserProfileInput>;
   roles?: Maybe<Array<Maybe<UserRole>>>;
 };
 

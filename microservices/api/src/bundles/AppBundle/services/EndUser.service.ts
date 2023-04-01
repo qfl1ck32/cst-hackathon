@@ -27,6 +27,7 @@ export class EndUserService {
   private permissionService: PermissionService;
 
   public async register(input: EndUsersRegisterInput) {
+    // TODO: check if username is taken (the framework assumes username = e-mail, which is kinda dumb but whatever)
     const userId = (
       await this.xAuthService.register({
         email: input.email,

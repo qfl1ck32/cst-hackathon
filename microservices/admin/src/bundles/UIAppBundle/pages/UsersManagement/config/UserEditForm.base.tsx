@@ -65,30 +65,6 @@ export class UserEditForm extends XForm {
           </Ant.Form.Item>
         ),
       },
-
-      {
-        id: "profile",
-        label: t("management.users.fields.profile"),
-        name: ["profile"],
-        required: true,
-        nest: [
-          {
-            id: "firstName",
-            label: t("management.users.fields.profile.firstName"),
-            name: ["profile", "firstName"],
-            required: true,
-            component: Ant.Input,
-          },
-
-          {
-            id: "lastName",
-            label: t("management.users.fields.profile.lastName"),
-            name: ["profile", "lastName"],
-            required: true,
-            component: Ant.Input,
-          },
-        ],
-      },
     ]);
   }
 
@@ -97,10 +73,6 @@ export class UserEditForm extends XForm {
       _id: 1,
       roles: 1,
       isEnabled: 1,
-      profile: {
-        firstName: 1,
-        lastName: 1,
-      },
     };
   }
 

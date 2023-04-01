@@ -1,3 +1,4 @@
+import { AppGuardian } from "@app/services/AppGuardian";
 import { Kernel } from "@bluelibs/core";
 import { XUINextBundle } from "@bluelibs/x-ui-next";
 import { UIAppBundle } from "../bundles/UIAppBundle/UIAppBundle";
@@ -10,6 +11,10 @@ export const kernel = new Kernel({
         client: {
           uri: env.API_URL,
         },
+      },
+
+      guardian: {
+        guardianClass: AppGuardian,
       },
     }),
     new UIAppBundle(),

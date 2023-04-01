@@ -66,30 +66,6 @@ export class UserCreateForm extends XForm {
           </Ant.Form.Item>
         ),
       },
-
-      {
-        id: "profile",
-        label: t("management.users.fields.profile"),
-        name: ["profile"],
-        required: true,
-        nest: [
-          {
-            id: "firstName",
-            label: t("management.users.fields.profile.firstName"),
-            name: ["profile", "firstName"],
-            required: true,
-            component: Ant.Input,
-          },
-
-          {
-            id: "lastName",
-            label: t("management.users.fields.profile.lastName"),
-            name: ["profile", "lastName"],
-            required: true,
-            component: Ant.Input,
-          },
-        ],
-      },
     ]);
   }
 

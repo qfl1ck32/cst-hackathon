@@ -17,9 +17,7 @@ export default /* GraphQL */ `
     """
     createdById: ObjectId
     email: String!
-    fullName: String!
     isEnabled: Boolean!
-    profile: UserProfile!
     roles: [UserRole]!
 
     """
@@ -36,11 +34,7 @@ export default /* GraphQL */ `
     Represents the user's id who has made the latest update on this object
     """
     updatedById: ObjectId
-  }
-
-  type UserProfile {
-    firstName: String!
-    lastName: String!
+    username: String!
   }
 
   enum UserRole {

@@ -77,30 +77,6 @@ export class UserListFiltersForm extends XForm {
       },
 
       {
-        id: "profile",
-        label: t("management.users.fields.profile"),
-        name: ["profile"],
-        columns: true,
-        nest: [
-          {
-            id: "firstName",
-            label: t("management.users.fields.profile.firstName"),
-            name: ["profile", "firstName"],
-            required: true,
-            component: Ant.Input,
-          },
-
-          {
-            id: "lastName",
-            label: t("management.users.fields.profile.lastName"),
-            name: ["profile", "lastName"],
-            required: true,
-            component: Ant.Input,
-          },
-        ],
-      },
-
-      {
         id: "createdById",
         label: t("management.users.fields.createdBy"),
         name: ["createdById"],
@@ -109,7 +85,7 @@ export class UserListFiltersForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={UsersCollection}
-              field="fullName"
+              field="username"
               placeholder="Please select an option"
               mode="multiple"
             />
@@ -126,7 +102,7 @@ export class UserListFiltersForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={UsersCollection}
-              field="fullName"
+              field="username"
               placeholder="Please select an option"
               mode="multiple"
             />

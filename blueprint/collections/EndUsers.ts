@@ -18,7 +18,7 @@ export const EndUsers = collection({
   fields: [field.integer("level"), field.integer("experience"), field.integer("gold")],
 
   relations: [
-    shortcuts.relation.user({ id: "owner" }),
+    shortcuts.relation.user({ id: "owner", representedBy: "username" }),
 
     relation({
       id: "books",

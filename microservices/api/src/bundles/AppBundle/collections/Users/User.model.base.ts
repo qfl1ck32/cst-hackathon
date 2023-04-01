@@ -6,15 +6,6 @@ import { UserRole } from "./enums/UserRole.enum";
 export { UserRole };
 
 @Schema()
-export class UserProfile {
-  @Is(a.string().required())
-  firstName: string;
-
-  @Is(a.string().required())
-  lastName: string;
-}
-
-@Schema()
 export class User {
   @Is(an.objectId())
   _id?: ObjectId;
@@ -38,8 +29,6 @@ export class User {
 
   email: string;
 
-  fullName: string;
-
   /**
    * @description This field is used to identify if this object has been soft-deleted
    */
@@ -53,9 +42,6 @@ export class User {
    * @description This is the model that stores password authentication data such as emails, hashed password, salt and other security related data
    */
   password: IPasswordAuthenticationStrategy;
-
-  @Is(() => Schema.from(UserProfile))
-  profile: UserProfile;
 
   @Is(
     an
@@ -81,4 +67,6 @@ export class User {
    */
   @Is(an.objectId().nullable())
   updatedById?: ObjectId;
+
+  username: string;
 }

@@ -16,10 +16,10 @@ export class UserList extends XList<User> {
 
     this.add([
       {
-        id: "email",
-        title: t("management.users.fields.email"),
-        key: "management.users.fields.email",
-        dataIndex: ["email"],
+        id: "username",
+        title: t("management.users.fields.username"),
+        key: "management.users.fields.username",
+        dataIndex: ["username"],
         sorter: true,
         render: (value, model) => {
           const props = {
@@ -30,10 +30,10 @@ export class UserList extends XList<User> {
         },
       },
       {
-        id: "fullName",
-        title: t("management.users.fields.fullName"),
-        key: "management.users.fields.fullName",
-        dataIndex: ["fullName"],
+        id: "email",
+        title: t("management.users.fields.email"),
+        key: "management.users.fields.email",
+        dataIndex: ["email"],
         sorter: true,
         render: (value, model) => {
           const props = {
@@ -110,34 +110,6 @@ export class UserList extends XList<User> {
         },
       },
       {
-        id: "profile.firstName",
-        title: t("management.users.fields.profile.firstName"),
-        key: "management.users.fields.profile.firstName",
-        dataIndex: ["profile", "firstName"],
-        sorter: true,
-        render: (value, model) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
-        id: "profile.lastName",
-        title: t("management.users.fields.profile.lastName"),
-        key: "management.users.fields.profile.lastName",
-        dataIndex: ["profile", "lastName"],
-        sorter: true,
-        render: (value, model) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "createdBy",
         title: t("management.users.fields.createdBy"),
         key: "management.users.fields.createdBy",
@@ -153,7 +125,7 @@ export class UserList extends XList<User> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "fullName",
+              dataIndex: "username",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -175,7 +147,7 @@ export class UserList extends XList<User> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "fullName",
+              dataIndex: "username",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -186,32 +158,28 @@ export class UserList extends XList<User> {
 
   static getSortMap() {
     return {
-      createdBy: "createdBy.fullName",
-      updatedBy: "updatedBy.fullName",
+      createdBy: "createdBy.username",
+      updatedBy: "updatedBy.username",
     };
   }
 
   static getRequestBody(): QueryBodyType<User> {
     return {
       _id: 1,
+      username: 1,
       email: 1,
-      fullName: 1,
       roles: 1,
       updatedAt: 1,
       createdAt: 1,
       isEnabled: 1,
-      profile: {
-        firstName: 1,
-        lastName: 1,
-      },
       createdBy: {
         _id: 1,
-        fullName: 1,
+        username: 1,
       },
       createdById: 1,
       updatedBy: {
         _id: 1,
-        fullName: 1,
+        username: 1,
       },
       updatedById: 1,
     };

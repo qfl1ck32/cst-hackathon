@@ -4,12 +4,7 @@
  *
  * Use the `useAppGuardian()` function instead of `useGuardian()`
  */
-import {
-  GuardianSmart,
-  GuardianUserType,
-  GuardianUserRegistrationType,
-  useSmart,
-} from "@bluelibs/x-ui-next";
+import { GuardianSmart, GuardianUserType, GuardianUserRegistrationType, useSmart } from "@bluelibs/x-ui-next";
 import { gql } from "@apollo/client";
 
 type AppUserType = GuardianUserType & {
@@ -26,12 +21,8 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
           query me {
             me {
               _id
+              username
               email
-              profile {
-                firstName
-                lastName
-              }
-              fullName
               roles
             }
           }

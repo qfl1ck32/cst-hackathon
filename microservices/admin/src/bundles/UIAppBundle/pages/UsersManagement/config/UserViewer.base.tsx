@@ -14,9 +14,9 @@ export class UserViewer extends XViewer {
 
     this.add([
       {
-        id: "email",
-        label: t("management.users.fields.email"),
-        dataIndex: ["email"],
+        id: "username",
+        label: t("management.users.fields.username"),
+        dataIndex: ["username"],
         render: (value) => {
           const props = {
             type: "string",
@@ -26,9 +26,9 @@ export class UserViewer extends XViewer {
         },
       },
       {
-        id: "fullName",
-        label: t("management.users.fields.fullName"),
-        dataIndex: ["fullName"],
+        id: "email",
+        label: t("management.users.fields.email"),
+        dataIndex: ["email"],
         render: (value) => {
           const props = {
             type: "string",
@@ -96,30 +96,6 @@ export class UserViewer extends XViewer {
         },
       },
       {
-        id: "profile.firstName",
-        label: t("management.users.fields.profile.firstName"),
-        dataIndex: ["profile", "firstName"],
-        render: (value) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
-        id: "profile.lastName",
-        label: t("management.users.fields.profile.lastName"),
-        dataIndex: ["profile", "lastName"],
-        render: (value) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "_id",
         label: t("management.users.fields._id"),
         dataIndex: ["_id"],
@@ -145,7 +121,7 @@ export class UserViewer extends XViewer {
                   id: value?._id,
                 },
               }),
-              dataIndex: "fullName",
+              dataIndex: "username",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -165,7 +141,7 @@ export class UserViewer extends XViewer {
                   id: value?._id,
                 },
               }),
-              dataIndex: "fullName",
+              dataIndex: "username",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -177,24 +153,20 @@ export class UserViewer extends XViewer {
   static getRequestBody(): QueryBodyType<User> {
     return {
       _id: 1,
+      username: 1,
       email: 1,
-      fullName: 1,
       roles: 1,
       updatedAt: 1,
       createdAt: 1,
       isEnabled: 1,
-      profile: {
-        firstName: 1,
-        lastName: 1,
-      },
       createdBy: {
         _id: 1,
-        fullName: 1,
+        username: 1,
       },
       createdById: 1,
       updatedBy: {
         _id: 1,
-        fullName: 1,
+        username: 1,
       },
       updatedById: 1,
     };
