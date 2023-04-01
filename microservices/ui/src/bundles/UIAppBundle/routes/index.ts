@@ -2,6 +2,11 @@ import { IRoute } from "@bluelibs/x-ui-router";
 
 export const Home: IRoute = {
   name: "Home",
+  path: "/home",
+};
+
+export const Landing: IRoute = {
+  name: "Landing",
   path: "/",
 };
 
