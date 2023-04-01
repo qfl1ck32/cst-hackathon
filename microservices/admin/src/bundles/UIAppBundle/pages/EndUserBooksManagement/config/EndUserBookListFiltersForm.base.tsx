@@ -56,6 +56,15 @@ export class EndUserBookListFiltersForm extends XForm {
           },
 
           {
+            id: "score",
+            label: t("management.end_user_books.fields.chaptersTests.score"),
+            name: ["chaptersTests", "score"],
+            required: true,
+            initialValue: [],
+            component: Ant.InputNumber,
+          },
+
+          {
             id: "numberOfTries",
             label: t(
               "management.end_user_books.fields.chaptersTests.numberOfTries"
@@ -75,17 +84,6 @@ export class EndUserBookListFiltersForm extends XForm {
             component: Ant.Input,
           },
         ],
-      },
-
-      {
-        id: "progress",
-        label: t("management.end_user_books.fields.progress"),
-        name: ["progress"],
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <Ant.Slider range step={10} min={0} max={100000} />
-          </Ant.Form.Item>
-        ),
       },
 
       {

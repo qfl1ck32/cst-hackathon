@@ -12,6 +12,7 @@ export default /* GraphQL */ `
   type EndUserBookChaptersTest {
     chapterId: ObjectId!
     isPassed: Boolean!
+    score: Int!
     numberOfTries: Int!
     testId: ObjectId!
   }

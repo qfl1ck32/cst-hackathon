@@ -1,5 +1,6 @@
 import { blameableOverrides } from "../utils";
 import { collection, field, relation, shortcuts, sharedModel, faker } from "../utils";
+import { EndUsers } from "./EndUsers";
 
 export const Users = collection({
   id: "Users",
@@ -56,5 +57,12 @@ export const Users = collection({
       isReducer: true,
     }),
   ],
-  relations: [...shortcuts.relations.blameable(blameableOverrides)],
+  relations: [
+    ...shortcuts.relations.blameable(blameableOverrides),
+    relation({
+      id: "endUser",
+      to: () => EndUsers,
+      inversedBy: "owner",
+    }),
+  ],
 });

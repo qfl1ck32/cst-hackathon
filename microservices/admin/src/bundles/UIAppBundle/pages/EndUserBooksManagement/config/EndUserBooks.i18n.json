@@ -7,6 +7,7 @@
           "chaptersTests": "Chapters Tests",
           "chaptersTests.chapterId": "Chapters Tests — Chapter Id",
           "chaptersTests.isPassed": "Chapters Tests — Is Passed",
+          "chaptersTests.score": "Chapters Tests — Score",
           "chaptersTests.numberOfTries": "Chapters Tests — Number Of Tries",
           "chaptersTests.testId": "Chapters Tests — Test Id",
           "progress": "Progress",

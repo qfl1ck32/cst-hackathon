@@ -29,10 +29,9 @@ const LibraryBook: React.FC<Props> = (props) => {
         <div key={index}>
           <h4>{chapter.title}</h4>
           <p>Is passed: {chapter.isPassed ? "Yes" : "No"}</p>
-          <p>Tried to pass it: {chapter.numberOfTries}</p>
+          <p>Tries to pass it: {chapter.numberOfTries}</p>
 
-          <Button onClick={() => props.startTest(chapter._id)}>Start test</Button>
-
+          {!chapter.isPassed && <Button onClick={() => props.startTest(chapter._id)}>Start test</Button>}
           <hr />
         </div>
       ))}

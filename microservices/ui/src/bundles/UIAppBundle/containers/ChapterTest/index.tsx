@@ -1,10 +1,13 @@
 import ChapterTest from "@app/components/ChapterTest";
+import ChapterTestResults from "@app/components/ChapterTestResults";
 import PageLoader from "@app/components/PageLoader";
-import { EndUserBookTestQuestion, useEndUsersGetChapterTestQuery } from "@app/graphql/generated/graphql";
+import { EndUserBookTestQuestion, EndUsersSubmitTestResponse, useEndUsersGetChapterTestQuery } from "@app/graphql/generated/graphql";
 import useOnSubmit from "@app/hooks/useOnSubmit";
+import { Book } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
 import { extractError } from "@app/utils/apollo";
-import { use } from "@bluelibs/x-ui-next";
+import { use, useRouter } from "@bluelibs/x-ui-next";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 export interface Props {
@@ -13,7 +16,13 @@ export interface Props {
 }
 
 const ChapterTestContainer: React.FC<Props> = (props) => {
+  const [testResults, setTestResults] = useState<EndUsersSubmitTestResponse>();
+
+  const router = useRouter();
+
   const { data, loading } = useEndUsersGetChapterTestQuery({
+    fetchPolicy: "network-only",
+
     variables: {
       input: {
         chapterId: props.chapterId,
@@ -32,6 +41,8 @@ const ChapterTestContainer: React.FC<Props> = (props) => {
         endUserBookId: props.endUserBookId,
       });
 
+      setTestResults(response as EndUsersSubmitTestResponse);
+
       toast.success("Test submitted successfully");
     },
 
@@ -40,8 +51,20 @@ const ChapterTestContainer: React.FC<Props> = (props) => {
     },
   });
 
+  const goBack = () => {
+    router.go(Book, {
+      params: {
+        endUserBookId: props.endUserBookId,
+      },
+    });
+  };
+
   if (loading || submitLoading) {
     return <PageLoader />;
+  }
+
+  if (testResults) {
+    return <ChapterTestResults {...{ goBack }} results={testResults} />;
   }
 
   return <ChapterTest {...{ onSubmit }} questions={data!.EndUsersGetChapterTest as EndUserBookTestQuestion[]} />;

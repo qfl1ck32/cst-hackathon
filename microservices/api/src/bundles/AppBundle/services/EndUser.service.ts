@@ -34,6 +34,7 @@ import {
   EndUserBookDetails,
 } from "./entities/EndUserBookDetails";
 import { EndUsersSearchBookResponse } from "./entities/EndUsersSearchBookResponse";
+import { EndUserSubmitTestResponse } from "./entities/EndUserSubmitTestResponse";
 import {
   BookChapterInsertInput,
   EndUsersAddBookToLibraryInput,
@@ -251,6 +252,7 @@ export class EndUserService {
         chapterId: chapter._id,
         isPassed: false,
         numberOfTries: 0,
+        score: 0,
         testId: undefined,
       })
     );
@@ -312,6 +314,7 @@ export class EndUserService {
         acc[test.chapterId.toHexString()] = {
           isPassed: test.isPassed,
           numberOfTries: test.numberOfTries,
+          score: test.score,
         };
 
         return acc;
@@ -515,7 +518,10 @@ export class EndUserService {
     return test.questions;
   }
 
-  public async submitTest(input: EndUsersSubmitTestInput, userId: ObjectId) {
+  public async submitTest(
+    input: EndUsersSubmitTestInput,
+    userId: ObjectId
+  ): Promise<EndUserSubmitTestResponse> {
     const endUserId = await this.getIdByUserId(userId);
 
     const endUserBook = await this.endUserBooksCollection.queryOne({
@@ -548,8 +554,8 @@ export class EndUserService {
       throw new EndUserDoesNotOwnBookException();
     }
 
-    const chapterTest = endUserBook.chaptersTests.find((chapterTest) =>
-      chapterTest.chapterId.equals(input.chapterId)
+    const chapterTest = endUserBook.chaptersTests.find((test) =>
+      test.chapterId.equals(input.chapterId)
     );
 
     const chapter = endUserBook.book.chapters.find((chapter) =>
@@ -557,7 +563,7 @@ export class EndUserService {
     );
 
     const test = await this.endUserBookTestsCollection.findOne({
-      _id: chapterTest.chapterId,
+      _id: chapterTest.testId,
     });
 
     const response = await this.chatGPTService.checkAnswers(
@@ -572,7 +578,7 @@ export class EndUserService {
     }, 0);
 
     // magic number
-    const hasPassed = score > 3;
+    const hasPassed = score >= 3;
 
     await this.endUserBookTestsCollection.deleteOne(
       {
@@ -594,10 +600,11 @@ export class EndUserService {
         $set: {
           "chaptersTests.$.testId": null,
           "chaptersTests.$.isPassed": hasPassed,
+          "chaptersTests.$.score": score,
         },
 
         $inc: {
-          "chapterTests.$.numberOfTries": 1,
+          "chaptersTests.$.numberOfTries": 1,
         },
       },
       {
@@ -605,15 +612,8 @@ export class EndUserService {
       }
     );
 
-    console.log({
-      response,
-      answers: input.answers,
-      questions: test.questions.map((q) => q.text),
-      hasPassed,
-    });
-
     // TODO: not here :((
-    const levelUpExperienceNeeded = 1000;
+    const levelUpExperienceNeeded = 100;
     const testPassingExperience = 100;
 
     if (hasPassed) {
@@ -644,6 +644,8 @@ export class EndUserService {
 
     return {
       hasPassed,
+
+      score,
 
       answers: response,
     };

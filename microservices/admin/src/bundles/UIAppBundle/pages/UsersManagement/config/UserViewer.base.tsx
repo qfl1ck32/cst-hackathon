@@ -147,6 +147,26 @@ export class UserViewer extends XViewer {
           return <UIComponents.AdminListItemRenderer {...props} />;
         },
       },
+      {
+        id: "endUser",
+        label: t("management.users.fields.endUser"),
+        dataIndex: ["endUser"],
+        render: (value) => {
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.END_USERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "_id",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
+        },
+      },
     ]);
   }
 
@@ -169,6 +189,9 @@ export class UserViewer extends XViewer {
         username: 1,
       },
       updatedById: 1,
+      endUser: {
+        _id: 1,
+      },
     };
   }
 }

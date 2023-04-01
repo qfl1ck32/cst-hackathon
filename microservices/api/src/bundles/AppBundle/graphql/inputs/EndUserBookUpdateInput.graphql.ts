@@ -3,12 +3,12 @@ export default /* GraphQL */ `
     bookId: ObjectId
     chaptersTests: [EndUserBookChaptersTestInput]
     endUserId: ObjectId
-    progress: Float
   }
 
   input EndUserBookChaptersTestInput {
     chapterId: ObjectId!
     isPassed: Boolean!
+    score: Int!
     numberOfTries: Int!
     testId: ObjectId!
   }

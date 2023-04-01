@@ -183,6 +183,7 @@ export type EndUserBookChaptersTest = {
   chapterId: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
+  score: Scalars["Int"];
   testId: Scalars["ObjectId"];
 };
 
@@ -190,6 +191,7 @@ export type EndUserBookChaptersTestInput = {
   chapterId: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
+  score: Scalars["Int"];
   testId: Scalars["ObjectId"];
 };
 
@@ -317,6 +319,21 @@ export type EndUsersSubmitTestInput = {
   endUserBookId: Scalars["ObjectId"];
 };
 
+export type EndUsersSubmitTestResponse = {
+  __typename?: "EndUsersSubmitTestResponse";
+  answers: Array<EndUsersSubmitTestResponseAnswer>;
+  hasPassed: Scalars["Boolean"];
+  score: Scalars["Int"];
+};
+
+export type EndUsersSubmitTestResponseAnswer = {
+  __typename?: "EndUsersSubmitTestResponseAnswer";
+  answer: Scalars["String"];
+  correct: Scalars["Boolean"];
+  explanation?: Maybe<Scalars["String"]>;
+  question: Scalars["String"];
+};
+
 export type ForgotPasswordInput = {
   email: Scalars["String"];
 };
@@ -361,7 +378,7 @@ export type Mutation = {
   EndUsersLogin: Scalars["String"];
   EndUsersRegister?: Maybe<Scalars["Boolean"]>;
   EndUsersSearchBook: EndUsersSearchBookResponse;
-  EndUsersSubmitTest: Scalars["JSON"];
+  EndUsersSubmitTest: EndUsersSubmitTestResponse;
   EndUsersUpdateOne: EndUser;
   UsersDeleteOne?: Maybe<Scalars["Boolean"]>;
   UsersInsertOne?: Maybe<User>;
@@ -848,6 +865,7 @@ export type User = {
   /** Represents the user's id who has created this object */
   createdById?: Maybe<Scalars["ObjectId"]>;
   email: Scalars["String"];
+  endUser: Array<Maybe<EndUser>>;
   isEnabled: Scalars["Boolean"];
   roles: Array<Maybe<UserRole>>;
   /** Represents the last time when the object was updated */
@@ -952,7 +970,17 @@ export type EndUsersSubmitTestMutationVariables = Exact<{
 
 export type EndUsersSubmitTestMutation = {
   __typename?: "Mutation";
-  EndUsersSubmitTest: any;
+  EndUsersSubmitTest: {
+    __typename?: "EndUsersSubmitTestResponse";
+    hasPassed: boolean;
+    answers: Array<{
+      __typename?: "EndUsersSubmitTestResponseAnswer";
+      question: string;
+      answer: string;
+      correct: boolean;
+      explanation?: string | null;
+    }>;
+  };
 };
 
 export type EndUsersGetBookQueryVariables = Exact<{
@@ -1250,7 +1278,15 @@ export type EndUsersSearchBookMutationOptions = Apollo.BaseMutationOptions<
 >;
 export const EndUsersSubmitTestDocument = gql`
   mutation EndUsersSubmitTest($input: EndUsersSubmitTestInput!) {
-    EndUsersSubmitTest(input: $input)
+    EndUsersSubmitTest(input: $input) {
+      hasPassed
+      answers {
+        question
+        answer
+        correct
+        explanation
+      }
+    }
   }
 `;
 export type EndUsersSubmitTestMutationFn = Apollo.MutationFunction<

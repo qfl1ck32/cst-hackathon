@@ -14,7 +14,7 @@ const Library: React.FC<Props> = (props) => {
         {props.endUserBooks.map((endUserBook, index) => (
           <div onClick={() => props.onGoToEndUserBook(endUserBook._id)} key={index}>
             <h2>{endUserBook.book.title}</h2>
-            <h2>Progress: {endUserBook.progress}</h2>
+            <h2>Progress: {endUserBook.progress.toFixed(2)}%</h2>
           </div>
         ))}
       </div>

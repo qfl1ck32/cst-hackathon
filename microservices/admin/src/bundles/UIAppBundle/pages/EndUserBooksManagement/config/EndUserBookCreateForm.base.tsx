@@ -62,6 +62,15 @@ export class EndUserBookCreateForm extends XForm {
           },
 
           {
+            id: "score",
+            label: t("management.end_user_books.fields.chaptersTests.score"),
+            name: ["chaptersTests", "score"],
+            required: true,
+            initialValue: [],
+            component: Ant.InputNumber,
+          },
+
+          {
             id: "numberOfTries",
             label: t(
               "management.end_user_books.fields.chaptersTests.numberOfTries"
@@ -82,14 +91,6 @@ export class EndUserBookCreateForm extends XForm {
           },
         ],
         initialValue: [],
-      },
-
-      {
-        id: "progress",
-        label: t("management.end_user_books.fields.progress"),
-        name: ["progress"],
-        required: true,
-        component: Ant.InputNumber,
       },
 
       {

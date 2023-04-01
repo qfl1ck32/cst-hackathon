@@ -25,6 +25,11 @@ export default {
             username: 1,
 
             roles: 1,
+
+            endUser: {
+              experience: 1,
+              level: 1,
+            },
           },
         });
       },

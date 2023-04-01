@@ -107,6 +107,7 @@ export class EndUserBookViewer extends XViewer {
       chaptersTests: {
         chapterId: 1,
         isPassed: 1,
+        score: 1,
         numberOfTries: 1,
         testId: 1,
       },

@@ -24,7 +24,8 @@
           "createdBy": "Created By",
           "createdBy_description": "Represents the user who has created this object",
           "updatedBy": "Updated By",
-          "updatedBy_description": "Represents the user who has made the latest update on this object"
+          "updatedBy_description": "Represents the user who has made the latest update on this object",
+          "endUser": "End User"
         },
         "menu": {
           "title": "Users"

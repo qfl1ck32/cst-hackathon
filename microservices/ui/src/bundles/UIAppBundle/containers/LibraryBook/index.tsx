@@ -14,6 +14,8 @@ export interface Props {
 
 const LibraryBookContainer: React.FC<Props> = (props) => {
   const { data, loading } = useEndUsersGetBookQuery({
+    fetchPolicy: "network-only",
+
     variables: {
       input: {
         endUserBookId: props.endUserBookId,
