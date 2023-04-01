@@ -27,9 +27,7 @@ export class UserCreateForm extends XForm {
         render: (props) => {
           const options = [
             { value: "ADMIN", label: "Admin" },
-            { value: "SALES", label: "Sales" },
-            { value: "MANAGER", label: "Manager" },
-            { value: "END_CUSTOMER", label: "End Customer" },
+            { value: "END_USER", label: "End User" },
           ];
           return (
             <Ant.Form.Item {...props}>

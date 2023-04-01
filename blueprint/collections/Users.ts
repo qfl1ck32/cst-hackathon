@@ -1,11 +1,4 @@
-import {
-  collection,
-  field,
-  relation,
-  shortcuts,
-  sharedModel,
-  faker,
-} from "../utils";
+import { collection, field, relation, shortcuts, sharedModel, faker } from "../utils";
 
 export const Users = collection({
   id: "Users",
@@ -26,7 +19,7 @@ export const Users = collection({
     field({
       id: "roles",
       type: field.types.ENUM,
-      enumValues: ["ADMIN", "SALES", "MANAGER", "END_CUSTOMER"],
+      enumValues: ["ADMIN", "END_USER"],
       isArray: true,
     }),
     field({

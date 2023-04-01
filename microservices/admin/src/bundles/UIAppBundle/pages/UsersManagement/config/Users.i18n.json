@@ -10,12 +10,7 @@
           "email": "Email",
           "fullName": "Full Name",
           "roles": "Roles",
-          "roles_enums": {
-            "admin": "Admin",
-            "sales": "Sales",
-            "manager": "Manager",
-            "end customer": "End Customer"
-          },
+          "roles_enums": { "admin": "Admin", "end user": "End User" },
           "updatedAt": "Updated At",
           "updatedAt_description": "Represents the last time when the object was updated",
           "createdAt": "Created At",

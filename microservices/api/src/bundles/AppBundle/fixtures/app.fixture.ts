@@ -1,10 +1,12 @@
 import { Service, Inject, ContainerInstance, Kernel } from "@bluelibs/core";
 import { DatabaseService } from "@bluelibs/mongo-bundle";
-import { EJSON } from "@bluelibs/ejson";
+import { EJSON, ObjectId } from "@bluelibs/ejson";
 import { PasswordService } from "@bluelibs/password-bundle";
 import { PermissionService, SecurityService } from "@bluelibs/security-bundle";
 
 import dataMap from "./app.dataMap";
+import { LoggerService } from "@bluelibs/logger-bundle";
+import { UserRole } from "../collections";
 
 @Service()
 export class AppFixture {
@@ -20,10 +22,15 @@ export class AppFixture {
   @Inject()
   kernel: Kernel;
 
+  @Inject()
+  loggerService: LoggerService;
+
+  private adminUserId: ObjectId;
+
   async init() {
-    if (!(await this.shouldRun())) {
-      return;
-    }
+    // if (!(await this.shouldRun())) {
+    //   return;
+    // }
 
     await this.clean();
     console.log(`Running app fixtures.`);
@@ -32,22 +39,42 @@ export class AppFixture {
   }
 
   async loadData() {
-    for (const collectionName in dataMap) {
-      const collection =
-        this.databaseService.getMongoCollection(collectionName);
-      const documents = dataMap[collectionName].map((document) =>
-        EJSON.fromJSONValue(document)
-      );
-      if (documents.length) {
-        await collection.insertMany(documents);
-      }
+    await this.createAdmin();
+  }
 
-      console.log(`Added fixtures for ${collectionName}`);
-    }
+  async createAdmin() {
+    const usersCollection = this.databaseService.getMongoCollection("users");
 
-    if (dataMap["users"]) {
-      await this.handleUsers();
-    }
+    const email = "admin@app.com";
+    const password = "123";
+
+    await this.loggerService.info(
+      `Creating admin: [${email} : ${password}]...`
+    );
+
+    const userId = (
+      await usersCollection.insertOne({
+        updatedAt: new Date(),
+        createdAt: new Date(),
+        activeNotifications: [],
+        profile: {
+          firstName: "Andrei",
+          lastName: "Rusu",
+        },
+        isEnabled: true,
+        roles: [UserRole.ADMIN],
+        deletionInfo: {},
+      })
+    ).insertedId;
+
+    await this.passwordService.attach(userId, {
+      email,
+      username: email,
+      isEmailVerified: true,
+      password,
+    });
+
+    this.adminUserId = userId;
   }
 
   async clean() {
