@@ -1,6 +1,6 @@
 import Loader from "@app/components/Loader";
 import PageLoader from "@app/components/PageLoader";
-import Layout from "@app/containers/layout";
+import Layout from "@app/containers/Layout";
 import LibraryBookContainer from "@app/containers/LibraryBook";
 import { useRouter } from "@bluelibs/x-ui-next";
 

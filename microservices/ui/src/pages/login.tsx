@@ -1,5 +1,5 @@
-import Layout from "@app/containers/layout";
-import LoginContainer from "@app/containers/login";
+import Layout from "@app/containers/Layout";
+import LoginContainer from "@app/containers/Login";
 
 const Login: React.FC = () => {
   return (

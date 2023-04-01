@@ -9,7 +9,7 @@ import { kernel as baseKernel } from "../startup/kernel";
 
 import { useMemo } from "react";
 import { AppProps } from "next/app";
-import ToastContainer from "@app/containers/toast";
+import ToastContainer from "@app/containers/Toast";
 import PageLoader from "@app/components/PageLoader";
 
 const App = ({ Component, pageProps }: AppProps) => {

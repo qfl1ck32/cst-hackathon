@@ -1,5 +1,5 @@
-import Layout from "@app/containers/layout";
-import RegisterContainer from "@app/containers/register";
+import Layout from "@app/containers/Layout";
+import RegisterContainer from "@app/containers/Register";
 
 const Register: React.FC = () => {
   return (
