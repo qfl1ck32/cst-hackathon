@@ -1,3 +1,4 @@
+import Hero from "@app/components/Hero";
 import Login, { FormValues } from "@app/components/Login";
 import useOnSubmit from "@app/hooks/useOnSubmit";
 import { Home } from "@app/routes";
@@ -5,6 +6,7 @@ import { EndUserService } from "@app/services/EndUser";
 import { extractError } from "@app/utils/apollo";
 import { use, useRouter } from "@bluelibs/x-ui-next";
 import { toast } from "react-toastify";
+import styles from "./styles.module.scss";
 
 const LoginContainer: React.FC = () => {
   const endUserService = use(EndUserService);
@@ -24,8 +26,13 @@ const LoginContainer: React.FC = () => {
       toast.error(extractError(err));
     },
   });
-
-  return <Login {...{ onSubmit, isLoading }} />;
+  
+  return (
+    <div className={styles.wrapper}>
+      
+      <Login {...{ onSubmit, isLoading }} />
+    </div>
+  );
 };
 
 export default LoginContainer;

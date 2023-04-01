@@ -6,6 +6,8 @@ import { extractError } from "@app/utils/apollo";
 import { useRouter, use } from "@bluelibs/x-ui-next";
 import { toast } from "react-toastify";
 
+import styles from './styles.module.scss'
+
 const RegisterContainer: React.FC = () => {
   const endUserService = use(EndUserService);
 
@@ -25,7 +27,11 @@ const RegisterContainer: React.FC = () => {
     },
   });
 
-  return <Register {...{ onSubmit, isLoading }} />;
+  return  (
+    <div className={styles.wrapper}>
+        <Register {...{ onSubmit, isLoading }} />
+    </div>
+  )
 };
 
 export default RegisterContainer;
