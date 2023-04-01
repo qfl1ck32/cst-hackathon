@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import "../styles/globals.css";
+import "../styles/globals.scss";
 
 import "react-toastify/dist/ReactToastify.css";
 
