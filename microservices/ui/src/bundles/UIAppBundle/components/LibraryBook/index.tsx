@@ -1,15 +1,41 @@
 import { EndUserBookDetails } from "@app/graphql/generated/graphql";
+import Button from "@app/components/Button";
+import PageLoader from "@app/components/PageLoader";
 
 export interface Props {
   bookDetails: EndUserBookDetails;
+  startTest: (chapter: string) => Promise<void>;
+  isLoading: boolean;
 }
 
 const LibraryBook: React.FC<Props> = (props) => {
-  console.log(props);
+  const { bookDetails } = props;
+
+  {
+    /* TODO: make this nicer xD */
+  }
+  if (props.isLoading) {
+    return <PageLoader />;
+  }
 
   return (
     <div>
-      <h1>Book: </h1>
+      <h1>Book: {bookDetails.title}</h1>
+      <p>Author: {bookDetails.author}</p>
+
+      <h3>Chapters:</h3>
+
+      {bookDetails.chapters.map((chapter, index) => (
+        <div key={index}>
+          <h4>{chapter.title}</h4>
+          <p>Is passed: {chapter.isPassed ? "Yes" : "No"}</p>
+          <p>Tried to pass it: {chapter.numberOfTries}</p>
+
+          <Button onClick={() => props.startTest(chapter.title)}>Start test</Button>
+
+          <hr />
+        </div>
+      ))}
     </div>
   );
 };

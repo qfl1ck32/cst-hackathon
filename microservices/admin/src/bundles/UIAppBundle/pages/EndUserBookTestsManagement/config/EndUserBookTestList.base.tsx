@@ -54,6 +54,7 @@ export class EndUserBookTestList extends XList<EndUserBookTest> {
       questions: {
         text: 1,
         type: 1,
+        choices: 1,
       },
     };
   }

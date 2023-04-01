@@ -21,6 +21,11 @@ export const EndUserBookTests = collection({
         field.enum("type", {
           enumValues: ["MULTIPLE_CHOICE", "BOOLEAN", "TEXT"],
         }),
+
+        field.string("choices", {
+          isArray: true,
+          isRequired: false,
+        }),
       ],
 
       isArray: true,

@@ -70,6 +70,15 @@ export class EndUserBookTestEditForm extends XForm {
               );
             },
           },
+
+          {
+            id: "choices",
+            label: t("management.end_user_book_tests.fields.questions.choices"),
+            name: ["questions", "choices"],
+            initialValue: [],
+            component: Ant.Input,
+            isList: true,
+          },
         ],
         initialValue: [],
       },
@@ -82,6 +91,7 @@ export class EndUserBookTestEditForm extends XForm {
       questions: {
         text: 1,
         type: 1,
+        choices: 1,
       },
     };
   }

@@ -1,6 +1,8 @@
 import {
   EndUsersAddBookToLibraryInput,
   EndUsersAddBookToLibraryMutation,
+  EndUsersGenerateTestInput,
+  EndUsersGenerateTestMutation,
   EndUsersLoginInput,
   EndUsersLoginMutation,
   EndUsersRegisterInput,
@@ -17,6 +19,7 @@ import { ApolloClient } from "@bluelibs/ui-apollo-bundle";
 import { AppGuardian } from "@app/services/AppGuardian";
 import EndUsersSearchBook from "@app/graphql/mutations/EndUsersSearchBook";
 import EndUsersAddBookToLibrary from "@app/graphql/mutations/EndUsersAddBookToLibrary";
+import EndUsersGenerateTest from "@app/graphql/mutations/EndUsersGenerateTest";
 
 @Service()
 export class EndUserService {
@@ -72,5 +75,17 @@ export class EndUserService {
     });
 
     return response.data?.EndUsersAddBookToLibrary;
+  }
+
+  async generateTest(input: EndUsersGenerateTestInput) {
+    const response = await this.apolloClient.mutate<EndUsersGenerateTestMutation, { input: EndUsersGenerateTestInput }>({
+      mutation: EndUsersGenerateTest,
+
+      variables: {
+        input,
+      },
+    });
+
+    return response.data?.EndUsersGenerateTest;
   }
 }

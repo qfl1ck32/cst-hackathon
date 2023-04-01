@@ -7,6 +7,7 @@ export default /* GraphQL */ `
   type EndUserBookTestQuestion {
     text: String!
     type: EndUserBookTestQuestionType!
+    choices: [String]
   }
 
   enum EndUserBookTestQuestionType {

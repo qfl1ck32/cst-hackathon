@@ -14,6 +14,8 @@ import {
   EndUserBookChapterTest,
   EndUserBooksCollection,
   EndUserBookTest,
+  EndUserBookTestQuestion,
+  EndUserBookTestQuestionType,
   EndUserBookTestsCollection,
   EndUsersCollection,
   UserRole,
@@ -26,7 +28,7 @@ import {
   EndUserAlreadyOwnsBookException,
   EndUserDoesNotOwnBookException,
 } from "../exceptions";
-import { ChatGPTService } from "./ChatGPT.service";
+import { ChatGPTService, QuestionAboutBookChapter } from "./ChatGPT.service";
 import {
   EndUserBookChapterDetails,
   EndUserBookDetails,
@@ -360,23 +362,73 @@ export class EndUserService {
       (chapterTest) => chapterTest.chapter === input.chapter
     )?.testId;
 
-    const test = await this.chatGPTService.generateQuestionsAboutBookChapter(
-      endUserBook.book.title,
-      input.chapter
+    if (existingTestId) {
+      await this.endUserBookTestsCollection.deleteOne(
+        {
+          _id: existingTestId,
+        },
+        {
+          context: {
+            userId,
+          },
+        }
+      );
+    }
+
+    const questions =
+      await this.chatGPTService.generateQuestionsAboutBookChapter(
+        endUserBook.book.title,
+        input.chapter
+      );
+
+    const parsedQuestions: EndUserBookTestQuestion[] = questions.map(
+      (question) => ({
+        text: question.text,
+        choices: question.choices,
+        type: this.chatGptQuestionTypeToEndUserBookTestQuestionType(
+          question.type
+        ),
+      })
     );
 
-    console.log(test);
+    const { insertedId: testId } =
+      await this.endUserBookTestsCollection.insertOne(
+        {
+          questions: parsedQuestions,
+        },
+        {
+          context: {
+            userId,
+          },
+        }
+      );
 
-    // const { insertedId } = await this.endUserBookTestsCollection.insertOne(
-    //   {
-    //     questions: [],
-    //   },
-    //   {
-    //     context: {
-    //       userId,
-    //     },
-    //   }
-    // );
+    await this.endUserBooksCollection.updateOne(
+      {
+        _id: input.endUserBookId,
+        "chapterTests.chapter": input.chapter,
+      },
+      {
+        $set: {
+          "chapterTests.$.testId": testId,
+        },
+      }
+    );
+  }
+
+  private chatGptQuestionTypeToEndUserBookTestQuestionType(
+    type: QuestionAboutBookChapter["type"]
+  ) {
+    switch (type) {
+      case "TEXT":
+        return EndUserBookTestQuestionType.TEXT;
+
+      case "MULTIPLE_CHOICE":
+        return EndUserBookTestQuestionType.MULTIPLE_CHOICE;
+
+      case "BOOLEAN":
+        return EndUserBookTestQuestionType.BOOLEAN;
+    }
   }
 
   async getIdByUserId(userId: ObjectId) {

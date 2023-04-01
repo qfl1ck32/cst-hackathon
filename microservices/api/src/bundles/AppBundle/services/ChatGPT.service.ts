@@ -17,9 +17,9 @@ export type KnowledgeAboutBook = {
 };
 
 export type QuestionAboutBookChapter = {
-  title: string;
-  type: "multiple" | "boolean" | "text";
-  variants?: string[];
+  text: string;
+  type: "MULTIPLE_CHOICE" | "BOOLEAN" | "TEXT";
+  choices?: string[];
 };
 
 @Service()
@@ -91,15 +91,15 @@ export class ChatGPTService {
       Please answer with a list of questions in this exact format:
       [
         {
-          "title": string,
-          "type": "multiple" | "boolean" | "text",
-          "variants": string[] // if type === "multiple"
+          "text": string, // the question
+          "type": "MULTIPLE_CHOICE" | "BOOLEAN" | "TEXT",
+          "choices": string[] // if type === "multiple"
         }
       ]
       `
     );
 
-    return questions;
+    return JSON.parse(questions) as QuestionAboutBookChapter[];
   }
 
   public async checkAnswers(

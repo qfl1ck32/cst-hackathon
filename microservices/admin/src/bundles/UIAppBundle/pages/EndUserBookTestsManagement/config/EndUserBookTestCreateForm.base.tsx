@@ -71,6 +71,15 @@ export class EndUserBookTestCreateForm extends XForm {
               );
             },
           },
+
+          {
+            id: "choices",
+            label: t("management.end_user_book_tests.fields.questions.choices"),
+            name: ["questions", "choices"],
+            initialValue: [],
+            component: Ant.Input,
+            isList: true,
+          },
         ],
         initialValue: [],
       },

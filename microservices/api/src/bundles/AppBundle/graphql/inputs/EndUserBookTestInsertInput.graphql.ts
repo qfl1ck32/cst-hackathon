@@ -6,5 +6,6 @@ export default /* GraphQL */ `
   input EndUserBookTestQuestionInput {
     text: String!
     type: EndUserBookTestQuestionType!
+    choices: [String]
   }
 `;

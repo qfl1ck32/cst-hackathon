@@ -6,7 +6,8 @@
           "_id": "ID",
           "questions": "Questions",
           "questions.text": "Questions — Text",
-          "questions.type": "Questions — Type"
+          "questions.type": "Questions — Type",
+          "questions.choices": "Questions — Choices"
         },
         "menu": {
           "title": "EndUserBookTests"

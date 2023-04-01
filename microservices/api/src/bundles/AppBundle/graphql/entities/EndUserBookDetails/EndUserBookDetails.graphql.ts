@@ -1,7 +1,7 @@
 export default /* GraphQL */ `
   type EndUserBookDetails {
     progress: Float!
-    chapters: [EndUserBookChapterDetails]!
+    chapters: [EndUserBookChapterDetails!]!
     title: String!
     author: String!
   }

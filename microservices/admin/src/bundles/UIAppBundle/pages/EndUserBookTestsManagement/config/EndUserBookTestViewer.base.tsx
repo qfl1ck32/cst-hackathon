@@ -55,6 +55,7 @@ export class EndUserBookTestViewer extends XViewer {
       questions: {
         text: 1,
         type: 1,
+        choices: 1,
       },
     };
   }

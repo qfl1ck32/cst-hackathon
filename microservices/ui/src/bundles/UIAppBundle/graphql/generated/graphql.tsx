@@ -148,10 +148,10 @@ export type EndUserBook = {
   _id?: Maybe<Scalars["ObjectId"]>;
   book: Book;
   bookId: Scalars["ObjectId"];
+  chapterTests: Array<Maybe<EndUserBookChapterTest>>;
   endUser: EndUser;
   endUserId: Scalars["ObjectId"];
   progress: Scalars["Float"];
-  tests: Array<Maybe<EndUserBookTest>>;
 };
 
 export type EndUserBookChapterDetails = {
@@ -161,39 +161,80 @@ export type EndUserBookChapterDetails = {
   title: Scalars["String"];
 };
 
+export type EndUserBookChapterTest = {
+  __typename?: "EndUserBookChapterTest";
+  chapter: Scalars["String"];
+  isPassed: Scalars["Boolean"];
+  numberOfTries: Scalars["Int"];
+  testId: Scalars["ObjectId"];
+};
+
+export type EndUserBookChapterTestInput = {
+  chapter: Scalars["String"];
+  isPassed: Scalars["Boolean"];
+  numberOfTries: Scalars["Int"];
+  testId: Scalars["ObjectId"];
+};
+
 export type EndUserBookDetails = {
   __typename?: "EndUserBookDetails";
   author: Scalars["String"];
-  chapters: Array<Maybe<EndUserBookChapterDetails>>;
+  chapters: Array<EndUserBookChapterDetails>;
   progress: Scalars["Float"];
   title: Scalars["String"];
 };
 
 export type EndUserBookInsertInput = {
   bookId: Scalars["ObjectId"];
+  chapterTests: Array<InputMaybe<EndUserBookChapterTestInput>>;
   endUserId: Scalars["ObjectId"];
   progress: Scalars["Float"];
-  tests: Array<InputMaybe<EndUserBookTestInput>>;
 };
 
 export type EndUserBookTest = {
   __typename?: "EndUserBookTest";
-  chapter: Scalars["Int"];
-  isPassed: Scalars["Boolean"];
-  numberOfTries: Scalars["Int"];
+  _id?: Maybe<Scalars["ObjectId"]>;
+  questions: Array<Maybe<EndUserBookTestQuestion>>;
 };
 
 export type EndUserBookTestInput = {
-  chapter: Scalars["Int"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
+  testId?: InputMaybe<Scalars["ObjectId"]>;
+};
+
+export type EndUserBookTestInsertInput = {
+  questions: Array<InputMaybe<EndUserBookTestQuestionInput>>;
+};
+
+export type EndUserBookTestQuestion = {
+  __typename?: "EndUserBookTestQuestion";
+  choices?: Maybe<Array<Maybe<Scalars["String"]>>>;
+  text: Scalars["String"];
+  type: EndUserBookTestQuestionType;
+};
+
+export type EndUserBookTestQuestionInput = {
+  choices?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
+  text: Scalars["String"];
+  type: EndUserBookTestQuestionType;
+};
+
+export enum EndUserBookTestQuestionType {
+  Boolean = "BOOLEAN",
+  MultipleChoice = "MULTIPLE_CHOICE",
+  Text = "TEXT",
+}
+
+export type EndUserBookTestUpdateInput = {
+  questions?: InputMaybe<Array<InputMaybe<EndUserBookTestQuestionInput>>>;
 };
 
 export type EndUserBookUpdateInput = {
   bookId?: InputMaybe<Scalars["ObjectId"]>;
+  chapterTests?: InputMaybe<Array<InputMaybe<EndUserBookChapterTestInput>>>;
   endUserId?: InputMaybe<Scalars["ObjectId"]>;
   progress?: InputMaybe<Scalars["Float"]>;
-  tests?: InputMaybe<Array<InputMaybe<EndUserBookTestInput>>>;
 };
 
 export type EndUserInsertInput = {
@@ -214,6 +255,11 @@ export type EndUserUpdateInput = {
 
 export type EndUsersAddBookToLibraryInput = {
   bookId: Scalars["ObjectId"];
+};
+
+export type EndUsersGenerateTestInput = {
+  chapter: Scalars["String"];
+  endUserBookId: Scalars["ObjectId"];
 };
 
 export type EndUsersGetBookInput = {
@@ -271,11 +317,15 @@ export type Mutation = {
   BooksDeleteOne?: Maybe<Scalars["Boolean"]>;
   BooksInsertOne?: Maybe<Book>;
   BooksUpdateOne: Book;
+  EndUserBookTestsDeleteOne?: Maybe<Scalars["Boolean"]>;
+  EndUserBookTestsInsertOne?: Maybe<EndUserBookTest>;
+  EndUserBookTestsUpdateOne: EndUserBookTest;
   EndUserBooksDeleteOne?: Maybe<Scalars["Boolean"]>;
   EndUserBooksInsertOne?: Maybe<EndUserBook>;
   EndUserBooksUpdateOne: EndUserBook;
   EndUsersAddBookToLibrary: Scalars["ObjectId"];
   EndUsersDeleteOne?: Maybe<Scalars["Boolean"]>;
+  EndUsersGenerateTest?: Maybe<Scalars["Boolean"]>;
   EndUsersInsertOne?: Maybe<EndUser>;
   EndUsersLogin: Scalars["String"];
   EndUsersRegister?: Maybe<Scalars["Boolean"]>;
@@ -346,6 +396,19 @@ export type MutationBooksUpdateOneArgs = {
   document: BookUpdateInput;
 };
 
+export type MutationEndUserBookTestsDeleteOneArgs = {
+  _id: Scalars["ObjectId"];
+};
+
+export type MutationEndUserBookTestsInsertOneArgs = {
+  document: EndUserBookTestInsertInput;
+};
+
+export type MutationEndUserBookTestsUpdateOneArgs = {
+  _id: Scalars["ObjectId"];
+  document: EndUserBookTestUpdateInput;
+};
+
 export type MutationEndUserBooksDeleteOneArgs = {
   _id: Scalars["ObjectId"];
 };
@@ -365,6 +428,10 @@ export type MutationEndUsersAddBookToLibraryArgs = {
 
 export type MutationEndUsersDeleteOneArgs = {
   _id: Scalars["ObjectId"];
+};
+
+export type MutationEndUsersGenerateTestArgs = {
+  input: EndUsersGenerateTestInput;
 };
 
 export type MutationEndUsersInsertOneArgs = {
@@ -449,6 +516,9 @@ export type Query = {
   BooksCount: Scalars["Int"];
   BooksFind: Array<Maybe<Book>>;
   BooksFindOne?: Maybe<Book>;
+  EndUserBookTestsCount: Scalars["Int"];
+  EndUserBookTestsFind: Array<Maybe<EndUserBookTest>>;
+  EndUserBookTestsFindOne?: Maybe<EndUserBookTest>;
   EndUserBooksCount: Scalars["Int"];
   EndUserBooksFind: Array<Maybe<EndUserBook>>;
   EndUserBooksFindOne?: Maybe<EndUserBook>;
@@ -500,6 +570,18 @@ export type QueryBooksFindArgs = {
 };
 
 export type QueryBooksFindOneArgs = {
+  query?: InputMaybe<QueryInput>;
+};
+
+export type QueryEndUserBookTestsCountArgs = {
+  query?: InputMaybe<QueryInput>;
+};
+
+export type QueryEndUserBookTestsFindArgs = {
+  query?: InputMaybe<QueryInput>;
+};
+
+export type QueryEndUserBookTestsFindOneArgs = {
   query?: InputMaybe<QueryInput>;
 };
 
@@ -600,6 +682,8 @@ export type Subscription = {
   BadgesSubscriptionCount?: Maybe<SubscriptionCountEvent>;
   BooksSubscription?: Maybe<SubscriptionEvent>;
   BooksSubscriptionCount?: Maybe<SubscriptionCountEvent>;
+  EndUserBookTestsSubscription?: Maybe<SubscriptionEvent>;
+  EndUserBookTestsSubscriptionCount?: Maybe<SubscriptionCountEvent>;
   EndUserBooksSubscription?: Maybe<SubscriptionEvent>;
   EndUserBooksSubscriptionCount?: Maybe<SubscriptionCountEvent>;
   EndUsersSubscription?: Maybe<SubscriptionEvent>;
@@ -621,6 +705,14 @@ export type SubscriptionBooksSubscriptionArgs = {
 };
 
 export type SubscriptionBooksSubscriptionCountArgs = {
+  filters?: InputMaybe<Scalars["EJSON"]>;
+};
+
+export type SubscriptionEndUserBookTestsSubscriptionArgs = {
+  body?: InputMaybe<Scalars["EJSON"]>;
+};
+
+export type SubscriptionEndUserBookTestsSubscriptionCountArgs = {
   filters?: InputMaybe<Scalars["EJSON"]>;
 };
 
@@ -732,6 +824,15 @@ export type EndUsersAddBookToLibraryMutation = {
   EndUsersAddBookToLibrary: any;
 };
 
+export type EndUsersGenerateTestMutationVariables = Exact<{
+  input: EndUsersGenerateTestInput;
+}>;
+
+export type EndUsersGenerateTestMutation = {
+  __typename?: "Mutation";
+  EndUsersGenerateTest?: boolean | null;
+};
+
 export type EndUsersLoginMutationVariables = Exact<{
   input: EndUsersLoginInput;
 }>;
@@ -781,7 +882,7 @@ export type EndUserGetBookQuery = {
       title: string;
       isPassed: boolean;
       numberOfTries: number;
-    } | null>;
+    }>;
   };
 };
 
@@ -834,6 +935,54 @@ export type EndUsersAddBookToLibraryMutationOptions =
     EndUsersAddBookToLibraryMutation,
     EndUsersAddBookToLibraryMutationVariables
   >;
+export const EndUsersGenerateTestDocument = gql`
+  mutation EndUsersGenerateTest($input: EndUsersGenerateTestInput!) {
+    EndUsersGenerateTest(input: $input)
+  }
+`;
+export type EndUsersGenerateTestMutationFn = Apollo.MutationFunction<
+  EndUsersGenerateTestMutation,
+  EndUsersGenerateTestMutationVariables
+>;
+
+/**
+ * __useEndUsersGenerateTestMutation__
+ *
+ * To run a mutation, you first call `useEndUsersGenerateTestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersGenerateTestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [endUsersGenerateTestMutation, { data, loading, error }] = useEndUsersGenerateTestMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEndUsersGenerateTestMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EndUsersGenerateTestMutation,
+    EndUsersGenerateTestMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EndUsersGenerateTestMutation,
+    EndUsersGenerateTestMutationVariables
+  >(EndUsersGenerateTestDocument, options);
+}
+export type EndUsersGenerateTestMutationHookResult = ReturnType<
+  typeof useEndUsersGenerateTestMutation
+>;
+export type EndUsersGenerateTestMutationResult =
+  Apollo.MutationResult<EndUsersGenerateTestMutation>;
+export type EndUsersGenerateTestMutationOptions = Apollo.BaseMutationOptions<
+  EndUsersGenerateTestMutation,
+  EndUsersGenerateTestMutationVariables
+>;
 export const EndUsersLoginDocument = gql`
   mutation EndUsersLogin($input: EndUsersLoginInput!) {
     EndUsersLogin(input: $input)

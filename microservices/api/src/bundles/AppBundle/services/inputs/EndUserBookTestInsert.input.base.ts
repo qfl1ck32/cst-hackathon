@@ -15,6 +15,9 @@ export class EndUserBookTestQuestionInput {
       .required()
   )
   type: EndUserBookTestQuestionType;
+
+  @Is(an.array().of(a.string()))
+  choices?: string[] = [];
 }
 
 @Schema()
