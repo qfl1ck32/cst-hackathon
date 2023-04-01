@@ -175,6 +175,7 @@ export type EndUserBookChapterDetails = {
   _id: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
+  score: Scalars["Int"];
   title: Scalars["String"];
 };
 
@@ -207,7 +208,6 @@ export type EndUserBookInsertInput = {
   bookId: Scalars["ObjectId"];
   chaptersTests: Array<InputMaybe<EndUserBookChaptersTestInput>>;
   endUserId: Scalars["ObjectId"];
-  progress: Scalars["Float"];
 };
 
 export type EndUserBookTest = {
@@ -253,7 +253,6 @@ export type EndUserBookUpdateInput = {
   bookId?: InputMaybe<Scalars["ObjectId"]>;
   chaptersTests?: InputMaybe<Array<InputMaybe<EndUserBookChaptersTestInput>>>;
   endUserId?: InputMaybe<Scalars["ObjectId"]>;
-  progress?: InputMaybe<Scalars["Float"]>;
 };
 
 export type EndUserInsertInput = {
@@ -973,6 +972,7 @@ export type EndUsersSubmitTestMutation = {
   EndUsersSubmitTest: {
     __typename?: "EndUsersSubmitTestResponse";
     hasPassed: boolean;
+    score: number;
     answers: Array<{
       __typename?: "EndUsersSubmitTestResponseAnswer";
       question: string;
@@ -999,6 +999,7 @@ export type EndUsersGetBookQuery = {
       _id: any;
       title: string;
       isPassed: boolean;
+      score: number;
       numberOfTries: number;
     }>;
   };
@@ -1280,6 +1281,7 @@ export const EndUsersSubmitTestDocument = gql`
   mutation EndUsersSubmitTest($input: EndUsersSubmitTestInput!) {
     EndUsersSubmitTest(input: $input) {
       hasPassed
+      score
       answers {
         question
         answer
@@ -1342,6 +1344,7 @@ export const EndUsersGetBookDocument = gql`
         _id
         title
         isPassed
+        score
         numberOfTries
       }
     }

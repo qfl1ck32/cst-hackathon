@@ -301,6 +301,7 @@ export class EndUserService {
       chaptersTests: {
         chapterId: 1,
         isPassed: 1,
+        score: 1,
         numberOfTries: 1,
       },
     });

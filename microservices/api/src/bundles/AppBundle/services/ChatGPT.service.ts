@@ -146,6 +146,8 @@ export class ChatGPTService {
       `
     );
 
+    console.log({ response });
+
     return JSON.parse(response) as AnswerToBookChapterQuestion[];
   }
 }
