@@ -28,9 +28,11 @@ export class AppFixture {
   private adminUserId: ObjectId;
 
   async init() {
-    // if (!(await this.shouldRun())) {
-    //   return;
-    // }
+    return;
+
+    if (!(await this.shouldRun())) {
+      return;
+    }
 
     await this.clean();
     console.log(`Running app fixtures.`);

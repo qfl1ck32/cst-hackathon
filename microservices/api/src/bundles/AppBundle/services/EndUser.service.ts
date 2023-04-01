@@ -4,10 +4,14 @@ import {
   EventManager,
   ContainerInstance,
 } from "@bluelibs/core";
+import { ObjectId } from "@bluelibs/ejson";
+import { EndUsersLoginInput, EndUsersRegisterInput } from "./inputs";
 
 @Service()
 export class EndUserService {
-  public register() {
-    throw new Error("Not implemented, yet.");
+  public async register(input: EndUsersRegisterInput) {
+    console.log(input);
   }
+
+  public async login(input: EndUsersLoginInput) {}
 }
