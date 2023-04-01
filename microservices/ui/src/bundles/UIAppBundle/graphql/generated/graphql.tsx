@@ -133,12 +133,10 @@ export type DocumentUpdateInput = {
 export type EndUser = {
   __typename?: "EndUser";
   _id?: Maybe<Scalars["ObjectId"]>;
-  badges: Badge;
-  badgesId: Scalars["ObjectId"];
-  books: EndUserBook;
-  booksId: Scalars["ObjectId"];
+  badges: Array<Maybe<Badge>>;
+  badgesIds: Array<Maybe<Scalars["ObjectId"]>>;
+  books: Array<Maybe<EndUserBook>>;
   experience: Scalars["Int"];
-  fullName: Scalars["String"];
   gold: Scalars["Int"];
   level: Scalars["Int"];
   owner: User;
@@ -184,20 +182,16 @@ export type EndUserBookUpdateInput = {
 };
 
 export type EndUserInsertInput = {
-  badgesId: Scalars["ObjectId"];
-  booksId: Scalars["ObjectId"];
+  badgesIds: Array<InputMaybe<Scalars["ObjectId"]>>;
   experience: Scalars["Int"];
-  fullName: Scalars["String"];
   gold: Scalars["Int"];
   level: Scalars["Int"];
   ownerId: Scalars["ObjectId"];
 };
 
 export type EndUserUpdateInput = {
-  badgesId?: InputMaybe<Scalars["ObjectId"]>;
-  booksId?: InputMaybe<Scalars["ObjectId"]>;
+  badgesIds?: InputMaybe<Array<InputMaybe<Scalars["ObjectId"]>>>;
   experience?: InputMaybe<Scalars["Int"]>;
-  fullName?: InputMaybe<Scalars["String"]>;
   gold?: InputMaybe<Scalars["Int"]>;
   level?: InputMaybe<Scalars["Int"]>;
   ownerId?: InputMaybe<Scalars["ObjectId"]>;
@@ -212,6 +206,17 @@ export type EndUsersRegisterInput = {
   email: Scalars["String"];
   password: Scalars["String"];
   username: Scalars["String"];
+};
+
+export type EndUsersSearchBookInput = {
+  title: Scalars["String"];
+};
+
+export type EndUsersSearchBookResponse = {
+  __typename?: "EndUsersSearchBookResponse";
+  author?: Maybe<Scalars["String"]>;
+  exists: Scalars["Boolean"];
+  title?: Maybe<Scalars["String"]>;
 };
 
 export type ForgotPasswordInput = {
@@ -249,6 +254,7 @@ export type Mutation = {
   EndUsersInsertOne?: Maybe<EndUser>;
   EndUsersLogin: Scalars["String"];
   EndUsersRegister?: Maybe<Scalars["Boolean"]>;
+  EndUsersSearchBook: EndUsersSearchBookResponse;
   EndUsersUpdateOne: EndUser;
   UsersDeleteOne?: Maybe<Scalars["Boolean"]>;
   UsersInsertOne?: Maybe<User>;
@@ -342,6 +348,10 @@ export type MutationEndUsersLoginArgs = {
 
 export type MutationEndUsersRegisterArgs = {
   input: EndUsersRegisterInput;
+};
+
+export type MutationEndUsersSearchBookArgs = {
+  input: EndUsersSearchBookInput;
 };
 
 export type MutationEndUsersUpdateOneArgs = {
@@ -632,9 +642,7 @@ export type User = {
   /** Represents the user's id who has created this object */
   createdById?: Maybe<Scalars["ObjectId"]>;
   email: Scalars["String"];
-  fullName: Scalars["String"];
   isEnabled: Scalars["Boolean"];
-  profile: UserProfile;
   roles: Array<Maybe<UserRole>>;
   /** Represents the last time when the object was updated */
   updatedAt: Scalars["Date"];
@@ -642,23 +650,12 @@ export type User = {
   updatedBy?: Maybe<User>;
   /** Represents the user's id who has made the latest update on this object */
   updatedById?: Maybe<Scalars["ObjectId"]>;
+  username: Scalars["String"];
 };
 
 export type UserInsertInput = {
   isEnabled: Scalars["Boolean"];
-  profile: UserProfileInput;
   roles: Array<InputMaybe<UserRole>>;
-};
-
-export type UserProfile = {
-  __typename?: "UserProfile";
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
-};
-
-export type UserProfileInput = {
-  firstName: Scalars["String"];
-  lastName: Scalars["String"];
 };
 
 export enum UserRole {
@@ -668,7 +665,6 @@ export enum UserRole {
 
 export type UserUpdateInput = {
   isEnabled?: InputMaybe<Scalars["Boolean"]>;
-  profile?: InputMaybe<UserProfileInput>;
   roles?: InputMaybe<Array<InputMaybe<UserRole>>>;
 };
 
@@ -709,6 +705,20 @@ export type EndUsersRegisterMutationVariables = Exact<{
 export type EndUsersRegisterMutation = {
   __typename?: "Mutation";
   EndUsersRegister?: boolean | null;
+};
+
+export type EndUsersSearchBookMutationVariables = Exact<{
+  input: EndUsersSearchBookInput;
+}>;
+
+export type EndUsersSearchBookMutation = {
+  __typename?: "Mutation";
+  EndUsersSearchBook: {
+    __typename?: "EndUsersSearchBookResponse";
+    exists: boolean;
+    title?: string | null;
+    author?: string | null;
+  };
 };
 
 export const EndUsersLoginDocument = gql`
@@ -806,4 +816,56 @@ export type EndUsersRegisterMutationResult =
 export type EndUsersRegisterMutationOptions = Apollo.BaseMutationOptions<
   EndUsersRegisterMutation,
   EndUsersRegisterMutationVariables
+>;
+export const EndUsersSearchBookDocument = gql`
+  mutation EndUsersSearchBook($input: EndUsersSearchBookInput!) {
+    EndUsersSearchBook(input: $input) {
+      exists
+      title
+      author
+    }
+  }
+`;
+export type EndUsersSearchBookMutationFn = Apollo.MutationFunction<
+  EndUsersSearchBookMutation,
+  EndUsersSearchBookMutationVariables
+>;
+
+/**
+ * __useEndUsersSearchBookMutation__
+ *
+ * To run a mutation, you first call `useEndUsersSearchBookMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersSearchBookMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [endUsersSearchBookMutation, { data, loading, error }] = useEndUsersSearchBookMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEndUsersSearchBookMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EndUsersSearchBookMutation,
+    EndUsersSearchBookMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EndUsersSearchBookMutation,
+    EndUsersSearchBookMutationVariables
+  >(EndUsersSearchBookDocument, options);
+}
+export type EndUsersSearchBookMutationHookResult = ReturnType<
+  typeof useEndUsersSearchBookMutation
+>;
+export type EndUsersSearchBookMutationResult =
+  Apollo.MutationResult<EndUsersSearchBookMutation>;
+export type EndUsersSearchBookMutationOptions = Apollo.BaseMutationOptions<
+  EndUsersSearchBookMutation,
+  EndUsersSearchBookMutationVariables
 >;

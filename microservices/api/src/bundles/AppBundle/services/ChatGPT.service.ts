@@ -12,8 +12,8 @@ export type IHistory = [string, string][];
 
 export type KnowledgeAboutBook = {
   exists: boolean;
-  fullName: string;
-  authorName: string;
+  title?: string;
+  author?: string;
 };
 
 @Service()
@@ -56,8 +56,8 @@ export class ChatGPTService {
 
       {
         "exists": true or false,
-        "fullName": "The full name of the book",
-        "authorName": "The namr of the author"
+        "title": "The full name of the book",
+        "author": "The namr of the author"
       }
       `
     );
@@ -69,8 +69,6 @@ export class ChatGPTService {
     const chapters = await this.ask(
       `What are the chapters of the book "${bookName}"? Please answer with a list of chapters in this exact format as an array in JavaScript, using double quotes. If you don't have knowledge about the book, return an empty array.`
     );
-
-    console.log(chapters);
 
     return JSON.parse(chapters) as string[];
   }

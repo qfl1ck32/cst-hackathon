@@ -11,3 +11,4 @@ export * from "./BadgeInsert.input";
 export * from "./BadgeUpdate.input";
 export * from "./EndUsersRegister.input";
 export * from "./EndUsersLogin.input";
+export * from "./EndUsersSearchBook.input";

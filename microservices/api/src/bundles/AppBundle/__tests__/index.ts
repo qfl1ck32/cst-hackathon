@@ -1,3 +1,4 @@
+import "./Logger.service.test";
 import "./EndUser.service.test";
 import "./ChatGPT.service.test";
 // import { container } from "../../../__tests__/ecosystem";
