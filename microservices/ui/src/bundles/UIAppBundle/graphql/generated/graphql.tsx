@@ -197,6 +197,10 @@ export type EndUserUpdateInput = {
   ownerId?: InputMaybe<Scalars["ObjectId"]>;
 };
 
+export type EndUsersAddBookToLibraryInput = {
+  bookId: Scalars["ObjectId"];
+};
+
 export type EndUsersLoginInput = {
   password: Scalars["String"];
   usernameOrEmail: Scalars["String"];
@@ -215,6 +219,7 @@ export type EndUsersSearchBookInput = {
 export type EndUsersSearchBookResponse = {
   __typename?: "EndUsersSearchBookResponse";
   author?: Maybe<Scalars["String"]>;
+  bookId?: Maybe<Scalars["ObjectId"]>;
   exists: Scalars["Boolean"];
   title?: Maybe<Scalars["String"]>;
 };
@@ -250,6 +255,7 @@ export type Mutation = {
   EndUserBooksDeleteOne?: Maybe<Scalars["Boolean"]>;
   EndUserBooksInsertOne?: Maybe<EndUserBook>;
   EndUserBooksUpdateOne: EndUserBook;
+  EndUsersAddBookToLibrary: Scalars["ObjectId"];
   EndUsersDeleteOne?: Maybe<Scalars["Boolean"]>;
   EndUsersInsertOne?: Maybe<EndUser>;
   EndUsersLogin: Scalars["String"];
@@ -332,6 +338,10 @@ export type MutationEndUserBooksInsertOneArgs = {
 export type MutationEndUserBooksUpdateOneArgs = {
   _id: Scalars["ObjectId"];
   document: EndUserBookUpdateInput;
+};
+
+export type MutationEndUsersAddBookToLibraryArgs = {
+  input: EndUsersAddBookToLibraryInput;
 };
 
 export type MutationEndUsersDeleteOneArgs = {
@@ -689,6 +699,15 @@ export type VerifyMagicLinkResponse = {
   token?: Maybe<Scalars["String"]>;
 };
 
+export type EndUsersAddBookToLibraryMutationVariables = Exact<{
+  input: EndUsersAddBookToLibraryInput;
+}>;
+
+export type EndUsersAddBookToLibraryMutation = {
+  __typename?: "Mutation";
+  EndUsersAddBookToLibrary: any;
+};
+
 export type EndUsersLoginMutationVariables = Exact<{
   input: EndUsersLoginInput;
 }>;
@@ -715,12 +734,62 @@ export type EndUsersSearchBookMutation = {
   __typename?: "Mutation";
   EndUsersSearchBook: {
     __typename?: "EndUsersSearchBookResponse";
+    bookId?: any | null;
     exists: boolean;
     title?: string | null;
     author?: string | null;
   };
 };
 
+export const EndUsersAddBookToLibraryDocument = gql`
+  mutation EndUsersAddBookToLibrary($input: EndUsersAddBookToLibraryInput!) {
+    EndUsersAddBookToLibrary(input: $input)
+  }
+`;
+export type EndUsersAddBookToLibraryMutationFn = Apollo.MutationFunction<
+  EndUsersAddBookToLibraryMutation,
+  EndUsersAddBookToLibraryMutationVariables
+>;
+
+/**
+ * __useEndUsersAddBookToLibraryMutation__
+ *
+ * To run a mutation, you first call `useEndUsersAddBookToLibraryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEndUsersAddBookToLibraryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [endUsersAddBookToLibraryMutation, { data, loading, error }] = useEndUsersAddBookToLibraryMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEndUsersAddBookToLibraryMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    EndUsersAddBookToLibraryMutation,
+    EndUsersAddBookToLibraryMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    EndUsersAddBookToLibraryMutation,
+    EndUsersAddBookToLibraryMutationVariables
+  >(EndUsersAddBookToLibraryDocument, options);
+}
+export type EndUsersAddBookToLibraryMutationHookResult = ReturnType<
+  typeof useEndUsersAddBookToLibraryMutation
+>;
+export type EndUsersAddBookToLibraryMutationResult =
+  Apollo.MutationResult<EndUsersAddBookToLibraryMutation>;
+export type EndUsersAddBookToLibraryMutationOptions =
+  Apollo.BaseMutationOptions<
+    EndUsersAddBookToLibraryMutation,
+    EndUsersAddBookToLibraryMutationVariables
+  >;
 export const EndUsersLoginDocument = gql`
   mutation EndUsersLogin($input: EndUsersLoginInput!) {
     EndUsersLogin(input: $input)
@@ -820,6 +889,7 @@ export type EndUsersRegisterMutationOptions = Apollo.BaseMutationOptions<
 export const EndUsersSearchBookDocument = gql`
   mutation EndUsersSearchBook($input: EndUsersSearchBookInput!) {
     EndUsersSearchBook(input: $input) {
+      bookId
       exists
       title
       author

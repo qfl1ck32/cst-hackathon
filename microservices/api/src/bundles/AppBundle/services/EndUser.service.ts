@@ -10,14 +10,20 @@ import { PermissionService } from "@bluelibs/security-bundle";
 import { XAuthService } from "@bluelibs/x-auth-bundle";
 import {
   BooksCollection,
+  EndUserBooksCollection,
   EndUsersCollection,
   UserRole,
   UsersCollection,
 } from "../collections";
 import { PermissionDomain } from "../constants";
+import {
+  BookDoesNotExistException,
+  EndUserAlreadyOwnsBookException,
+} from "../exceptions";
 import { ChatGPTService } from "./ChatGPT.service";
 import { EndUsersSearchBookResponse } from "./entities/EndUsersSearchBookResponse";
 import {
+  EndUsersAddBookToLibraryInput,
   EndUsersLoginInput,
   EndUsersRegisterInput,
   EndUsersSearchBookInput,
@@ -46,6 +52,9 @@ export class EndUserService {
 
   @Inject()
   private loggerService: LoggerService;
+
+  @Inject()
+  private endUserBooksCollection: EndUserBooksCollection;
 
   public async register(input: EndUsersRegisterInput) {
     this.loggerService.info(this.loggerService.formatResolverArgs(input));
@@ -110,6 +119,7 @@ export class EndUserService {
       this.loggerService.info(`Found book in cache - ${JSON.stringify(book)}`);
 
       return {
+        bookId: book._id,
         exists: true,
         author: book.author,
         title: book.title,
@@ -127,9 +137,7 @@ export class EndUserService {
         `Book found in GPT, caching it - ${JSON.stringify(response)}`
       );
 
-      console.log({ response });
-
-      await this.booksCollection.insertOne(
+      const { insertedId } = await this.booksCollection.insertOne(
         {
           title: response.title,
           author: response.author,
@@ -138,10 +146,65 @@ export class EndUserService {
           context: { userId },
         }
       );
-    } else {
-      this.loggerService.info(`Book not found in GPT`);
+
+      return {
+        ...response,
+        bookId: insertedId,
+      };
     }
 
-    return response;
+    this.loggerService.info(`Book not found in GPT`);
+
+    return {
+      exists: false,
+    };
+  }
+
+  public async addBookToLibrary(
+    input: EndUsersAddBookToLibraryInput,
+    userId: ObjectId
+  ) {
+    this.loggerService.info(
+      this.loggerService.formatResolverArgs(input, userId)
+    );
+
+    const endUserId = await this.getIdByUserId(userId);
+
+    const book = await this.booksCollection.findOne({
+      _id: input.bookId,
+    });
+
+    if (!book) {
+      throw new BookDoesNotExistException();
+    }
+
+    const endUserBook = await this.endUserBooksCollection.findOne({
+      endUserId,
+      bookId: input.bookId,
+    });
+
+    if (endUserBook) {
+      throw new EndUserAlreadyOwnsBookException();
+    }
+
+    const { insertedId } = await this.endUserBooksCollection.insertOne(
+      {
+        endUserId,
+        bookId: book._id,
+        tests: [],
+        progress: 0,
+      },
+      {
+        context: {
+          userId,
+        },
+      }
+    );
+
+    return insertedId;
+  }
+
+  async getIdByUserId(userId: ObjectId) {
+    return (await this.endUsersCollection.findOne({ ownerId: userId }))._id;
   }
 }

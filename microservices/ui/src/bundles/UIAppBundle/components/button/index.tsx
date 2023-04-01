@@ -7,9 +7,11 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
+  const { isLoading, children, ...buttonProps } = props;
+
   return (
-    <button disabled={props.isLoading} ref={ref}>
-      {props.isLoading ? <Loader /> : props.children}
+    <button disabled={isLoading} {...buttonProps} ref={ref}>
+      {isLoading ? <Loader /> : children}
     </button>
   );
 });

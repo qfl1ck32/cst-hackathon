@@ -6,7 +6,7 @@ import { container } from "../../../__tests__/ecosystem";
 // Expect: https://jestjs.io/docs/en/expect
 
 describe("EndUserService", () => {
-  test("register()", async () => {
+  test("getIdByUserId()", async () => {
     throw new Error("Test not implemented.");
   });
 });
