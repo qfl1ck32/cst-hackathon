@@ -92,7 +92,7 @@ export class EndUserBookViewer extends XViewer {
                   id: value?._id,
                 },
               }),
-              dataIndex: "fullName",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -117,7 +117,6 @@ export class EndUserBookViewer extends XViewer {
       bookId: 1,
       endUser: {
         _id: 1,
-        fullName: 1,
       },
       endUserId: 1,
     };

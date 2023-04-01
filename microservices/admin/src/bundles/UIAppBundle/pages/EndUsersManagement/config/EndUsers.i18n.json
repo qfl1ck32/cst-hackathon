@@ -4,12 +4,11 @@
       "end_users": {
         "fields": {
           "_id": "ID",
-          "fullName": "Full Name",
           "level": "Level",
           "experience": "Experience",
           "gold": "Gold",
           "ownerId": "ownerId",
-          "badgesId": "badgesId",
+          "badgesIds": "badgesIds",
           "owner": "Owner",
           "books": "Books",
           "badges": "Badges"

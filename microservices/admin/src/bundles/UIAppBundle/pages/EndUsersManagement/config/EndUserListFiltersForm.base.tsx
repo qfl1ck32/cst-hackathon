@@ -20,17 +20,6 @@ export class EndUserListFiltersForm extends XForm {
 
     this.add([
       {
-        id: "fullName",
-        label: t("management.end_users.fields.fullName"),
-        name: ["fullName"],
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <Ant.Input />
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
         id: "level",
         label: t("management.end_users.fields.level"),
         name: ["level"],
@@ -80,9 +69,9 @@ export class EndUserListFiltersForm extends XForm {
       },
 
       {
-        id: "badgesId",
+        id: "badgesIds",
         label: t("management.end_users.fields.badges"),
-        name: ["badgesId"],
+        name: ["badgesIds"],
         render: (props) => (
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect

@@ -22,20 +22,6 @@ export class EndUserList extends XList<EndUser> {
 
     this.add([
       {
-        id: "fullName",
-        title: t("management.end_users.fields.fullName"),
-        key: "management.end_users.fields.fullName",
-        dataIndex: ["fullName"],
-        sorter: true,
-        render: (value, model) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "level",
         title: t("management.end_users.fields.level"),
         key: "management.end_users.fields.level",
@@ -128,19 +114,28 @@ export class EndUserList extends XList<EndUser> {
         dataIndex: ["badges"],
         sorter: true,
         render: (value, model) => {
-          const props = {
-            type: "relation",
-            value,
-            relation: {
-              path: router.path(Routes.BADGES_VIEW, {
-                params: {
-                  id: value?._id,
-                },
-              }),
-              dataIndex: "name",
-            },
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
+          return (
+            <>
+              {value &&
+                value.map((value: any, idx: number) => {
+                  const props = {
+                    type: "relation",
+                    value,
+                    relation: {
+                      path: router.path(Routes.BADGES_VIEW, {
+                        params: {
+                          id: value?._id,
+                        },
+                      }),
+                      dataIndex: "name",
+                    },
+                  };
+                  return (
+                    <UIComponents.AdminListItemRenderer {...props} key={idx} />
+                  );
+                })}
+            </>
+          );
         },
       },
     ]);
@@ -157,7 +152,6 @@ export class EndUserList extends XList<EndUser> {
   static getRequestBody(): QueryBodyType<EndUser> {
     return {
       _id: 1,
-      fullName: 1,
       level: 1,
       experience: 1,
       gold: 1,
@@ -173,7 +167,7 @@ export class EndUserList extends XList<EndUser> {
         _id: 1,
         name: 1,
       },
-      badgesId: 1,
+      badgesIds: 1,
     };
   }
 }

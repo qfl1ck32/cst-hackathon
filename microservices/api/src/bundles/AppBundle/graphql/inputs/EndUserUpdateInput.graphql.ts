@@ -1,8 +1,7 @@
 export default /* GraphQL */ `
   input EndUserUpdateInput {
-    badgesId: ObjectId
+    badgesIds: [ObjectId]
     experience: Int
-    fullName: String
     gold: Int
     level: Int
     ownerId: ObjectId

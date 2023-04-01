@@ -5,8 +5,6 @@ import { EndUserBooks } from "./EndUserBooks";
 export const EndUsers = collection({
   id: "EndUsers",
 
-  representedBy: "fullName",
-
   mock: {
     count: 10,
   },
@@ -17,7 +15,7 @@ export const EndUsers = collection({
     timestampable: true,
   },
 
-  fields: [field.string("fullName"), field.integer("level"), field.integer("experience"), field.integer("gold")],
+  fields: [field.integer("level"), field.integer("experience"), field.integer("gold")],
 
   relations: [
     shortcuts.relation.user({ id: "owner" }),
@@ -31,6 +29,8 @@ export const EndUsers = collection({
     relation({
       id: "badges",
       to: () => Badges,
+
+      isMany: true,
     }),
   ],
 });

@@ -103,7 +103,7 @@ export class EndUserBookEditForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={EndUsersCollection}
-              field="fullName"
+              field="_id"
               required={true}
             />
           </Ant.Form.Item>
@@ -128,7 +128,6 @@ export class EndUserBookEditForm extends XForm {
       bookId: 1,
       endUser: {
         _id: 1,
-        fullName: 1,
       },
       endUserId: 1,
     };

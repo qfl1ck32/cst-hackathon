@@ -26,18 +26,6 @@ export class EndUserViewer extends XViewer {
         },
       },
       {
-        id: "fullName",
-        label: t("management.end_users.fields.fullName"),
-        dataIndex: ["fullName"],
-        render: (value) => {
-          const props = {
-            type: "string",
-            value,
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
-        },
-      },
-      {
         id: "level",
         label: t("management.end_users.fields.level"),
         dataIndex: ["level"],
@@ -118,19 +106,28 @@ export class EndUserViewer extends XViewer {
         label: t("management.end_users.fields.badges"),
         dataIndex: ["badges"],
         render: (value) => {
-          const props = {
-            type: "relation",
-            value,
-            relation: {
-              path: router.path(Routes.BADGES_VIEW, {
-                params: {
-                  id: value?._id,
-                },
-              }),
-              dataIndex: "name",
-            },
-          };
-          return <UIComponents.AdminListItemRenderer {...props} />;
+          return (
+            <>
+              {value &&
+                value.map((value: any, idx: number) => {
+                  const props = {
+                    type: "relation",
+                    value,
+                    relation: {
+                      path: router.path(Routes.BADGES_VIEW, {
+                        params: {
+                          id: value?._id,
+                        },
+                      }),
+                      dataIndex: "name",
+                    },
+                  };
+                  return (
+                    <UIComponents.AdminListItemRenderer {...props} key={idx} />
+                  );
+                })}
+            </>
+          );
         },
       },
     ]);
@@ -139,7 +136,6 @@ export class EndUserViewer extends XViewer {
   static getRequestBody(): QueryBodyType<EndUser> {
     return {
       _id: 1,
-      fullName: 1,
       level: 1,
       experience: 1,
       gold: 1,
@@ -155,7 +151,7 @@ export class EndUserViewer extends XViewer {
         _id: 1,
         name: 1,
       },
-      badgesId: 1,
+      badgesIds: 1,
     };
   }
 }

@@ -4,14 +4,11 @@ import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 
 @Schema()
 export class EndUserInsertInput {
-  @Is(an.objectId().required())
-  badgesId: ObjectId;
+  @Is(an.array().of(an.objectId()).required())
+  badgesIds: ObjectId[] = [];
 
   @Is(a.number().required())
   experience: number;
-
-  @Is(a.string().required())
-  fullName: string;
 
   @Is(a.number().required())
   gold: number;

@@ -1,11 +1,10 @@
 export default /* GraphQL */ `
   type EndUser {
     _id: ObjectId
-    badges: Badge!
-    badgesId: ObjectId!
+    badges: [Badge]!
+    badgesIds: [ObjectId]!
     books: [EndUserBook]!
     experience: Int!
-    fullName: String!
     gold: Int!
     level: Int!
     owner: User!

@@ -18,5 +18,6 @@ export const books: IBundleLinkCollectionOption = {
 
 export const badges: IBundleLinkCollectionOption = {
   collection: () => BadgesCollection,
-  field: "badgesId",
+  many: true,
+  field: "badgesIds",
 };

@@ -24,14 +24,6 @@ export class EndUserEditForm extends XForm {
 
     this.add([
       {
-        id: "fullName",
-        label: t("management.end_users.fields.fullName"),
-        name: ["fullName"],
-        required: true,
-        component: Ant.Input,
-      },
-
-      {
         id: "level",
         label: t("management.end_users.fields.level"),
         name: ["level"],
@@ -72,9 +64,9 @@ export class EndUserEditForm extends XForm {
       },
 
       {
-        id: "badgesId",
+        id: "badgesIds",
         label: t("management.end_users.fields.badges"),
-        name: ["badgesId"],
+        name: ["badgesIds"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
@@ -82,6 +74,7 @@ export class EndUserEditForm extends XForm {
               collectionClass={BadgesCollection}
               field="name"
               required={true}
+              mode="multiple"
             />
           </Ant.Form.Item>
         ),
@@ -92,7 +85,6 @@ export class EndUserEditForm extends XForm {
   static getRequestBody(): QueryBodyType<EndUser> {
     return {
       _id: 1,
-      fullName: 1,
       level: 1,
       experience: 1,
       gold: 1,
@@ -105,7 +97,7 @@ export class EndUserEditForm extends XForm {
         _id: 1,
         name: 1,
       },
-      badgesId: 1,
+      badgesIds: 1,
     };
   }
 

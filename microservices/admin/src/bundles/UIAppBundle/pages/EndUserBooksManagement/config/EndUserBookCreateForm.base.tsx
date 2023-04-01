@@ -104,7 +104,7 @@ export class EndUserBookCreateForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={EndUsersCollection}
-              field="fullName"
+              field="_id"
               required={true}
             />
           </Ant.Form.Item>

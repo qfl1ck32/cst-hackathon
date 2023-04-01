@@ -25,14 +25,6 @@ export class EndUserCreateForm extends XForm {
 
     this.add([
       {
-        id: "fullName",
-        label: t("management.end_users.fields.fullName"),
-        name: ["fullName"],
-        required: true,
-        component: Ant.Input,
-      },
-
-      {
         id: "level",
         label: t("management.end_users.fields.level"),
         name: ["level"],
@@ -73,9 +65,9 @@ export class EndUserCreateForm extends XForm {
       },
 
       {
-        id: "badgesId",
+        id: "badgesIds",
         label: t("management.end_users.fields.badges"),
-        name: ["badgesId"],
+        name: ["badgesIds"],
         required: true,
         render: (props) => (
           <Ant.Form.Item {...props}>
@@ -83,6 +75,7 @@ export class EndUserCreateForm extends XForm {
               collectionClass={BadgesCollection}
               field="name"
               required={true}
+              mode="multiple"
             />
           </Ant.Form.Item>
         ),

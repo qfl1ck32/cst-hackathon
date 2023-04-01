@@ -9,15 +9,12 @@ export class EndUserService {
   @Inject(() => ApolloClient)
   private apolloClient!: ApolloClient;
 
-  async login(usernameOrEmail: string, password: string) {
+  async login(input: EndUsersLoginInput) {
     const response = await this.apolloClient.mutate<EndUsersLoginMutation, { input: EndUsersLoginInput }>({
       mutation: endUsersLogin,
 
       variables: {
-        input: {
-          usernameOrEmail,
-          password,
-        },
+        input,
       },
     });
 

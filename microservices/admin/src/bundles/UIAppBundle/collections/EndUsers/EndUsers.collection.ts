@@ -36,7 +36,8 @@ export class EndUsersCollection extends Collection<EndUser> {
       {
         collection: () => BadgesCollection,
         name: "badges",
-        field: "badgesId",
+        many: true,
+        field: "badgesIds",
       },
       {
         collection: () => EndUserBooksCollection,

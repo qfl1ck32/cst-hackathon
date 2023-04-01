@@ -10,18 +10,15 @@ export class EndUser {
   @Is(an.objectId())
   _id?: ObjectId;
 
-  badges: Badge;
+  badges: Badge[] = [];
 
-  @Is(an.objectId().required())
-  badgesId: ObjectId;
+  @Is(an.array().of(an.objectId()).required())
+  badgesIds: ObjectId[] = [];
 
   books: EndUserBook[] = [];
 
   @Is(a.number().required())
   experience: number;
-
-  @Is(a.string().required())
-  fullName: string;
 
   @Is(a.number().required())
   gold: number;
