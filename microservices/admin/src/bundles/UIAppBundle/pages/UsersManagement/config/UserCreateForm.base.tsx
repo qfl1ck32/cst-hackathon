@@ -6,7 +6,11 @@ import { XFormElementType, XForm } from "@bluelibs/x-ui-admin";
 import { Routes } from "@bundles/UIAppBundle";
 import { Service, Inject } from "@bluelibs/core";
 import { features } from "./features";
-import { User, UsersCollection } from "@bundles/UIAppBundle/collections";
+import {
+  User,
+  UsersCollection,
+  EndUsersCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class UserCreateForm extends XForm {

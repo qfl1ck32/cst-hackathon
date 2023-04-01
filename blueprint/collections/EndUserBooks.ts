@@ -19,10 +19,22 @@ export const EndUserBooks = collection({
     field.object("chaptersTests", {
       isArray: true,
 
-      subfields: [field.objectId("chapterId"), field.boolean("isPassed"), field.integer("numberOfTries"), field.objectId("testId")],
+      subfields: [
+        field.objectId("chapterId"),
+        field.boolean("isPassed"),
+        field.integer("score"),
+        field.integer("numberOfTries"),
+        field.objectId("testId"),
+      ],
     }),
 
-    field.float("progress"),
+    field.float("progress", {
+      isReducer: true,
+
+      reducerDependency: {
+        chaptersTests: 1,
+      },
+    }),
   ],
 
   relations: [

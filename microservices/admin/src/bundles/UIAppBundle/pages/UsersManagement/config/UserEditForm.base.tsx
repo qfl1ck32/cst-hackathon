@@ -5,7 +5,11 @@ import { Service, Inject } from "@bluelibs/core";
 import { SmileOutlined } from "@ant-design/icons";
 import { Routes } from "@bundles/UIAppBundle";
 import * as Ant from "antd";
-import { User, UsersCollection } from "@bundles/UIAppBundle/collections";
+import {
+  User,
+  UsersCollection,
+  EndUsersCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class UserEditForm extends XForm {

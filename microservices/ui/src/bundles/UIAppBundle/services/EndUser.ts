@@ -9,6 +9,8 @@ import {
   EndUsersRegisterMutation,
   EndUsersSearchBookInput,
   EndUsersSearchBookMutation,
+  EndUsersSubmitTestInput,
+  EndUsersSubmitTestMutation,
 } from "@app/graphql/generated/graphql";
 
 import EndUsersLogin from "@app/graphql/mutations/EndUsersLogin";
@@ -20,6 +22,7 @@ import { AppGuardian } from "@app/services/AppGuardian";
 import EndUsersSearchBook from "@app/graphql/mutations/EndUsersSearchBook";
 import EndUsersAddBookToLibrary from "@app/graphql/mutations/EndUsersAddBookToLibrary";
 import EndUsersGenerateTest from "@app/graphql/mutations/EndUsersGenerateTest";
+import EndUsersSubmitTest from "@app/graphql/mutations/EndUsersSubmitTest";
 
 @Service()
 export class EndUserService {
@@ -87,5 +90,17 @@ export class EndUserService {
     });
 
     return response.data?.EndUsersGenerateTest;
+  }
+
+  async submitTest(input: EndUsersSubmitTestInput) {
+    const response = await this.apolloClient.mutate<EndUsersSubmitTestMutation, { input: EndUsersSubmitTestInput }>({
+      mutation: EndUsersSubmitTest,
+
+      variables: {
+        input,
+      },
+    });
+
+    return response.data?.EndUsersSubmitTest;
   }
 }

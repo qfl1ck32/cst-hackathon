@@ -11,11 +11,11 @@ const Library: React.FC = () => {
     return <PageLoader />;
   }
 
-  const bookId = router.next.query.bookId as string;
+  const endUserBookId = router.next.query.endUserBookId as string;
 
   return (
     <Layout>
-      <LibraryBookContainer {...{ endUserBookId: bookId }} />
+      <LibraryBookContainer {...{ endUserBookId }} />
     </Layout>
   );
 };

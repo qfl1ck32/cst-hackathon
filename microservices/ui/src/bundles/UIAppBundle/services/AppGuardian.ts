@@ -24,6 +24,11 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
               username
               email
               roles
+
+              endUser {
+                experience
+                level
+              }
             }
           }
         `,

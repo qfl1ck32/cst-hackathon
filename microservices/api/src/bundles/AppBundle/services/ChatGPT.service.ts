@@ -22,6 +22,16 @@ export type QuestionAboutBookChapter = {
   choices?: string[];
 };
 
+export type AnswerToBookChapterQuestion = {
+  question: string;
+
+  answer: string;
+
+  correct: boolean;
+
+  explanation?: string;
+};
+
 @Service()
 export class ChatGPTService {
   private api: OpenAIApi;
@@ -136,8 +146,6 @@ export class ChatGPTService {
       `
     );
 
-    console.log(response);
-
-    return response;
+    return JSON.parse(response) as AnswerToBookChapterQuestion[];
   }
 }

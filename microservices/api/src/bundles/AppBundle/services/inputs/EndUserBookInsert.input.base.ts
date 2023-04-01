@@ -11,6 +11,9 @@ export class EndUserBookChaptersTestInput {
   isPassed: boolean;
 
   @Is(a.number().required())
+  score: number;
+
+  @Is(a.number().required())
   numberOfTries: number;
 
   @Is(an.objectId().required())
@@ -27,7 +30,4 @@ export class EndUserBookInsertInput {
 
   @Is(an.objectId().required())
   endUserId: ObjectId;
-
-  @Is(a.number().required())
-  progress: number;
 }

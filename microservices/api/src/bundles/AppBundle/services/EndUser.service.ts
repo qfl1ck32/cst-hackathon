@@ -24,6 +24,7 @@ import { PermissionDomain } from "../constants";
 import {
   BookDoesNotExistException,
   ChapterDoesNotExistException,
+  ChapterTestDoesNotExistException,
   EndUserAlreadyOwnsBookException,
   EndUserDoesNotOwnBookException,
 } from "../exceptions";
@@ -33,14 +34,17 @@ import {
   EndUserBookDetails,
 } from "./entities/EndUserBookDetails";
 import { EndUsersSearchBookResponse } from "./entities/EndUsersSearchBookResponse";
+import { EndUserSubmitTestResponse } from "./entities/EndUserSubmitTestResponse";
 import {
   BookChapterInsertInput,
   EndUsersAddBookToLibraryInput,
   EndUsersGenerateTestInput,
   EndUsersGetBookInput,
+  EndUsersGetChapterTestInput,
   EndUsersLoginInput,
   EndUsersRegisterInput,
   EndUsersSearchBookInput,
+  EndUsersSubmitTestInput,
 } from "./inputs";
 import { LoggerService } from "./Logger.service";
 
@@ -171,7 +175,7 @@ export class EndUserService {
         }
       );
 
-      this.updateBookChapters(response.title, bookId, userId);
+      await this.updateBookChapters(response.title, bookId, userId);
 
       return {
         ...response,
@@ -199,7 +203,11 @@ export class EndUserService {
       bookId,
     }));
 
-    await this.bookChaptersCollection.insertMany(data);
+    await this.bookChaptersCollection.insertMany(data, {
+      context: {
+        userId,
+      },
+    });
   }
 
   public async addBookToLibrary(
@@ -244,6 +252,7 @@ export class EndUserService {
         chapterId: chapter._id,
         isPassed: false,
         numberOfTries: 0,
+        score: 0,
         testId: undefined,
       })
     );
@@ -305,6 +314,7 @@ export class EndUserService {
         acc[test.chapterId.toHexString()] = {
           isPassed: test.isPassed,
           numberOfTries: test.numberOfTries,
+          score: test.score,
         };
 
         return acc;
@@ -318,6 +328,7 @@ export class EndUserService {
     const chapters: EndUserBookChapterDetails[] = endUserBook.book.chapters.map(
       (chapter) => {
         return {
+          _id: chapter._id,
           title: chapter.title,
 
           ...testDetailsByChapterName[chapter._id.toHexString()],
@@ -422,14 +433,222 @@ export class EndUserService {
     await this.endUserBooksCollection.updateOne(
       {
         _id: input.endUserBookId,
-        "chapterTests.chapterId": input.chapterId,
+        "chaptersTests.chapterId": input.chapterId,
       },
       {
         $set: {
-          "chapterTests.$.testId": testId,
+          "chaptersTests.$.testId": testId,
         },
       }
     );
+  }
+
+  public async getBooks(userId: ObjectId) {
+    const endUserId = await this.getIdByUserId(userId);
+
+    const endUserBooks = await this.endUserBooksCollection.query({
+      $: {
+        filters: {
+          endUserId,
+        },
+      },
+
+      _id: 1,
+
+      progress: 1,
+
+      book: {
+        title: 1,
+      },
+    });
+
+    return endUserBooks;
+  }
+
+  public async getChapterTest(
+    input: EndUsersGetChapterTestInput,
+    userId: ObjectId
+  ) {
+    const endUserId = await this.getIdByUserId(userId);
+
+    const endUserBook = await this.endUserBooksCollection.queryOne({
+      $: {
+        filters: {
+          _id: input.endUserBookId,
+          endUserId,
+        },
+      },
+
+      chaptersTests: {
+        chapterId: 1,
+        testId: 1,
+      },
+    });
+
+    if (!endUserBook) {
+      throw new EndUserDoesNotOwnBookException();
+    }
+
+    const chapterTest = endUserBook.chaptersTests.find((chapterTest) =>
+      chapterTest.chapterId.equals(input.chapterId)
+    );
+
+    if (!chapterTest) {
+      throw new ChapterDoesNotExistException();
+    }
+
+    if (!chapterTest.testId) {
+      throw new ChapterTestDoesNotExistException();
+    }
+
+    const test = await this.endUserBookTestsCollection.queryOne({
+      $: {
+        filters: {
+          _id: chapterTest.testId,
+        },
+      },
+
+      questions: 1,
+    });
+
+    if (!test) {
+      throw new ChapterTestDoesNotExistException();
+    }
+
+    return test.questions;
+  }
+
+  public async submitTest(
+    input: EndUsersSubmitTestInput,
+    userId: ObjectId
+  ): Promise<EndUserSubmitTestResponse> {
+    const endUserId = await this.getIdByUserId(userId);
+
+    const endUserBook = await this.endUserBooksCollection.queryOne({
+      $: {
+        filters: {
+          _id: input.endUserBookId,
+          endUserId,
+        },
+      },
+
+      book: {
+        title: 1,
+
+        chapters: {
+          _id: 1,
+          title: 1,
+        },
+      },
+
+      chaptersTests: {
+        chapterId: 1,
+
+        numberOfTries: 1,
+
+        testId: 1,
+      },
+    });
+
+    if (!endUserBook) {
+      throw new EndUserDoesNotOwnBookException();
+    }
+
+    const chapterTest = endUserBook.chaptersTests.find((test) =>
+      test.chapterId.equals(input.chapterId)
+    );
+
+    const chapter = endUserBook.book.chapters.find((chapter) =>
+      chapter._id.equals(input.chapterId)
+    );
+
+    const test = await this.endUserBookTestsCollection.findOne({
+      _id: chapterTest.testId,
+    });
+
+    const response = await this.chatGPTService.checkAnswers(
+      endUserBook.book.title,
+      chapter.title,
+      input.answers,
+      test.questions.map((q) => q.text)
+    );
+
+    const score = response.reduce((acc, curr) => {
+      return acc + Number(curr.correct);
+    }, 0);
+
+    // magic number
+    const hasPassed = score >= 3;
+
+    await this.endUserBookTestsCollection.deleteOne(
+      {
+        _id: chapterTest.testId,
+      },
+      {
+        context: {
+          userId,
+        },
+      }
+    );
+
+    await this.endUserBooksCollection.updateOne(
+      {
+        _id: input.endUserBookId,
+        "chaptersTests.chapterId": input.chapterId,
+      },
+      {
+        $set: {
+          "chaptersTests.$.testId": null,
+          "chaptersTests.$.isPassed": hasPassed,
+          "chaptersTests.$.score": score,
+        },
+
+        $inc: {
+          "chaptersTests.$.numberOfTries": 1,
+        },
+      },
+      {
+        context: { userId },
+      }
+    );
+
+    // TODO: not here :((
+    const levelUpExperienceNeeded = 100;
+    const testPassingExperience = 100;
+
+    if (hasPassed) {
+      const endUser = await this.endUsersCollection.findOne({
+        _id: endUserId,
+      });
+
+      const newExperience =
+        endUser.experience +
+        testPassingExperience * (chapterTest.numberOfTries + 1); // because it was already updated xd
+
+      const experience = newExperience % levelUpExperienceNeeded;
+      const level =
+        endUser.level + Math.floor(newExperience / levelUpExperienceNeeded);
+
+      await this.endUsersCollection.updateOne(
+        {
+          _id: endUserId,
+        },
+        {
+          $set: {
+            experience,
+            level,
+          },
+        }
+      );
+    }
+
+    return {
+      hasPassed,
+
+      score,
+
+      answers: response,
+    };
   }
 
   private chatGptQuestionTypeToEndUserBookTestQuestionType(
