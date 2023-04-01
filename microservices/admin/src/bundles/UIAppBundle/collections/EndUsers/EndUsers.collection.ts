@@ -34,14 +34,13 @@ export class EndUsersCollection extends Collection<EndUser> {
         field: "ownerId",
       },
       {
-        collection: () => EndUserBooksCollection,
-        name: "books",
-        field: "booksId",
-      },
-      {
         collection: () => BadgesCollection,
         name: "badges",
         field: "badgesId",
+      },
+      {
+        collection: () => EndUserBooksCollection,
+        name: "books",
       },
     ];
   }

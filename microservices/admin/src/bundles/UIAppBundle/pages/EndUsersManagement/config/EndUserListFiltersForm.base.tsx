@@ -80,22 +80,6 @@ export class EndUserListFiltersForm extends XForm {
       },
 
       {
-        id: "booksId",
-        label: t("management.end_users.fields.books"),
-        name: ["booksId"],
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <UIComponents.RemoteSelect
-              collectionClass={EndUserBooksCollection}
-              field="_id"
-              placeholder="Please select an option"
-              mode="multiple"
-            />
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
         id: "badgesId",
         label: t("management.end_users.fields.badges"),
         name: ["badgesId"],

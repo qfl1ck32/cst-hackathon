@@ -169,7 +169,6 @@ export class EndUserList extends XList<EndUser> {
       books: {
         _id: 1,
       },
-      booksId: 1,
       badges: {
         _id: 1,
         name: 1,

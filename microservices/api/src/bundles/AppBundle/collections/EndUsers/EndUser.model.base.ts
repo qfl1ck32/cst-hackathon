@@ -15,10 +15,7 @@ export class EndUser {
   @Is(an.objectId().required())
   badgesId: ObjectId;
 
-  books: EndUserBook;
-
-  @Is(an.objectId().required())
-  booksId: ObjectId;
+  books: EndUserBook[] = [];
 
   @Is(a.number().required())
   experience: number;

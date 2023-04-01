@@ -7,9 +7,6 @@ export class EndUserInsertInput {
   @Is(an.objectId().required())
   badgesId: ObjectId;
 
-  @Is(an.objectId().required())
-  booksId: ObjectId;
-
   @Is(a.number().required())
   experience: number;
 

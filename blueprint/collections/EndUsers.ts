@@ -25,6 +25,7 @@ export const EndUsers = collection({
     relation({
       id: "books",
       to: () => EndUserBooks,
+      inversedBy: "endUser",
     }),
 
     relation({

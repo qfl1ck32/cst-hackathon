@@ -3,8 +3,7 @@ export default /* GraphQL */ `
     _id: ObjectId
     badges: Badge!
     badgesId: ObjectId!
-    books: EndUserBook!
-    booksId: ObjectId!
+    books: [EndUserBook]!
     experience: Int!
     fullName: String!
     gold: Int!

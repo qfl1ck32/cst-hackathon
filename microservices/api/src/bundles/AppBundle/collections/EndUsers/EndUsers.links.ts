@@ -13,7 +13,7 @@ export const owner: IBundleLinkCollectionOption = {
 
 export const books: IBundleLinkCollectionOption = {
   collection: () => EndUserBooksCollection,
-  field: "booksId",
+  inversedBy: "endUser",
 };
 
 export const badges: IBundleLinkCollectionOption = {

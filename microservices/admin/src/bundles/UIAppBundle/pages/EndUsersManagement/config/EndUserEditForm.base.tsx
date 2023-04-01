@@ -72,22 +72,6 @@ export class EndUserEditForm extends XForm {
       },
 
       {
-        id: "booksId",
-        label: t("management.end_users.fields.books"),
-        name: ["booksId"],
-        required: true,
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <UIComponents.RemoteSelect
-              collectionClass={EndUserBooksCollection}
-              field="_id"
-              required={true}
-            />
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
         id: "badgesId",
         label: t("management.end_users.fields.badges"),
         name: ["badgesId"],
@@ -117,10 +101,6 @@ export class EndUserEditForm extends XForm {
         fullName: 1,
       },
       ownerId: 1,
-      books: {
-        _id: 1,
-      },
-      booksId: 1,
       badges: {
         _id: 1,
         name: 1,

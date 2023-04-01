@@ -151,7 +151,6 @@ export class EndUserViewer extends XViewer {
       books: {
         _id: 1,
       },
-      booksId: 1,
       badges: {
         _id: 1,
         name: 1,

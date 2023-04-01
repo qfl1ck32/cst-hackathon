@@ -7,9 +7,6 @@ export class EndUserUpdateInput {
   @Is(an.objectId().nullable())
   badgesId?: ObjectId;
 
-  @Is(an.objectId().nullable())
-  booksId?: ObjectId;
-
   @Is(a.number().nullable())
   experience?: number;
 
