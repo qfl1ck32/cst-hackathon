@@ -16,11 +16,16 @@ export const Register: IRoute = {
 };
 
 export const SearchBook: IRoute = {
-  name: "Search",
-  path: "/search",
+  name: "Search Book",
+  path: "/search-book",
 };
 
-export const Book: IRoute<{ id: string }> = {
+export const Library: IRoute = {
+  name: "Library",
+  path: "/library",
+};
+
+export const Book: IRoute<{ endUserBookId: string }> = {
   name: "Book",
-  path: "/book/:id",
+  path: "/library/:endUserBookId",
 };

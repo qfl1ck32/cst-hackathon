@@ -2,7 +2,7 @@ import { EndUsersSearchBookMutation } from "@app/graphql/generated/graphql";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { InferType } from "yup";
-import Button from "../button";
+import Button from "../Button";
 import schema from "./schema";
 
 export type FormValues = InferType<typeof schema>;

@@ -1,13 +1,15 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import schema from "./schema";
 import { InferType } from "yup";
+import Button from "@app/components/Button";
+import schema from "./schema";
 
 export type FormValues = InferType<typeof schema>;
 
 export interface Props {
   onSubmit: SubmitHandler<FormValues>;
+  isLoading: boolean;
 }
 
 const Login: React.FC<Props> = (props) => {
@@ -30,7 +32,9 @@ const Login: React.FC<Props> = (props) => {
         <input {...register("password")} placeholder="Password" />
         <p>{errors.password?.message}</p>
 
-        <button type="submit">Login</button>
+        <Button isLoading={props.isLoading} type="submit">
+          Login
+        </Button>
       </form>
     </div>
   );

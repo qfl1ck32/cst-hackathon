@@ -1,4 +1,4 @@
-import Loader from "@app/components/loader";
+import Loader from "@app/components/Loader";
 import { forwardRef } from "react";
 
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {

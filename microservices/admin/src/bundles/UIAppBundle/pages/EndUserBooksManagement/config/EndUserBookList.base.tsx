@@ -116,8 +116,9 @@ export class EndUserBookList extends XList<EndUserBook> {
       _id: 1,
       tests: {
         chapter: 1,
-        numberOfTries: 1,
         isPassed: 1,
+        numberOfTries: 1,
+        testId: 1,
       },
       progress: 1,
       book: {

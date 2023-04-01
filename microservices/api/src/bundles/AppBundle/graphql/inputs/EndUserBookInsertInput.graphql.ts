@@ -7,8 +7,9 @@ export default /* GraphQL */ `
   }
 
   input EndUserBookTestInput {
-    chapter: Int!
-    numberOfTries: Int!
+    chapter: String!
     isPassed: Boolean!
+    numberOfTries: Int!
+    testId: ObjectId!
   }
 `;

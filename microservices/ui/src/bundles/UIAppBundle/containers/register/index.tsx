@@ -1,10 +1,9 @@
-import Register, { FormValues } from "@app/components/register";
+import Register, { FormValues } from "@app/components/Register";
+import useOnSubmit from "@app/hooks/useOnSubmit";
 import { Login } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
 import { extractError } from "@app/utils/apollo";
-import { useRouter } from "@bluelibs/x-ui-next";
-import { use } from "@bluelibs/x-ui-react-bundle";
-import { SubmitHandler } from "react-hook-form";
+import { useRouter, use } from "@bluelibs/x-ui-next";
 import { toast } from "react-toastify";
 
 const RegisterContainer: React.FC = () => {
@@ -12,19 +11,21 @@ const RegisterContainer: React.FC = () => {
 
   const router = useRouter();
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      await endUserService.register(data);
+  const [onSubmit, isLoading] = useOnSubmit({
+    onSubmit: async (input: FormValues) => {
+      await endUserService.register(input);
 
       router.go(Login);
 
       toast.success("You have been registered successfully. Please check your e-mail for confirmation.");
-    } catch (err: any) {
-      toast.error(extractError(err));
-    }
-  };
+    },
 
-  return <Register onSubmit={onSubmit} />;
+    onError: (err) => {
+      toast.error(extractError(err));
+    },
+  });
+
+  return <Register {...{ onSubmit, isLoading }} />;
 };
 
 export default RegisterContainer;

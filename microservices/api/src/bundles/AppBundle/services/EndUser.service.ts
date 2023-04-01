@@ -9,8 +9,10 @@ import { PasswordService } from "@bluelibs/password-bundle";
 import { PermissionService } from "@bluelibs/security-bundle";
 import { XAuthService } from "@bluelibs/x-auth-bundle";
 import {
+  Book,
   BooksCollection,
   EndUserBooksCollection,
+  EndUserBookTest,
   EndUsersCollection,
   UserRole,
   UsersCollection,
@@ -19,11 +21,17 @@ import { PermissionDomain } from "../constants";
 import {
   BookDoesNotExistException,
   EndUserAlreadyOwnsBookException,
+  EndUserDoesNotOwnBookException,
 } from "../exceptions";
 import { ChatGPTService } from "./ChatGPT.service";
+import {
+  EndUserBookChapterDetails,
+  EndUserBookDetails,
+} from "./entities/EndUserBookDetails";
 import { EndUsersSearchBookResponse } from "./entities/EndUsersSearchBookResponse";
 import {
   EndUsersAddBookToLibraryInput,
+  EndUsersGetBookInput,
   EndUsersLoginInput,
   EndUsersRegisterInput,
   EndUsersSearchBookInput,
@@ -77,6 +85,8 @@ export class EndUserService {
 
         gold: 0,
         experience: 0,
+
+        ownerId: userId,
       },
       {
         context: {
@@ -137,19 +147,23 @@ export class EndUserService {
         `Book found in GPT, caching it - ${JSON.stringify(response)}`
       );
 
-      const { insertedId } = await this.booksCollection.insertOne(
+      const { insertedId: bookId } = await this.booksCollection.insertOne(
         {
           title: response.title,
           author: response.author,
+          chapters: [],
+          genres: [],
         },
         {
           context: { userId },
         }
       );
 
+      this.updateBookChapters(response.title, bookId, userId);
+
       return {
         ...response,
-        bookId: insertedId,
+        bookId,
       };
     }
 
@@ -158,6 +172,31 @@ export class EndUserService {
     return {
       exists: false,
     };
+  }
+
+  // TODO: should have "BookService", obviously
+  private async updateBookChapters(
+    title: string,
+    bookId: ObjectId,
+    userId: ObjectId
+  ) {
+    const chapters = await this.chatGPTService.getBookChapters(title);
+
+    await this.booksCollection.updateOne(
+      {
+        _id: bookId,
+      },
+      {
+        $set: {
+          chapters,
+        },
+      },
+      {
+        context: {
+          userId,
+        },
+      }
+    );
   }
 
   public async addBookToLibrary(
@@ -202,6 +241,69 @@ export class EndUserService {
     );
 
     return insertedId;
+  }
+
+  async getBook(
+    input: EndUsersGetBookInput,
+    userId: ObjectId
+  ): Promise<EndUserBookDetails> {
+    const endUserId = await this.getIdByUserId(userId);
+
+    const endUserBook = await this.endUserBooksCollection.queryOne({
+      $: {
+        filters: {
+          _id: input.endUserBookId,
+          endUserId,
+        },
+      },
+
+      book: {
+        title: 1,
+        author: 1,
+        chapters: 1,
+      },
+
+      progress: 1,
+      tests: {
+        chapter: 1,
+        isPassed: 1,
+        numberOfTries: 1,
+      },
+    });
+
+    if (!endUserBook) {
+      throw new EndUserDoesNotOwnBookException();
+    }
+
+    const testDetailsByChapterName = endUserBook.tests.reduce((acc, test) => {
+      acc[test.chapter] = {
+        isPassed: test.isPassed,
+        numberOfTries: test.numberOfTries,
+      };
+
+      return acc;
+    }, {} as Record<string, Omit<EndUserBookTest, "chapter" | "testId">>);
+
+    const chapters: EndUserBookChapterDetails[] = endUserBook.book.chapters.map(
+      (title) => {
+        return {
+          title,
+
+          isPassed: false,
+          numberOfTries: 0,
+
+          // override if we have test details for this chapter
+          ...testDetailsByChapterName[title],
+        };
+      }
+    );
+
+    return {
+      author: endUserBook.book.author,
+      title: endUserBook.book.title,
+      progress: endUserBook.progress,
+      chapters,
+    };
   }
 
   async getIdByUserId(userId: ObjectId) {

@@ -4,14 +4,17 @@ import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 
 @Schema()
 export class EndUserBookTestInput {
-  @Is(a.number().required())
-  chapter: number;
+  @Is(a.string().required())
+  chapter: string;
+
+  @Is(a.boolean().required())
+  isPassed: boolean;
 
   @Is(a.number().required())
   numberOfTries: number;
 
-  @Is(a.boolean().required())
-  isPassed: boolean;
+  @Is(an.objectId().required())
+  testId: ObjectId;
 }
 
 @Schema()

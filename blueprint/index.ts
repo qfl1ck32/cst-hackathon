@@ -1,10 +1,10 @@
 import * as Collections from "./collections";
-import * as SharedModels from "./shared-models";
+// import * as SharedModels from "./shared-models";
 import { generateProject, app } from "./utils";
 
 const application = app({
   id: "test",
-  sharedModels: Object.values(SharedModels),
+  // sharedModels: Object.values(SharedModels),
   collections: Object.values(Collections),
 });
 

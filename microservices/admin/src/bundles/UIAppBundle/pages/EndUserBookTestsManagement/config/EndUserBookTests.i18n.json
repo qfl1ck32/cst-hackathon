@@ -1,0 +1,33 @@
+{
+  "en": {
+    "management": {
+      "end_user_book_tests": {
+        "fields": {
+          "_id": "ID",
+          "questions": "Questions",
+          "questions.text": "Questions — Text",
+          "questions.type": "Questions — Type"
+        },
+        "menu": {
+          "title": "EndUserBookTests"
+        },
+        "list": {
+          "header": "EndUserBookTests List",
+          "create_btn": "New EndUserBookTest"
+        },
+        "create": {
+          "header": "Create EndUserBookTest"
+        },
+        "edit": {
+          "header": "Edit EndUserBookTest"
+        },
+        "view": {
+          "header": "View EndUserBookTest"
+        },
+        "delete_confirmation": "You have deleted the EndUserBookTest",
+        "create_confirmation": "You successfully added a new EndUserBookTest",
+        "edit_confirmation": "You successfully edited the EndUserBookTest"
+      }
+    }
+  }
+}

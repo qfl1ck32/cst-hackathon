@@ -10,8 +10,9 @@ export default /* GraphQL */ `
   }
 
   type EndUserBookTest {
-    chapter: Int!
-    numberOfTries: Int!
+    chapter: String!
     isPassed: Boolean!
+    numberOfTries: Int!
+    testId: ObjectId!
   }
 `;

@@ -30,16 +30,7 @@ export class EndUserBookListFiltersForm extends XForm {
             name: ["tests", "chapter"],
             required: true,
             initialValue: [],
-            component: Ant.InputNumber,
-          },
-
-          {
-            id: "numberOfTries",
-            label: t("management.end_user_books.fields.tests.numberOfTries"),
-            name: ["tests", "numberOfTries"],
-            required: true,
-            initialValue: [],
-            component: Ant.InputNumber,
+            component: Ant.Input,
           },
 
           {
@@ -60,6 +51,24 @@ export class EndUserBookListFiltersForm extends XForm {
                 </Ant.Radio.Group>
               </Ant.Form.Item>
             ),
+          },
+
+          {
+            id: "numberOfTries",
+            label: t("management.end_user_books.fields.tests.numberOfTries"),
+            name: ["tests", "numberOfTries"],
+            required: true,
+            initialValue: [],
+            component: Ant.InputNumber,
+          },
+
+          {
+            id: "testId",
+            label: t("management.end_user_books.fields.tests.testId"),
+            name: ["tests", "testId"],
+            required: true,
+            initialValue: [],
+            component: Ant.Input,
           },
         ],
       },

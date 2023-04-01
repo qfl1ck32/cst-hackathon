@@ -1,10 +1,10 @@
 import Layout from "@app/containers/layout";
-import SearchContainer from "@app/containers/search";
+import SearchBookContainer from "@app/containers/SearchBook";
 
 const Search: React.FC = () => {
   return (
     <Layout>
-      <SearchContainer />
+      <SearchBookContainer />
     </Layout>
   );
 };

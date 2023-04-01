@@ -1,5 +1,7 @@
+import styles from "./styles.module.scss";
+
 const Loader: React.FC = () => {
-  return <h6>Loading...</h6>;
+  return <div className={styles.container} />;
 };
 
 export default Loader;

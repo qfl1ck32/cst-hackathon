@@ -1,3 +1,4 @@
+import PageLoader from "@app/components/PageLoader";
 import { AppGuardian } from "@app/services/AppGuardian";
 import { Kernel } from "@bluelibs/core";
 import { XUINextBundle } from "@bluelibs/x-ui-next";
@@ -13,8 +14,13 @@ export const kernel = new Kernel({
         },
       },
 
+      react: {
+        initialisingComponent: PageLoader,
+      },
+
       guardian: {
         guardianClass: AppGuardian,
+        loadingComponent: PageLoader,
       },
     }),
     new UIAppBundle(),

@@ -16,6 +16,12 @@ export type KnowledgeAboutBook = {
   author?: string;
 };
 
+export type QuestionAboutBookChapter = {
+  title: string;
+  type: "multiple" | "boolean" | "text";
+  variants?: string[];
+};
+
 @Service()
 export class ChatGPTService {
   private api: OpenAIApi;
@@ -71,5 +77,69 @@ export class ChatGPTService {
     );
 
     return JSON.parse(chapters) as string[];
+  }
+
+  async generateQuestionsAboutBookChapter(
+    bookName: string,
+    chapterName: string
+  ) {
+    const questions = await this.ask(
+      `Please generate 6 questions about the book "${bookName}" - chapter "${chapterName}".
+      There are three types of questions: with multiple answers, with true or false or with text.
+      Generate 2 questions of each kind.
+
+      Please answer with a list of questions in this exact format:
+      [
+        {
+          "title": string,
+          "type": "multiple" | "boolean" | "text",
+          "variants": string[] // if type === "multiple"
+        }
+      ]
+      `
+    );
+
+    console.log(questions);
+
+    return questions;
+  }
+
+  public async checkAnswers(
+    bookName: string,
+    chapterName: string,
+    questions: string[],
+    answers: string[]
+  ) {
+    const response = await this.ask(
+      `
+      Please check the answers for the questions about the book "${bookName}" - chapter "${chapterName}".
+
+      Please answer, for each question and answer, in this format:
+
+      [
+        {
+          "question": string,
+          "answer": string,
+          "correct": boolean,
+          "explanation": string, // if correct == false
+        }
+      ]
+
+      These are the questions and the answers:
+
+      ${new Array(questions.length)
+        .fill(null)
+        .map(
+          (_, index) =>
+            `Question ${index + 1}: ${questions[index]} | Answer: ${
+              answers[index]
+            }`
+        )}
+      `
+    );
+
+    console.log(response);
+
+    return response;
   }
 }

@@ -1,4 +1,4 @@
-import Search, { FormValues } from "@app/components/search";
+import Search, { FormValues } from "@app/components/Search";
 import { EndUsersSearchBookMutation } from "@app/graphql/generated/graphql";
 import useOnSubmit from "@app/hooks/useOnSubmit";
 import { Book } from "@app/routes";
@@ -9,7 +9,7 @@ import { use } from "@bluelibs/x-ui-react-bundle";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const SearchContainer: React.FC = () => {
+const SearchBookContainer: React.FC = () => {
   const endUserService = use(EndUserService);
 
   const router = useRouter();
@@ -32,7 +32,7 @@ const SearchContainer: React.FC = () => {
 
   const [onAddToLibrary, loadingAddToLibrary] = useOnSubmit({
     onSubmit: async () => {
-      const bookId = await endUserService.addBookToLibrary({
+      const endUserBookId = await endUserService.addBookToLibrary({
         bookId: book!.bookId,
       });
 
@@ -40,7 +40,7 @@ const SearchContainer: React.FC = () => {
 
       router.go(Book, {
         params: {
-          id: bookId,
+          endUserBookId,
         },
       });
     },
@@ -53,4 +53,4 @@ const SearchContainer: React.FC = () => {
   return <Search {...{ onSearch, onAddToLibrary, loadingSearch, loadingAddToLibrary, book }} />;
 };
 
-export default SearchContainer;
+export default SearchBookContainer;

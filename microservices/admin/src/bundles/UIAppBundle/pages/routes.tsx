@@ -6,3 +6,4 @@ export * from "./BooksManagement/routes";
 export * from "./EndUserBooksManagement/routes";
 export * from "./EndUsersManagement/routes";
 export * from "./BadgesManagement/routes";
+export * from "./EndUserBookTestsManagement/routes";

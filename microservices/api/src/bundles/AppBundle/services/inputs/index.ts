@@ -13,3 +13,7 @@ export * from "./EndUsersRegister.input";
 export * from "./EndUsersLogin.input";
 export * from "./EndUsersSearchBook.input";
 export * from "./EndUsersAddBookToLibrary.input";
+export * from "./EndUsersGetBook.input";
+export * from "./EndUserBookTestInsert.input";
+export * from "./EndUserBookTestUpdate.input";
+export * from "./EndUserBookTest.input";
