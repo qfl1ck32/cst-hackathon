@@ -20,9 +20,9 @@ export const Register: IRoute = {
   path: "/register",
 };
 
-export const SearchBook: IRoute = {
-  name: "Search Book",
-  path: "/search-book",
+export const Search: IRoute = {
+  name: "Search",
+  path: "/search",
 };
 
 export const Library: IRoute = {

@@ -9,6 +9,7 @@ import { IBundleLinkCollectionOption } from "@bluelibs/mongo-bundle";
 export const owner: IBundleLinkCollectionOption = {
   collection: () => UsersCollection,
   field: "ownerId",
+  unique: true,
 };
 
 export const books: IBundleLinkCollectionOption = {

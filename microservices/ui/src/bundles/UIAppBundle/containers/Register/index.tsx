@@ -1,3 +1,4 @@
+import Hero from "@app/components/Hero";
 import Register, { FormValues } from "@app/components/Register";
 import useOnSubmit from "@app/hooks/useOnSubmit";
 import { Login } from "@app/routes";
@@ -6,7 +7,7 @@ import { extractError } from "@app/utils/apollo";
 import { useRouter, use } from "@bluelibs/x-ui-next";
 import { toast } from "react-toastify";
 
-import styles from './styles.module.scss'
+import styles from "./styles.module.scss";
 
 const RegisterContainer: React.FC = () => {
   const endUserService = use(EndUserService);
@@ -27,11 +28,13 @@ const RegisterContainer: React.FC = () => {
     },
   });
 
-  return  (
+  return (
     <div className={styles.wrapper}>
-        <Register {...{ onSubmit, isLoading }} />
+      <Hero />
+
+      <Register {...{ onSubmit, isLoading }} />
     </div>
-  )
+  );
 };
 
 export default RegisterContainer;

@@ -6,8 +6,8 @@ import { InferType } from "yup";
 import Button from "@app/components/Button";
 import schema from "./schema";
 import styles from "./styles.module.scss";
-import Input from "../Input";
-import Hero from "../Hero";
+
+import Input from "@app/components/Input";
 
 export type FormValues = InferType<typeof schema>;
 
@@ -26,24 +26,24 @@ const Register: React.FC<Props> = (props) => {
   });
 
   return (
-      <div className={styles.box}>
+    <div className={styles.container}>
+      <form onSubmit={handleSubmit(props.onSubmit)}>
+        <div className={styles.title}>Sign Up</div>
 
-        <form onSubmit={handleSubmit(props.onSubmit)}>
-          <div className={styles.title}>Sign Up</div>
+        <div className={styles.fields}>
+          <Input error={errors.username?.message} {...register("username")} placeholder="Username" />
 
-          <Input {...register("username")} placeholder="Username" />
-          <p>{errors.username?.message}</p>
+          <Input error={errors.email?.message} {...register("email")} placeholder="Email" />
 
-          <Input {...register("email")} placeholder="Email" />
-          <p>{errors.email?.message}</p>
+          <Input type="password" error={errors.password?.message} {...register("password")} placeholder="Password" />
+        </div>
 
-          <Input{...register("password")} placeholder="Password" />
-          <p>{errors.password?.message}</p>
-
-          <Button className={styles.register} isLoading={props.isLoading} type="submit">
-            Register
+        <div className={styles.button}>
+          <Button isLoading={props.isLoading} type="submit">
+            Sign Up
           </Button>
-        </form>
+        </div>
+      </form>
     </div>
   );
 };

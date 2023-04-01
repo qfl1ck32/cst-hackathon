@@ -30,7 +30,7 @@ export class User {
 
   email: string;
 
-  endUser: EndUser[] = [];
+  endUser: EndUser;
 
   /**
    * @description This field is used to identify if this object has been soft-deleted

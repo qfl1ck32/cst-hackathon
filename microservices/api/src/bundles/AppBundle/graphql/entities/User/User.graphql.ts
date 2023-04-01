@@ -17,7 +17,7 @@ export default /* GraphQL */ `
     """
     createdById: ObjectId
     email: String!
-    endUser: [EndUser]!
+    endUser: EndUser!
     isEnabled: Boolean!
     roles: [UserRole]!
 

@@ -6,10 +6,12 @@
  */
 import { GuardianSmart, GuardianUserType, GuardianUserRegistrationType, useSmart } from "@bluelibs/x-ui-next";
 import { gql } from "@apollo/client";
+import { User } from "@app/graphql/generated/graphql";
 
-type AppUserType = GuardianUserType & {
-  fullName: string;
-};
+type AppUserType = GuardianUserType &
+  User & {
+    fullName: string;
+  };
 
 type AppRegisterType = GuardianUserRegistrationType;
 

@@ -26,10 +26,10 @@ const LoginContainer: React.FC = () => {
       toast.error(extractError(err));
     },
   });
-  
+
   return (
     <div className={styles.wrapper}>
-      
+      <Hero />
       <Login {...{ onSubmit, isLoading }} />
     </div>
   );

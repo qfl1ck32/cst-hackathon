@@ -4,7 +4,7 @@ import "../styles/globals.scss";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import { createApp, XUIProvider } from "@bluelibs/x-ui-next";
+import { XUIProvider } from "@bluelibs/x-ui-next";
 import { kernel as baseKernel } from "../startup/kernel";
 
 import { useMemo } from "react";

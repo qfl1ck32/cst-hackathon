@@ -1,4 +1,17 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["inline-react-svg", ["@babel/plugin-proposal-decorators", { "legacy": true }]]
+  "plugins": [
+    "inline-react-svg",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "@app": "./src/bundles/UIAppBundle",
+          "@public": "./public"
+        }
+      }
+    ]
+  ]
 }

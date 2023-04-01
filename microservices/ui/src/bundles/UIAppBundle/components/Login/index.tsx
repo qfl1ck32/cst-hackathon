@@ -24,20 +24,22 @@ const Login: React.FC<Props> = (props) => {
   });
 
   return (
-    <div className={styles.box}>
+    <div className={styles.container}>
       <form onSubmit={handleSubmit(props.onSubmit)}>
+        <div className={styles.title}>Log In</div>
 
-          <div className={styles.title}>Log In</div>
-          <Input {...register("usernameOrEmail")} placeholder="Username / e-mail" />
-          <p>{errors.usernameOrEmail?.message}</p>
+        <div className={styles.fields}>
+          <Input error={errors.usernameOrEmail?.message} {...register("usernameOrEmail")} placeholder="Username or email" />
 
-          <Input {...register("password")} placeholder="Password" />
-          <p>{errors.password?.message}</p>
+          <Input type="password" error={errors.password?.message} {...register("password")} placeholder="Password" />
+        </div>
 
-          <Button className={styles.register} isLoading={props.isLoading} type="submit" >
+        <div className={styles.button}>
+          <Button isLoading={props.isLoading} type="submit">
             Login
           </Button>
-        </form>
+        </div>
+      </form>
     </div>
   );
 };

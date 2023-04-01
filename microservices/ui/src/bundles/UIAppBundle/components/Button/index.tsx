@@ -4,18 +4,15 @@ import { forwardRef } from "react";
 import styles from "./styles.module.scss";
 
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  isLoading?: boolean;
   children: React.ReactNode;
-  text?: string;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
-  const { isLoading, children, text, ...buttonProps } = props;
+  const { children, ...buttonProps } = props;
 
   return (
-    <button className={styles.container} disabled={isLoading} {...buttonProps} ref={ref}>
-      {isLoading ? <Loader /> : children}
-      {text ? <span >{text}</span> : null}
+    <button className={styles.container} {...buttonProps} ref={ref}>
+      <div className={styles.children}>{children}</div>
     </button>
   );
 });

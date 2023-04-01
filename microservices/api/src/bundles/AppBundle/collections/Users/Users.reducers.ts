@@ -62,9 +62,11 @@ export const roles: IReducerOption = {
 };
 
 export const username: IReducerOption = {
-  dependency: {},
+  dependency: {
+    password: 1,
+  },
   async reduce(parent, { context }) {
     // You can access the container via: context.container
-    return "Not Implemented";
+    return parent.password?.username;
   },
 };

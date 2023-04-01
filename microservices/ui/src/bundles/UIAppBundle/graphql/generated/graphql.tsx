@@ -175,7 +175,7 @@ export type EndUserBookChapterDetails = {
   _id: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
-  score: Scalars["Int"];
+  score?: Maybe<Scalars["Int"]>;
   title: Scalars["String"];
 };
 
@@ -864,7 +864,7 @@ export type User = {
   /** Represents the user's id who has created this object */
   createdById?: Maybe<Scalars["ObjectId"]>;
   email: Scalars["String"];
-  endUser: Array<Maybe<EndUser>>;
+  endUser: EndUser;
   isEnabled: Scalars["Boolean"];
   roles: Array<Maybe<UserRole>>;
   /** Represents the last time when the object was updated */
@@ -999,7 +999,7 @@ export type EndUsersGetBookQuery = {
       _id: any;
       title: string;
       isPassed: boolean;
-      score: number;
+      score?: number | null;
       numberOfTries: number;
     }>;
   };
