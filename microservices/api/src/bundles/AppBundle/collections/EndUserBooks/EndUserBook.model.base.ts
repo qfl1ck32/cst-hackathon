@@ -5,9 +5,9 @@ import { Book } from "../";
 import { EndUser } from "../";
 
 @Schema()
-export class EndUserBookChapterTest {
-  @Is(a.string().required())
-  chapter: string;
+export class EndUserBookChaptersTest {
+  @Is(an.objectId().required())
+  chapterId: ObjectId;
 
   @Is(a.boolean().required())
   isPassed: boolean;
@@ -29,8 +29,8 @@ export class EndUserBook {
   @Is(an.objectId().required())
   bookId: ObjectId;
 
-  @Is(() => an.array().of(Schema.from(EndUserBookChapterTest)))
-  chapterTests: EndUserBookChapterTest[] = [];
+  @Is(() => an.array().of(Schema.from(EndUserBookChaptersTest)))
+  chaptersTests: EndUserBookChaptersTest[] = [];
 
   endUser: EndUser;
 

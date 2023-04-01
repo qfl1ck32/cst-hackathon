@@ -1,4 +1,5 @@
-import { collection, field } from "../utils";
+import { collection, field, relation } from "../utils";
+import { BookChapters } from "./BookChapters";
 
 export const Books = collection({
   id: "Books",
@@ -21,8 +22,15 @@ export const Books = collection({
     field.string("genres", {
       isArray: true,
     }),
-    field.string("chapters", {
-      isArray: true,
+  ],
+
+  relations: [
+    relation({
+      id: "chapters",
+
+      to: () => BookChapters,
+
+      inversedBy: "book",
     }),
   ],
 });

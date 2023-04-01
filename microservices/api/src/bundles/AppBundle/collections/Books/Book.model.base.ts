@@ -1,6 +1,7 @@
 /** @overridable */
 import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
+import { BookChapter } from "../";
 
 @Schema()
 export class Book {
@@ -10,8 +11,7 @@ export class Book {
   @Is(a.string().required())
   author: string;
 
-  @Is(an.array().of(a.string()).required())
-  chapters: string[] = [];
+  chapters: BookChapter[] = [];
 
   @Is(an.array().of(a.string()).required())
   genres: string[] = [];

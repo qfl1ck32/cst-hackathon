@@ -1,6 +1,6 @@
 export default {
   resolvers: {
     EndUserBook: {},
-    EndUserBookChapterTest: {},
+    EndUserBookChaptersTest: {},
   },
 };

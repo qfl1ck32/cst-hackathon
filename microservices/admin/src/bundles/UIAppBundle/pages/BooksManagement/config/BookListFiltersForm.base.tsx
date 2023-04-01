@@ -4,7 +4,11 @@ import { XFormElementType, XList, XForm } from "@bluelibs/x-ui-admin";
 import { Service } from "@bluelibs/core";
 import { IComponents, XRouter, use } from "@bluelibs/x-ui";
 import * as Ant from "antd";
-import { Book, BooksCollection } from "@bundles/UIAppBundle/collections";
+import {
+  Book,
+  BookChaptersCollection,
+  BooksCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class BookListFiltersForm extends XForm {
@@ -39,17 +43,6 @@ export class BookListFiltersForm extends XForm {
         id: "genres",
         label: t("management.books.fields.genres"),
         name: ["genres"],
-        render: (props) => (
-          <Ant.Form.Item {...props}>
-            <Ant.Input />
-          </Ant.Form.Item>
-        ),
-      },
-
-      {
-        id: "chapters",
-        label: t("management.books.fields.chapters"),
-        name: ["chapters"],
         render: (props) => (
           <Ant.Form.Item {...props}>
             <Ant.Input />

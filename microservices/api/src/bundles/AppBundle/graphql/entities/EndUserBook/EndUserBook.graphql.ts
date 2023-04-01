@@ -3,14 +3,14 @@ export default /* GraphQL */ `
     _id: ObjectId
     book: Book!
     bookId: ObjectId!
-    chapterTests: [EndUserBookChapterTest]!
+    chaptersTests: [EndUserBookChaptersTest]!
     endUser: EndUser!
     endUserId: ObjectId!
     progress: Float!
   }
 
-  type EndUserBookChapterTest {
-    chapter: String!
+  type EndUserBookChaptersTest {
+    chapterId: ObjectId!
     isPassed: Boolean!
     numberOfTries: Int!
     testId: ObjectId!

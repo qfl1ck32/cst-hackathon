@@ -1,0 +1,25 @@
+import { IRoute } from "@bluelibs/x-ui";
+import "./i18n";
+
+import {
+  BOOK_CHAPTERS_LIST as BASE_BOOK_CHAPTERS_LIST,
+  BOOK_CHAPTERS_CREATE as BASE_BOOK_CHAPTERS_CREATE,
+  BOOK_CHAPTERS_EDIT as BASE_BOOK_CHAPTERS_EDIT,
+  BOOK_CHAPTERS_VIEW as BASE_BOOK_CHAPTERS_VIEW,
+} from "./config/routes";
+
+export const BOOK_CHAPTERS_LIST: IRoute = {
+  ...BASE_BOOK_CHAPTERS_LIST,
+};
+
+export const BOOK_CHAPTERS_CREATE: IRoute = {
+  ...BASE_BOOK_CHAPTERS_CREATE,
+};
+
+export const BOOK_CHAPTERS_EDIT: IRoute = {
+  ...BASE_BOOK_CHAPTERS_EDIT,
+};
+
+export const BOOK_CHAPTERS_VIEW: IRoute = {
+  ...BASE_BOOK_CHAPTERS_VIEW,
+};

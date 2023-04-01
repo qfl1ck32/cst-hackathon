@@ -2,7 +2,7 @@ export default /* GraphQL */ `
   type Book {
     _id: ObjectId
     author: String!
-    chapters: [String]!
+    chapters: [BookChapter]!
     genres: [String]!
     title: String!
   }

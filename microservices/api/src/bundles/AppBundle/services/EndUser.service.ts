@@ -10,16 +10,15 @@ import { PermissionService } from "@bluelibs/security-bundle";
 import { XAuthService } from "@bluelibs/x-auth-bundle";
 import {
   Book,
+  BookChaptersCollection,
   BooksCollection,
-  EndUserBookChapterTest,
+  EndUserBookChaptersTest,
   EndUserBooksCollection,
-  EndUserBookTest,
   EndUserBookTestQuestion,
   EndUserBookTestQuestionType,
   EndUserBookTestsCollection,
   EndUsersCollection,
   UserRole,
-  UsersCollection,
 } from "../collections";
 import { PermissionDomain } from "../constants";
 import {
@@ -35,6 +34,7 @@ import {
 } from "./entities/EndUserBookDetails";
 import { EndUsersSearchBookResponse } from "./entities/EndUsersSearchBookResponse";
 import {
+  BookChapterInsertInput,
   EndUsersAddBookToLibraryInput,
   EndUsersGenerateTestInput,
   EndUsersGetBookInput,
@@ -63,6 +63,9 @@ export class EndUserService {
 
   @Inject()
   private booksCollection: BooksCollection;
+
+  @Inject()
+  private bookChaptersCollection: BookChaptersCollection;
 
   @Inject()
   private loggerService: LoggerService;
@@ -191,21 +194,12 @@ export class EndUserService {
   ) {
     const chapters = await this.chatGPTService.getBookChapters(title);
 
-    await this.booksCollection.updateOne(
-      {
-        _id: bookId,
-      },
-      {
-        $set: {
-          chapters,
-        },
-      },
-      {
-        context: {
-          userId,
-        },
-      }
-    );
+    const data: BookChapterInsertInput[] = chapters.map((chapter) => ({
+      title: chapter,
+      bookId,
+    }));
+
+    await this.bookChaptersCollection.insertMany(data);
   }
 
   public async addBookToLibrary(
@@ -218,8 +212,18 @@ export class EndUserService {
 
     const endUserId = await this.getIdByUserId(userId);
 
-    const book = await this.booksCollection.findOne({
-      _id: input.bookId,
+    const book = await this.booksCollection.queryOne({
+      $: {
+        filters: {
+          _id: input.bookId,
+        },
+      },
+
+      _id: 1,
+
+      chapters: {
+        _id: 1,
+      },
     });
 
     if (!book) {
@@ -235,9 +239,9 @@ export class EndUserService {
       throw new EndUserAlreadyOwnsBookException();
     }
 
-    const chapterTests: EndUserBookChapterTest[] = book.chapters.map(
+    const chaptersTests: EndUserBookChaptersTest[] = book.chapters.map(
       (chapter) => ({
-        chapter,
+        chapterId: chapter._id,
         isPassed: false,
         numberOfTries: 0,
         testId: undefined,
@@ -248,7 +252,7 @@ export class EndUserService {
       {
         endUserId,
         bookId: book._id,
-        chapterTests,
+        chaptersTests,
         progress: 0,
       },
       {
@@ -278,12 +282,15 @@ export class EndUserService {
       book: {
         title: 1,
         author: 1,
-        chapters: 1,
+        chapters: {
+          _id: 1,
+          title: 1,
+        },
       },
 
       progress: 1,
-      chapterTests: {
-        chapter: 1,
+      chaptersTests: {
+        chapterId: 1,
         isPassed: 1,
         numberOfTries: 1,
       },
@@ -293,24 +300,27 @@ export class EndUserService {
       throw new EndUserDoesNotOwnBookException();
     }
 
-    const testDetailsByChapterName = endUserBook.chapterTests.reduce(
+    const testDetailsByChapterName = endUserBook.chaptersTests.reduce(
       (acc, test) => {
-        acc[test.chapter] = {
+        acc[test.chapterId.toHexString()] = {
           isPassed: test.isPassed,
           numberOfTries: test.numberOfTries,
         };
 
         return acc;
       },
-      {} as Record<string, Omit<EndUserBookChapterTest, "chapter" | "testId">>
+      {} as Record<
+        string,
+        Omit<EndUserBookChaptersTest, "chapterId" | "testId">
+      >
     );
 
     const chapters: EndUserBookChapterDetails[] = endUserBook.book.chapters.map(
-      (title) => {
+      (chapter) => {
         return {
-          title,
+          title: chapter.title,
 
-          ...testDetailsByChapterName[title],
+          ...testDetailsByChapterName[chapter._id.toHexString()],
         };
       }
     );
@@ -336,11 +346,13 @@ export class EndUserService {
 
       book: {
         title: 1,
-        chapters: 1,
+        chapters: {
+          title: 1,
+        },
       },
 
-      chapterTests: {
-        chapter: 1,
+      chaptersTests: {
+        chapterId: 1,
         testId: 1,
       },
     });
@@ -350,22 +362,26 @@ export class EndUserService {
     }
 
     if (
-      endUserBook.book.chapters.findIndex(
-        (chapter) => chapter === input.chapter
+      endUserBook.book.chapters.findIndex((chapter) =>
+        chapter._id.equals(input.chapterId)
       ) === -1
     ) {
       throw new ChapterDoesNotExistException();
     }
 
     // TODO: handle this
-    const existingTestId = endUserBook.chapterTests.find(
-      (chapterTest) => chapterTest.chapter === input.chapter
+    const chapterTestId = endUserBook.chaptersTests.find((chapterTest) =>
+      chapterTest.chapterId.equals(input.chapterId)
     )?.testId;
 
-    if (existingTestId) {
+    const chapter = endUserBook.book.chapters.find((chapter) =>
+      chapter._id.equals(input.chapterId)
+    );
+
+    if (chapterTestId) {
       await this.endUserBookTestsCollection.deleteOne(
         {
-          _id: existingTestId,
+          _id: chapterTestId,
         },
         {
           context: {
@@ -378,7 +394,7 @@ export class EndUserService {
     const questions =
       await this.chatGPTService.generateQuestionsAboutBookChapter(
         endUserBook.book.title,
-        input.chapter
+        chapter.title
       );
 
     const parsedQuestions: EndUserBookTestQuestion[] = questions.map(
@@ -406,7 +422,7 @@ export class EndUserService {
     await this.endUserBooksCollection.updateOne(
       {
         _id: input.endUserBookId,
-        "chapterTests.chapter": input.chapter,
+        "chapterTests.chapterId": input.chapterId,
       },
       {
         $set: {

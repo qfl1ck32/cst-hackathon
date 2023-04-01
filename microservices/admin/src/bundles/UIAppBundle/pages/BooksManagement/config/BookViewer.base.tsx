@@ -75,20 +75,19 @@ export class BookViewer extends XViewer {
         label: t("management.books.fields.chapters"),
         dataIndex: ["chapters"],
         render: (value) => {
-          return (
-            <>
-              {value &&
-                value.map((value: any, idx: number) => {
-                  const props = {
-                    type: "string",
-                    value,
-                  };
-                  return (
-                    <UIComponents.AdminListItemRenderer {...props} key={idx} />
-                  );
-                })}
-            </>
-          );
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.BOOK_CHAPTERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "title",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
         },
       },
     ]);
@@ -100,7 +99,10 @@ export class BookViewer extends XViewer {
       title: 1,
       author: 1,
       genres: 1,
-      chapters: 1,
+      chapters: {
+        _id: 1,
+        title: 1,
+      },
     };
   }
 }

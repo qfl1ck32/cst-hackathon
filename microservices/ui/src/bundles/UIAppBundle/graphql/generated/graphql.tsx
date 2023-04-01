@@ -101,21 +101,37 @@ export type Book = {
   __typename?: "Book";
   _id?: Maybe<Scalars["ObjectId"]>;
   author: Scalars["String"];
-  chapters: Array<Maybe<Scalars["String"]>>;
+  chapters: Array<Maybe<BookChapter>>;
   genres: Array<Maybe<Scalars["String"]>>;
   title: Scalars["String"];
 };
 
+export type BookChapter = {
+  __typename?: "BookChapter";
+  _id?: Maybe<Scalars["ObjectId"]>;
+  book: Book;
+  bookId: Scalars["ObjectId"];
+  title: Scalars["String"];
+};
+
+export type BookChapterInsertInput = {
+  bookId: Scalars["ObjectId"];
+  title: Scalars["String"];
+};
+
+export type BookChapterUpdateInput = {
+  bookId?: InputMaybe<Scalars["ObjectId"]>;
+  title?: InputMaybe<Scalars["String"]>;
+};
+
 export type BookInsertInput = {
   author: Scalars["String"];
-  chapters: Array<InputMaybe<Scalars["String"]>>;
   genres: Array<InputMaybe<Scalars["String"]>>;
   title: Scalars["String"];
 };
 
 export type BookUpdateInput = {
   author?: InputMaybe<Scalars["String"]>;
-  chapters?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   genres?: InputMaybe<Array<InputMaybe<Scalars["String"]>>>;
   title?: InputMaybe<Scalars["String"]>;
 };
@@ -148,7 +164,7 @@ export type EndUserBook = {
   _id?: Maybe<Scalars["ObjectId"]>;
   book: Book;
   bookId: Scalars["ObjectId"];
-  chapterTests: Array<Maybe<EndUserBookChapterTest>>;
+  chaptersTests: Array<Maybe<EndUserBookChaptersTest>>;
   endUser: EndUser;
   endUserId: Scalars["ObjectId"];
   progress: Scalars["Float"];
@@ -161,16 +177,16 @@ export type EndUserBookChapterDetails = {
   title: Scalars["String"];
 };
 
-export type EndUserBookChapterTest = {
-  __typename?: "EndUserBookChapterTest";
-  chapter: Scalars["String"];
+export type EndUserBookChaptersTest = {
+  __typename?: "EndUserBookChaptersTest";
+  chapterId: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
   testId: Scalars["ObjectId"];
 };
 
-export type EndUserBookChapterTestInput = {
-  chapter: Scalars["String"];
+export type EndUserBookChaptersTestInput = {
+  chapterId: Scalars["ObjectId"];
   isPassed: Scalars["Boolean"];
   numberOfTries: Scalars["Int"];
   testId: Scalars["ObjectId"];
@@ -186,7 +202,7 @@ export type EndUserBookDetails = {
 
 export type EndUserBookInsertInput = {
   bookId: Scalars["ObjectId"];
-  chapterTests: Array<InputMaybe<EndUserBookChapterTestInput>>;
+  chaptersTests: Array<InputMaybe<EndUserBookChaptersTestInput>>;
   endUserId: Scalars["ObjectId"];
   progress: Scalars["Float"];
 };
@@ -232,7 +248,7 @@ export type EndUserBookTestUpdateInput = {
 
 export type EndUserBookUpdateInput = {
   bookId?: InputMaybe<Scalars["ObjectId"]>;
-  chapterTests?: InputMaybe<Array<InputMaybe<EndUserBookChapterTestInput>>>;
+  chaptersTests?: InputMaybe<Array<InputMaybe<EndUserBookChaptersTestInput>>>;
   endUserId?: InputMaybe<Scalars["ObjectId"]>;
   progress?: InputMaybe<Scalars["Float"]>;
 };
@@ -258,7 +274,7 @@ export type EndUsersAddBookToLibraryInput = {
 };
 
 export type EndUsersGenerateTestInput = {
-  chapter: Scalars["String"];
+  chapterId: Scalars["ObjectId"];
   endUserBookId: Scalars["ObjectId"];
 };
 
@@ -314,6 +330,9 @@ export type Mutation = {
   BadgesDeleteOne?: Maybe<Scalars["Boolean"]>;
   BadgesInsertOne?: Maybe<Badge>;
   BadgesUpdateOne: Badge;
+  BookChaptersDeleteOne?: Maybe<Scalars["Boolean"]>;
+  BookChaptersInsertOne?: Maybe<BookChapter>;
+  BookChaptersUpdateOne: BookChapter;
   BooksDeleteOne?: Maybe<Scalars["Boolean"]>;
   BooksInsertOne?: Maybe<Book>;
   BooksUpdateOne: Book;
@@ -381,6 +400,19 @@ export type MutationBadgesInsertOneArgs = {
 export type MutationBadgesUpdateOneArgs = {
   _id: Scalars["ObjectId"];
   document: BadgeUpdateInput;
+};
+
+export type MutationBookChaptersDeleteOneArgs = {
+  _id: Scalars["ObjectId"];
+};
+
+export type MutationBookChaptersInsertOneArgs = {
+  document: BookChapterInsertInput;
+};
+
+export type MutationBookChaptersUpdateOneArgs = {
+  _id: Scalars["ObjectId"];
+  document: BookChapterUpdateInput;
 };
 
 export type MutationBooksDeleteOneArgs = {
@@ -513,6 +545,9 @@ export type Query = {
   BadgesCount: Scalars["Int"];
   BadgesFind: Array<Maybe<Badge>>;
   BadgesFindOne?: Maybe<Badge>;
+  BookChaptersCount: Scalars["Int"];
+  BookChaptersFind: Array<Maybe<BookChapter>>;
+  BookChaptersFindOne?: Maybe<BookChapter>;
   BooksCount: Scalars["Int"];
   BooksFind: Array<Maybe<Book>>;
   BooksFindOne?: Maybe<Book>;
@@ -558,6 +593,18 @@ export type QueryBadgesFindArgs = {
 };
 
 export type QueryBadgesFindOneArgs = {
+  query?: InputMaybe<QueryInput>;
+};
+
+export type QueryBookChaptersCountArgs = {
+  query?: InputMaybe<QueryInput>;
+};
+
+export type QueryBookChaptersFindArgs = {
+  query?: InputMaybe<QueryInput>;
+};
+
+export type QueryBookChaptersFindOneArgs = {
   query?: InputMaybe<QueryInput>;
 };
 
@@ -680,6 +727,8 @@ export type Subscription = {
   __typename?: "Subscription";
   BadgesSubscription?: Maybe<SubscriptionEvent>;
   BadgesSubscriptionCount?: Maybe<SubscriptionCountEvent>;
+  BookChaptersSubscription?: Maybe<SubscriptionEvent>;
+  BookChaptersSubscriptionCount?: Maybe<SubscriptionCountEvent>;
   BooksSubscription?: Maybe<SubscriptionEvent>;
   BooksSubscriptionCount?: Maybe<SubscriptionCountEvent>;
   EndUserBookTestsSubscription?: Maybe<SubscriptionEvent>;
@@ -697,6 +746,14 @@ export type SubscriptionBadgesSubscriptionArgs = {
 };
 
 export type SubscriptionBadgesSubscriptionCountArgs = {
+  filters?: InputMaybe<Scalars["EJSON"]>;
+};
+
+export type SubscriptionBookChaptersSubscriptionArgs = {
+  body?: InputMaybe<Scalars["EJSON"]>;
+};
+
+export type SubscriptionBookChaptersSubscriptionCountArgs = {
   filters?: InputMaybe<Scalars["EJSON"]>;
 };
 

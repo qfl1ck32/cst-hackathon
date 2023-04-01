@@ -8,9 +8,6 @@ export class BookInsertInput {
   author: string;
 
   @Is(an.array().of(a.string()).required())
-  chapters: string[] = [];
-
-  @Is(an.array().of(a.string()).required())
   genres: string[] = [];
 
   @Is(a.string().required())

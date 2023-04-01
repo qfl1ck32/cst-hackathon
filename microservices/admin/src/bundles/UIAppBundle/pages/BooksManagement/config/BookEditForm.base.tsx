@@ -5,7 +5,11 @@ import { Service, Inject } from "@bluelibs/core";
 import { SmileOutlined } from "@ant-design/icons";
 import { Routes } from "@bundles/UIAppBundle";
 import * as Ant from "antd";
-import { Book, BooksCollection } from "@bundles/UIAppBundle/collections";
+import {
+  Book,
+  BookChaptersCollection,
+  BooksCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class BookEditForm extends XForm {
@@ -42,16 +46,6 @@ export class BookEditForm extends XForm {
         component: Ant.Input,
         isList: true,
       },
-
-      {
-        id: "chapters",
-        label: t("management.books.fields.chapters"),
-        name: ["chapters"],
-        required: true,
-        initialValue: [],
-        component: Ant.Input,
-        isList: true,
-      },
     ]);
   }
 
@@ -61,7 +55,6 @@ export class BookEditForm extends XForm {
       title: 1,
       author: 1,
       genres: 1,
-      chapters: 1,
     };
   }
 

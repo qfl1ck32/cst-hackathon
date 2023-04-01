@@ -4,7 +4,7 @@ import {
   CollectionTransformMap,
 } from "@bluelibs/x-ui";
 import { Book } from "@root/api.types";
-import {} from "@bundles/UIAppBundle/collections";
+import { BookChaptersCollection } from "@bundles/UIAppBundle/collections";
 import { ObjectId } from "@bluelibs/ejson";
 
 export type { Book };
@@ -23,7 +23,12 @@ export class BooksCollection extends Collection<Book> {
 
   // Return here the relations with other configs
   getLinks(): CollectionLinkConfig<Book>[] {
-    return [];
+    return [
+      {
+        collection: () => BookChaptersCollection,
+        name: "chapters",
+      },
+    ];
   }
 
   // Return here how you want to transform certain fields

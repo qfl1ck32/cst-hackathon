@@ -23,16 +23,18 @@ export class EndUserBookEditForm extends XForm {
 
     this.add([
       {
-        id: "chapterTests",
-        label: t("management.end_user_books.fields.chapterTests"),
-        name: ["chapterTests"],
+        id: "chaptersTests",
+        label: t("management.end_user_books.fields.chaptersTests"),
+        name: ["chaptersTests"],
         required: true,
         isList: true,
         nest: [
           {
-            id: "chapter",
-            label: t("management.end_user_books.fields.chapterTests.chapter"),
-            name: ["chapterTests", "chapter"],
+            id: "chapterId",
+            label: t(
+              "management.end_user_books.fields.chaptersTests.chapterId"
+            ),
+            name: ["chaptersTests", "chapterId"],
             required: true,
             initialValue: [],
             component: Ant.Input,
@@ -40,8 +42,8 @@ export class EndUserBookEditForm extends XForm {
 
           {
             id: "isPassed",
-            label: t("management.end_user_books.fields.chapterTests.isPassed"),
-            name: ["chapterTests", "isPassed"],
+            label: t("management.end_user_books.fields.chaptersTests.isPassed"),
+            name: ["chaptersTests", "isPassed"],
             required: true,
             initialValue: [],
             render: (props) => (
@@ -61,9 +63,9 @@ export class EndUserBookEditForm extends XForm {
           {
             id: "numberOfTries",
             label: t(
-              "management.end_user_books.fields.chapterTests.numberOfTries"
+              "management.end_user_books.fields.chaptersTests.numberOfTries"
             ),
-            name: ["chapterTests", "numberOfTries"],
+            name: ["chaptersTests", "numberOfTries"],
             required: true,
             initialValue: [],
             component: Ant.InputNumber,
@@ -71,8 +73,8 @@ export class EndUserBookEditForm extends XForm {
 
           {
             id: "testId",
-            label: t("management.end_user_books.fields.chapterTests.testId"),
-            name: ["chapterTests", "testId"],
+            label: t("management.end_user_books.fields.chaptersTests.testId"),
+            name: ["chaptersTests", "testId"],
             required: true,
             initialValue: [],
             component: Ant.Input,
@@ -126,8 +128,8 @@ export class EndUserBookEditForm extends XForm {
   static getRequestBody(): QueryBodyType<EndUserBook> {
     return {
       _id: 1,
-      chapterTests: {
-        chapter: 1,
+      chaptersTests: {
+        chapterId: 1,
         isPassed: 1,
         numberOfTries: 1,
         testId: 1,

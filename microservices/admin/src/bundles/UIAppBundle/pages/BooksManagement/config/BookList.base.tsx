@@ -6,7 +6,11 @@ import { Routes } from "@bundles/UIAppBundle";
 import { Service } from "@bluelibs/core";
 import { IComponents, XRouter, use, QueryBodyType } from "@bluelibs/x-ui";
 import * as Ant from "antd";
-import { Book, BooksCollection } from "@bundles/UIAppBundle/collections";
+import {
+  Book,
+  BookChaptersCollection,
+  BooksCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class BookList extends XList<Book> {
@@ -73,27 +77,28 @@ export class BookList extends XList<Book> {
         dataIndex: ["chapters"],
         sorter: true,
         render: (value, model) => {
-          return (
-            <>
-              {value &&
-                value.map((value: any, idx: number) => {
-                  const props = {
-                    type: "string",
-                    value,
-                  };
-                  return (
-                    <UIComponents.AdminListItemRenderer {...props} key={idx} />
-                  );
-                })}
-            </>
-          );
+          const props = {
+            type: "relation",
+            value,
+            relation: {
+              path: router.path(Routes.BOOK_CHAPTERS_VIEW, {
+                params: {
+                  id: value?._id,
+                },
+              }),
+              dataIndex: "title",
+            },
+          };
+          return <UIComponents.AdminListItemRenderer {...props} />;
         },
       },
     ]);
   }
 
   static getSortMap() {
-    return {};
+    return {
+      chapters: "chapters.title",
+    };
   }
 
   static getRequestBody(): QueryBodyType<Book> {
@@ -102,7 +107,10 @@ export class BookList extends XList<Book> {
       title: 1,
       author: 1,
       genres: 1,
-      chapters: 1,
+      chapters: {
+        _id: 1,
+        title: 1,
+      },
     };
   }
 }

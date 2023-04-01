@@ -1,0 +1,33 @@
+{
+  "en": {
+    "management": {
+      "book_chapters": {
+        "fields": {
+          "_id": "ID",
+          "title": "Title",
+          "bookId": "bookId",
+          "book": "Book"
+        },
+        "menu": {
+          "title": "BookChapters"
+        },
+        "list": {
+          "header": "BookChapters List",
+          "create_btn": "New BookChapter"
+        },
+        "create": {
+          "header": "Create BookChapter"
+        },
+        "edit": {
+          "header": "Edit BookChapter"
+        },
+        "view": {
+          "header": "View BookChapter"
+        },
+        "delete_confirmation": "You have deleted the BookChapter",
+        "create_confirmation": "You successfully added a new BookChapter",
+        "edit_confirmation": "You successfully edited the BookChapter"
+      }
+    }
+  }
+}

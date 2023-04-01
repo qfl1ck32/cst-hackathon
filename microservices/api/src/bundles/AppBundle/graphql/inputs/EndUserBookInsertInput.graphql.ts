@@ -1,13 +1,13 @@
 export default /* GraphQL */ `
   input EndUserBookInsertInput {
     bookId: ObjectId!
-    chapterTests: [EndUserBookChapterTestInput]!
+    chaptersTests: [EndUserBookChaptersTestInput]!
     endUserId: ObjectId!
     progress: Float!
   }
 
-  input EndUserBookChapterTestInput {
-    chapter: String!
+  input EndUserBookChaptersTestInput {
+    chapterId: ObjectId!
     isPassed: Boolean!
     numberOfTries: Int!
     testId: ObjectId!

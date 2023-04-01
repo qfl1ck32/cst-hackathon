@@ -16,10 +16,10 @@ export const EndUserBooks = collection({
   },
 
   fields: [
-    field.object("chapterTests", {
+    field.object("chaptersTests", {
       isArray: true,
 
-      subfields: [field.string("chapter"), field.boolean("isPassed"), field.integer("numberOfTries"), field.objectId("testId")],
+      subfields: [field.objectId("chapterId"), field.boolean("isPassed"), field.integer("numberOfTries"), field.objectId("testId")],
     }),
 
     field.float("progress"),

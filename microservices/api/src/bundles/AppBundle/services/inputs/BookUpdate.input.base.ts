@@ -8,9 +8,6 @@ export class BookUpdateInput {
   author?: string;
 
   @Is(an.array().of(a.string()))
-  chapters?: string[] = [];
-
-  @Is(an.array().of(a.string()))
   genres?: string[] = [];
 
   @Is(a.string().nullable())

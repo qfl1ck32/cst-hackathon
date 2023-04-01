@@ -3,9 +3,9 @@ import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
 
 @Schema()
-export class EndUserBookChapterTestInput {
-  @Is(a.string().required())
-  chapter: string;
+export class EndUserBookChaptersTestInput {
+  @Is(an.objectId().required())
+  chapterId: ObjectId;
 
   @Is(a.boolean().required())
   isPassed: boolean;
@@ -22,8 +22,8 @@ export class EndUserBookInsertInput {
   @Is(an.objectId().required())
   bookId: ObjectId;
 
-  @Is(() => an.array().of(Schema.from(EndUserBookChapterTestInput)))
-  chapterTests: EndUserBookChapterTestInput[] = [];
+  @Is(() => an.array().of(Schema.from(EndUserBookChaptersTestInput)))
+  chaptersTests: EndUserBookChaptersTestInput[] = [];
 
   @Is(an.objectId().required())
   endUserId: ObjectId;

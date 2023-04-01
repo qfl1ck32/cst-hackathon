@@ -18,3 +18,5 @@ export * from "./EndUserBookTestInsert.input";
 export * from "./EndUserBookTestUpdate.input";
 export * from "./EndUserBookTest.input";
 export * from "./EndUsersGenerateTest.input";
+export * from "./BookChapterInsert.input";
+export * from "./BookChapterUpdate.input";

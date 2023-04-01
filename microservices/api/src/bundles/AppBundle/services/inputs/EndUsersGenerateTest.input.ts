@@ -6,6 +6,6 @@ export class EndUsersGenerateTestInput {
   @Is(an.objectId().required())
   endUserBookId: ObjectId;
 
-  @Is(a.string().required())
-  chapter: string;
+  @Is(an.objectId().required())
+  chapterId: ObjectId;
 }

@@ -29,3 +29,8 @@ export const Book: IRoute<{ endUserBookId: string }> = {
   name: "Book",
   path: "/library/:endUserBookId",
 };
+
+export const Test: IRoute<{ endUserBookId: string; chapter: string }> = {
+  name: "Test",
+  path: "/library/:endUserBookId/test/:chapter",
+};

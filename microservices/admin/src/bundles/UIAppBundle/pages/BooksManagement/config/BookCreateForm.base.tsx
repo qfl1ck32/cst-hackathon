@@ -6,7 +6,11 @@ import { XFormElementType, XForm } from "@bluelibs/x-ui-admin";
 import { Routes } from "@bundles/UIAppBundle";
 import { Service, Inject } from "@bluelibs/core";
 import { features } from "./features";
-import { Book, BooksCollection } from "@bundles/UIAppBundle/collections";
+import {
+  Book,
+  BookChaptersCollection,
+  BooksCollection,
+} from "@bundles/UIAppBundle/collections";
 
 @Service({ transient: true })
 export class BookCreateForm extends XForm {
@@ -38,16 +42,6 @@ export class BookCreateForm extends XForm {
         id: "genres",
         label: t("management.books.fields.genres"),
         name: ["genres"],
-        required: true,
-        initialValue: [],
-        component: Ant.Input,
-        isList: true,
-      },
-
-      {
-        id: "chapters",
-        label: t("management.books.fields.chapters"),
-        name: ["chapters"],
         required: true,
         initialValue: [],
         component: Ant.Input,
