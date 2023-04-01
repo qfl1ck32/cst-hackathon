@@ -14,6 +14,7 @@ export default gql`
         title
 
         isPassed
+        score
         numberOfTries
       }
     }

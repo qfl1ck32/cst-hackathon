@@ -1,6 +1,7 @@
 import { EndUserBookDetails } from "@app/graphql/generated/graphql";
 import Button from "@app/components/Button";
 import PageLoader from "@app/components/PageLoader";
+import { MAX_SCORE } from "@app/constants";
 
 export interface Props {
   bookDetails: EndUserBookDetails;
@@ -29,8 +30,13 @@ const LibraryBook: React.FC<Props> = (props) => {
         <div key={index}>
           <h4>{chapter.title}</h4>
           <p>Is passed: {chapter.isPassed ? "Yes" : "No"}</p>
-          <p>Tries to pass it: {chapter.numberOfTries}</p>
 
+          <p>Tries to pass it: {chapter.numberOfTries}</p>
+          {chapter.isPassed && (
+            <p>
+              Score: {chapter.score} / {MAX_SCORE}
+            </p>
+          )}
           {!chapter.isPassed && <Button onClick={() => props.startTest(chapter._id)}>Start test</Button>}
           <hr />
         </div>

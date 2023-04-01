@@ -11,6 +11,7 @@ export default /* GraphQL */ `
 
     title: String!
     isPassed: Boolean!
+    score: Int
     numberOfTries: Int!
   }
 `;

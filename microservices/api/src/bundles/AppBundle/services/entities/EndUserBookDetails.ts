@@ -6,6 +6,7 @@ export class EndUserBookChapterDetails {
   title: string;
   isPassed: boolean;
   numberOfTries: number;
+  score: number;
 }
 
 export class EndUserBookDetails {
