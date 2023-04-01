@@ -87,7 +87,7 @@ export class EndUserListFiltersForm extends XForm {
           <Ant.Form.Item {...props}>
             <UIComponents.RemoteSelect
               collectionClass={EndUserBooksCollection}
-              field=""
+              field="_id"
               placeholder="Please select an option"
               mode="multiple"
             />

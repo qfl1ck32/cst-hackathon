@@ -5,8 +5,6 @@ import { EndUsers } from "./EndUsers";
 export const EndUserBooks = collection({
   id: "EndUserBooks",
 
-  representedBy: ["book", "title"],
-
   mock: {
     count: 10,
   },

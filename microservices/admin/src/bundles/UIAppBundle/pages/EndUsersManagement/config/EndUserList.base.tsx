@@ -115,7 +115,7 @@ export class EndUserList extends XList<EndUser> {
                   id: value?._id,
                 },
               }),
-              dataIndex: "",
+              dataIndex: "_id",
             },
           };
           return <UIComponents.AdminListItemRenderer {...props} />;
@@ -149,7 +149,7 @@ export class EndUserList extends XList<EndUser> {
   static getSortMap() {
     return {
       owner: "owner.fullName",
-      books: "books.",
+      books: "books._id",
       badges: "badges.name",
     };
   }
@@ -168,7 +168,6 @@ export class EndUserList extends XList<EndUser> {
       ownerId: 1,
       books: {
         _id: 1,
-        undefined: 1,
       },
       booksId: 1,
       badges: {
