@@ -5,6 +5,9 @@ import { InferType } from "yup";
 
 import Button from "@app/components/Button";
 import schema from "./schema";
+import styles from "./styles.module.scss";
+import Input from "../Input";
+import Hero from "../Hero";
 
 export type FormValues = InferType<typeof schema>;
 
@@ -23,23 +26,24 @@ const Register: React.FC<Props> = (props) => {
   });
 
   return (
-    <div>
-      <h1>Register</h1>
+      <div className={styles.box}>
 
-      <form onSubmit={handleSubmit(props.onSubmit)}>
-        <input {...register("username")} placeholder="Username" />
-        <p>{errors.username?.message}</p>
+        <form onSubmit={handleSubmit(props.onSubmit)}>
+          <div className={styles.title}>Sign Up</div>
 
-        <input {...register("email")} placeholder="Email" />
-        <p>{errors.email?.message}</p>
+          <Input {...register("username")} placeholder="Username" />
+          <p>{errors.username?.message}</p>
 
-        <input {...register("password")} placeholder="Password" />
-        <p>{errors.password?.message}</p>
+          <Input {...register("email")} placeholder="Email" />
+          <p>{errors.email?.message}</p>
 
-        <Button isLoading={props.isLoading} type="submit">
-          Register
-        </Button>
-      </form>
+          <Input{...register("password")} placeholder="Password" />
+          <p>{errors.password?.message}</p>
+
+          <Button className={styles.register} isLoading={props.isLoading} type="submit">
+            Register
+          </Button>
+        </form>
     </div>
   );
 };

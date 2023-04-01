@@ -4,7 +4,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { InferType } from "yup";
 import Button from "@app/components/Button";
 import schema from "./schema";
-
+import styles from "./styles.module.scss";
+import Hero from "../Hero";
+import Input from "../Input";
 export type FormValues = InferType<typeof schema>;
 
 export interface Props {
@@ -22,20 +24,20 @@ const Login: React.FC<Props> = (props) => {
   });
 
   return (
-    <div>
-      <h1>Login</h1>
-
+    <div className={styles.box}>
       <form onSubmit={handleSubmit(props.onSubmit)}>
-        <input {...register("usernameOrEmail")} placeholder="Username / e-mail" />
-        <p>{errors.usernameOrEmail?.message}</p>
 
-        <input {...register("password")} placeholder="Password" />
-        <p>{errors.password?.message}</p>
+          <div className={styles.title}>Log In</div>
+          <Input {...register("usernameOrEmail")} placeholder="Username / e-mail" />
+          <p>{errors.usernameOrEmail?.message}</p>
 
-        <Button isLoading={props.isLoading} type="submit">
-          Login
-        </Button>
-      </form>
+          <Input {...register("password")} placeholder="Password" />
+          <p>{errors.password?.message}</p>
+
+          <Button className={styles.register} isLoading={props.isLoading} type="submit" >
+            Login
+          </Button>
+        </form>
     </div>
   );
 };

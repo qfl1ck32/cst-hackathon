@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { InferType } from "yup";
 import Button from "../Button";
 import schema from "./schema";
+import styles from './styles.module.scss';
 
 export type FormValues = InferType<typeof schema>;
 

@@ -16,8 +16,10 @@
     "jsx": "preserve",
     "incremental": true,
 
+    "baseUrl": "./",
     "paths": {
-      "@app/*": ["./src/bundles/UIAppBundle/*"]
+      "@app/*": ["src/bundles/UIAppBundle/*"],
+      "@public/*": ["public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
