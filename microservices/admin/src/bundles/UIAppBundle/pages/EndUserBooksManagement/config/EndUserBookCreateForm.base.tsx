@@ -24,16 +24,16 @@ export class EndUserBookCreateForm extends XForm {
 
     this.add([
       {
-        id: "tests",
-        label: t("management.end_user_books.fields.tests"),
-        name: ["tests"],
+        id: "chapterTests",
+        label: t("management.end_user_books.fields.chapterTests"),
+        name: ["chapterTests"],
         required: true,
         isList: true,
         nest: [
           {
             id: "chapter",
-            label: t("management.end_user_books.fields.tests.chapter"),
-            name: ["tests", "chapter"],
+            label: t("management.end_user_books.fields.chapterTests.chapter"),
+            name: ["chapterTests", "chapter"],
             required: true,
             initialValue: [],
             component: Ant.Input,
@@ -41,8 +41,8 @@ export class EndUserBookCreateForm extends XForm {
 
           {
             id: "isPassed",
-            label: t("management.end_user_books.fields.tests.isPassed"),
-            name: ["tests", "isPassed"],
+            label: t("management.end_user_books.fields.chapterTests.isPassed"),
+            name: ["chapterTests", "isPassed"],
             required: true,
             initialValue: [],
             render: (props) => (
@@ -61,8 +61,10 @@ export class EndUserBookCreateForm extends XForm {
 
           {
             id: "numberOfTries",
-            label: t("management.end_user_books.fields.tests.numberOfTries"),
-            name: ["tests", "numberOfTries"],
+            label: t(
+              "management.end_user_books.fields.chapterTests.numberOfTries"
+            ),
+            name: ["chapterTests", "numberOfTries"],
             required: true,
             initialValue: [],
             component: Ant.InputNumber,
@@ -70,8 +72,8 @@ export class EndUserBookCreateForm extends XForm {
 
           {
             id: "testId",
-            label: t("management.end_user_books.fields.tests.testId"),
-            name: ["tests", "testId"],
+            label: t("management.end_user_books.fields.chapterTests.testId"),
+            name: ["chapterTests", "testId"],
             required: true,
             initialValue: [],
             component: Ant.Input,

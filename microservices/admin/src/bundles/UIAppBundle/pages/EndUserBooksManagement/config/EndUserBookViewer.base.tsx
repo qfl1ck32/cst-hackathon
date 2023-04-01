@@ -26,9 +26,9 @@ export class EndUserBookViewer extends XViewer {
         },
       },
       {
-        id: "tests",
-        label: t("management.end_user_books.fields.tests"),
-        dataIndex: ["tests"],
+        id: "chapterTests",
+        label: t("management.end_user_books.fields.chapterTests"),
+        dataIndex: ["chapterTests"],
         render: (value) => {
           return (
             <>
@@ -104,7 +104,7 @@ export class EndUserBookViewer extends XViewer {
   static getRequestBody(): QueryBodyType<EndUserBook> {
     return {
       _id: 1,
-      tests: {
+      chapterTests: {
         chapter: 1,
         isPassed: 1,
         numberOfTries: 1,

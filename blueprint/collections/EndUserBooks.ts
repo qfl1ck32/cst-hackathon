@@ -16,7 +16,7 @@ export const EndUserBooks = collection({
   },
 
   fields: [
-    field.object("tests", {
+    field.object("chapterTests", {
       isArray: true,
 
       subfields: [field.string("chapter"), field.boolean("isPassed"), field.integer("numberOfTries"), field.objectId("testId")],

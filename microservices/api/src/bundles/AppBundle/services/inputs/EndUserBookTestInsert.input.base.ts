@@ -1,7 +1,7 @@
 /** @overridable */
 import { ObjectId } from "@bluelibs/ejson";
 import { Schema, Is, a, an } from "@bluelibs/validator-bundle";
-import { EndUserBookTestQuestionType } from "@bundles/AppBundle/collections/EndUserBookTests";
+import { EndUserBookTestQuestionType } from "../../collections";
 
 @Schema()
 export class EndUserBookTestQuestionInput {

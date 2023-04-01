@@ -21,10 +21,10 @@ export class EndUserBookList extends XList<EndUserBook> {
 
     this.add([
       {
-        id: "tests",
-        title: t("management.end_user_books.fields.tests"),
-        key: "management.end_user_books.fields.tests",
-        dataIndex: ["tests"],
+        id: "chapterTests",
+        title: t("management.end_user_books.fields.chapterTests"),
+        key: "management.end_user_books.fields.chapterTests",
+        dataIndex: ["chapterTests"],
         sorter: true,
         render: (value, model) => {
           return (
@@ -114,7 +114,7 @@ export class EndUserBookList extends XList<EndUserBook> {
   static getRequestBody(): QueryBodyType<EndUserBook> {
     return {
       _id: 1,
-      tests: {
+      chapterTests: {
         chapter: 1,
         isPassed: 1,
         numberOfTries: 1,

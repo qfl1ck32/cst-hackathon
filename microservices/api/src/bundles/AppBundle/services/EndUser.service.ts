@@ -11,8 +11,10 @@ import { XAuthService } from "@bluelibs/x-auth-bundle";
 import {
   Book,
   BooksCollection,
+  EndUserBookChapterTest,
   EndUserBooksCollection,
   EndUserBookTest,
+  EndUserBookTestsCollection,
   EndUsersCollection,
   UserRole,
   UsersCollection,
@@ -20,6 +22,7 @@ import {
 import { PermissionDomain } from "../constants";
 import {
   BookDoesNotExistException,
+  ChapterDoesNotExistException,
   EndUserAlreadyOwnsBookException,
   EndUserDoesNotOwnBookException,
 } from "../exceptions";
@@ -31,6 +34,7 @@ import {
 import { EndUsersSearchBookResponse } from "./entities/EndUsersSearchBookResponse";
 import {
   EndUsersAddBookToLibraryInput,
+  EndUsersGenerateTestInput,
   EndUsersGetBookInput,
   EndUsersLoginInput,
   EndUsersRegisterInput,
@@ -63,6 +67,9 @@ export class EndUserService {
 
   @Inject()
   private endUserBooksCollection: EndUserBooksCollection;
+
+  @Inject()
+  private endUserBookTestsCollection: EndUserBookTestsCollection;
 
   public async register(input: EndUsersRegisterInput) {
     this.loggerService.info(this.loggerService.formatResolverArgs(input));
@@ -226,11 +233,20 @@ export class EndUserService {
       throw new EndUserAlreadyOwnsBookException();
     }
 
+    const chapterTests: EndUserBookChapterTest[] = book.chapters.map(
+      (chapter) => ({
+        chapter,
+        isPassed: false,
+        numberOfTries: 0,
+        testId: undefined,
+      })
+    );
+
     const { insertedId } = await this.endUserBooksCollection.insertOne(
       {
         endUserId,
         bookId: book._id,
-        tests: [],
+        chapterTests,
         progress: 0,
       },
       {
@@ -264,7 +280,7 @@ export class EndUserService {
       },
 
       progress: 1,
-      tests: {
+      chapterTests: {
         chapter: 1,
         isPassed: 1,
         numberOfTries: 1,
@@ -275,24 +291,23 @@ export class EndUserService {
       throw new EndUserDoesNotOwnBookException();
     }
 
-    const testDetailsByChapterName = endUserBook.tests.reduce((acc, test) => {
-      acc[test.chapter] = {
-        isPassed: test.isPassed,
-        numberOfTries: test.numberOfTries,
-      };
+    const testDetailsByChapterName = endUserBook.chapterTests.reduce(
+      (acc, test) => {
+        acc[test.chapter] = {
+          isPassed: test.isPassed,
+          numberOfTries: test.numberOfTries,
+        };
 
-      return acc;
-    }, {} as Record<string, Omit<EndUserBookTest, "chapter" | "testId">>);
+        return acc;
+      },
+      {} as Record<string, Omit<EndUserBookChapterTest, "chapter" | "testId">>
+    );
 
     const chapters: EndUserBookChapterDetails[] = endUserBook.book.chapters.map(
       (title) => {
         return {
           title,
 
-          isPassed: false,
-          numberOfTries: 0,
-
-          // override if we have test details for this chapter
           ...testDetailsByChapterName[title],
         };
       }
@@ -304,6 +319,64 @@ export class EndUserService {
       progress: endUserBook.progress,
       chapters,
     };
+  }
+
+  async generateTest(input: EndUsersGenerateTestInput, userId: ObjectId) {
+    const endUserId = await this.getIdByUserId(userId);
+
+    const endUserBook = await this.endUserBooksCollection.queryOne({
+      $: {
+        filters: {
+          _id: input.endUserBookId,
+          endUserId,
+        },
+      },
+
+      book: {
+        title: 1,
+        chapters: 1,
+      },
+
+      chapterTests: {
+        chapter: 1,
+        testId: 1,
+      },
+    });
+
+    if (!endUserBook) {
+      throw new EndUserDoesNotOwnBookException();
+    }
+
+    if (
+      endUserBook.book.chapters.findIndex(
+        (chapter) => chapter === input.chapter
+      ) === -1
+    ) {
+      throw new ChapterDoesNotExistException();
+    }
+
+    // TODO: handle this
+    const existingTestId = endUserBook.chapterTests.find(
+      (chapterTest) => chapterTest.chapter === input.chapter
+    )?.testId;
+
+    const test = await this.chatGPTService.generateQuestionsAboutBookChapter(
+      endUserBook.book.title,
+      input.chapter
+    );
+
+    console.log(test);
+
+    // const { insertedId } = await this.endUserBookTestsCollection.insertOne(
+    //   {
+    //     questions: [],
+    //   },
+    //   {
+    //     context: {
+    //       userId,
+    //     },
+    //   }
+    // );
   }
 
   async getIdByUserId(userId: ObjectId) {

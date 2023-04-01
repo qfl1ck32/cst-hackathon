@@ -4,11 +4,11 @@
       "end_user_books": {
         "fields": {
           "_id": "ID",
-          "tests": "Tests",
-          "tests.chapter": "Tests — Chapter",
-          "tests.isPassed": "Tests — Is Passed",
-          "tests.numberOfTries": "Tests — Number Of Tries",
-          "tests.testId": "Tests — Test Id",
+          "chapterTests": "Chapter Tests",
+          "chapterTests.chapter": "Chapter Tests — Chapter",
+          "chapterTests.isPassed": "Chapter Tests — Is Passed",
+          "chapterTests.numberOfTries": "Chapter Tests — Number Of Tries",
+          "chapterTests.testId": "Chapter Tests — Test Id",
           "progress": "Progress",
           "bookId": "bookId",
           "endUserId": "endUserId",

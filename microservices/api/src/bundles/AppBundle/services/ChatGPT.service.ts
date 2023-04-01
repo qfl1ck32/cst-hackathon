@@ -99,8 +99,6 @@ export class ChatGPTService {
       `
     );
 
-    console.log(questions);
-
     return questions;
   }
 

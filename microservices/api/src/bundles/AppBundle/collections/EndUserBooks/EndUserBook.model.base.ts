@@ -5,7 +5,7 @@ import { Book } from "../";
 import { EndUser } from "../";
 
 @Schema()
-export class EndUserBookTest {
+export class EndUserBookChapterTest {
   @Is(a.string().required())
   chapter: string;
 
@@ -29,6 +29,9 @@ export class EndUserBook {
   @Is(an.objectId().required())
   bookId: ObjectId;
 
+  @Is(() => an.array().of(Schema.from(EndUserBookChapterTest)))
+  chapterTests: EndUserBookChapterTest[] = [];
+
   endUser: EndUser;
 
   @Is(an.objectId().required())
@@ -36,7 +39,4 @@ export class EndUserBook {
 
   @Is(a.number().required())
   progress: number;
-
-  @Is(() => an.array().of(Schema.from(EndUserBookTest)))
-  tests: EndUserBookTest[] = [];
 }
