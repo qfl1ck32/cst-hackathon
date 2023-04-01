@@ -132,12 +132,10 @@ export type DocumentUpdateInput = {
 export type EndUser = {
   __typename?: 'EndUser';
   _id?: Maybe<Scalars['ObjectId']>;
-  badges: Badge;
-  badgesId: Scalars['ObjectId'];
-  books: EndUserBook;
-  booksId: Scalars['ObjectId'];
+  badges: Array<Maybe<Badge>>;
+  badgesIds: Array<Maybe<Scalars['ObjectId']>>;
+  books: Array<Maybe<EndUserBook>>;
   experience: Scalars['Int'];
-  fullName: Scalars['String'];
   gold: Scalars['Int'];
   level: Scalars['Int'];
   owner: User;
@@ -183,23 +181,30 @@ export type EndUserBookUpdateInput = {
 };
 
 export type EndUserInsertInput = {
-  badgesId: Scalars['ObjectId'];
-  booksId: Scalars['ObjectId'];
+  badgesIds: Array<Maybe<Scalars['ObjectId']>>;
   experience: Scalars['Int'];
-  fullName: Scalars['String'];
   gold: Scalars['Int'];
   level: Scalars['Int'];
   ownerId: Scalars['ObjectId'];
 };
 
 export type EndUserUpdateInput = {
-  badgesId?: Maybe<Scalars['ObjectId']>;
-  booksId?: Maybe<Scalars['ObjectId']>;
+  badgesIds?: Maybe<Array<Maybe<Scalars['ObjectId']>>>;
   experience?: Maybe<Scalars['Int']>;
-  fullName?: Maybe<Scalars['String']>;
   gold?: Maybe<Scalars['Int']>;
   level?: Maybe<Scalars['Int']>;
   ownerId?: Maybe<Scalars['ObjectId']>;
+};
+
+export type EndUsersLoginInput = {
+  usernameOrEmail: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type EndUsersRegisterInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type ForgotPasswordInput = {
@@ -243,6 +248,8 @@ export type Mutation = {
   UsersInsertOne?: Maybe<User>;
   UsersUpdateOne: User;
   UsersDeleteOne?: Maybe<Scalars['Boolean']>;
+  EndUsersLogin: Scalars['String'];
+  EndUsersRegister?: Maybe<Scalars['Boolean']>;
   register: RegistrationResponse;
   changePassword?: Maybe<Scalars['Boolean']>;
   login: LoginResponse;
@@ -365,6 +372,16 @@ export type MutationUsersUpdateOneArgs = {
 
 export type MutationUsersDeleteOneArgs = {
   _id: Scalars['ObjectId'];
+};
+
+
+export type MutationEndUsersLoginArgs = {
+  input: EndUsersLoginInput;
+};
+
+
+export type MutationEndUsersRegisterArgs = {
+  input: EndUsersRegisterInput;
 };
 
 
@@ -703,9 +720,7 @@ export type UserProfileInput = {
 
 export enum UserRole {
   ADMIN = 'ADMIN',
-  SALES = 'SALES',
-  MANAGER = 'MANAGER',
-  END_CUSTOMER = 'END_CUSTOMER'
+  END_USER = 'END_USER'
 }
 
 export type UserUpdateInput = {
