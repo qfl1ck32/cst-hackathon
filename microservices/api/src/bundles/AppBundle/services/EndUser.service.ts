@@ -626,7 +626,7 @@ export class EndUserService {
 
       const newExperience =
         endUser.experience +
-        testPassingExperience * (chapterTest.numberOfTries + 1); // because it was already updated xd
+        testPassingExperience / (chapterTest.numberOfTries + 1); // because it was already updated xd
 
       const experience = newExperience % levelUpExperienceNeeded;
       const level =

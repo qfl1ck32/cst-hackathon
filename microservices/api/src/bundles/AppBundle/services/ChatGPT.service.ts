@@ -94,8 +94,8 @@ export class ChatGPTService {
     chapterName: string
   ) {
     const questions = await this.ask(
-      `Please generate 6 questions about the book "${bookName}" - chapter "${chapterName}".
-      There are three types of questions: with multiple answers, with true or false or with text.
+      `Please generate 6 questions strictly related to the book "${bookName}", chapter "${chapterName}".
+      There should be three types of questions: with multiple answers, with true or false or with text.
       Generate 2 questions of each kind.
 
       Please answer with a list of questions in this exact format:
