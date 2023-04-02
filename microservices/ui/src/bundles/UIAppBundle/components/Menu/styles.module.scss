@@ -49,6 +49,9 @@
     display: flex;
     justify-content: center;
 
+    margin-left: 6px;
+    margin-right: 6px;
+
     flex-direction: column;
 
     &:not(:first-child) {
@@ -61,6 +64,9 @@
     display: flex;
     justify-content: center; 
     flex-direction: column;
+
+    margin-left: 6px;
+    margin-right: 6px;
 
     padding-bottom: 16px;
 }

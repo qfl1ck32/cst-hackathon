@@ -27,15 +27,16 @@ const MenuContainer: React.FC = () => {
   ];
 
   const onLogout = async () => {
-    router.go(Landing);
-
-    appGuardian
-      .logout()
-      .then(() => {})
-      .catch(() => {})
-      .finally(() => {
-        toast.success("You have successfully logged out.");
-      });
+    // router.go not async :(.
+    router.next.push("/").then(() => {
+      appGuardian
+        .logout()
+        .then(() => {})
+        .catch(() => {})
+        .finally(() => {
+          toast.success("You have successfully logged out.");
+        });
+    });
   };
 
   return (
