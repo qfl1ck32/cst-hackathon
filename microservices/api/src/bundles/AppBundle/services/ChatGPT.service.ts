@@ -73,7 +73,7 @@ export class ChatGPTService {
       {
         "exists": true or false,
         "title": "The full name of the book",
-        "author": "The namr of the author"
+        "author": "The name of the author"
       }
       `
     );
