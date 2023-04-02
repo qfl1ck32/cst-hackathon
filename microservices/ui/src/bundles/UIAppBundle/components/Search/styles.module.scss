@@ -1,19 +1,14 @@
 .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
     height: 100vh;
 }
 
-.details {
+.button {
     display: flex;
-    flex-direction: column;
-
-    text-align: center;
-
-    border-radius: 20px;
-
-    padding: 20px;
-
-    font-size: 30px;
-
-    background-color: #F2D388;
-
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
 }

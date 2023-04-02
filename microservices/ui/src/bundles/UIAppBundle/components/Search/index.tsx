@@ -25,10 +25,11 @@ const Search: React.FC<Props> = (props) => {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(props.onSearch)}>
-        <Input height="40px" width="50%" {...register("title")} placeholder="Title" />
-        <p>{errors.title?.message}</p>
+        <Input width="500px" error={errors.title?.message} height="40px" {...register("title")} placeholder="Title" />
 
-        <Button type="submit">Add to library</Button>
+        <div className={styles.button}>
+          <Button type="submit">Add to library</Button>
+        </div>
       </form>
     </div>
   );

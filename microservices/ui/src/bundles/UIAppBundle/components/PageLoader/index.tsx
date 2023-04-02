@@ -2,9 +2,13 @@ import Loader from "../Loader";
 
 import styles from "./styles.module.scss";
 
-const PageLoader: React.FC = () => {
+export interface Props {
+  backgroundColor?: string;
+}
+
+const PageLoader: React.FC<Props> = ({ backgroundColor }) => {
   return (
-    <div className={styles.container}>
+    <div style={{ backgroundColor }} className={styles.container}>
       <Loader />
     </div>
   );

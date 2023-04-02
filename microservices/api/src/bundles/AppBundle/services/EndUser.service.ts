@@ -572,8 +572,8 @@ export class EndUserService {
     const response = await this.chatGPTService.checkAnswers(
       endUserBook.book.title,
       chapter.title,
-      input.answers,
-      test.questions.map((q) => q.text)
+      test.questions.map((q) => q.text),
+      input.answers
     );
 
     const score = response.reduce((acc, curr) => {

@@ -1,6 +1,6 @@
 import PageLoader from "@app/components/PageLoader";
 import Search, { FormValues } from "@app/components/Search";
-import { Book, EndUsersSearchBookMutation } from "@app/graphql/generated/graphql";
+import { Book, EndUserBook, EndUsersSearchBookMutation, EndUsersSearchBookResponse } from "@app/graphql/generated/graphql";
 import useOnSubmit from "@app/hooks/useOnSubmit";
 import { Book as BookRoute } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
@@ -19,8 +19,11 @@ const SearchBookContainer: React.FC = () => {
     onSubmit: async (input: FormValues) => {
       const book = await endUserService.searchBook(input);
 
-      if (book) {
-        await onAddToLibrary();
+      if (book?.exists) {
+        toast.success("We have knowledge about the book. Adding it to your library...");
+        await onAddToLibrary(book as EndUsersSearchBookResponse);
+      } else {
+        toast.info(`No book found with the title "${input.title}"`);
       }
     },
 
@@ -30,12 +33,12 @@ const SearchBookContainer: React.FC = () => {
   });
 
   const [onAddToLibrary, loadingAddToLibrary] = useOnSubmit({
-    onSubmit: async (book: Book) => {
+    onSubmit: async (book: EndUsersSearchBookResponse) => {
       const endUserBookId = await endUserService.addBookToLibrary({
-        bookId: book._id,
+        bookId: book.bookId,
       });
 
-      toast.info(`The book "${book!.title} has been added to your library."`);
+      toast.success(`The book "${book!.title} has been added to your library."`);
 
       router.go(BookRoute, {
         params: {
@@ -51,8 +54,8 @@ const SearchBookContainer: React.FC = () => {
 
   return (
     <Fragment>
-      {loadingSearch || (loadingAddToLibrary && <PageLoader />)}
-      <Search {...{ onSearch, onAddToLibrary, loadingSearch, loadingAddToLibrary }} />
+      {(loadingSearch || loadingAddToLibrary) && <PageLoader />}
+      <Search {...{ onSearch }} />
     </Fragment>
   );
 };

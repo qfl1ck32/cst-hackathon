@@ -128,12 +128,12 @@ export class ChatGPTService {
         {
           "question": string,
           "answer": string,
-          "correct": boolean,
-          "explanation": string, // if correct == false
+          "correct": boolean, // this field should be true if the answer is correct
+          "explanation": string, // if correct === "false"
         }
       ]
 
-      These are the questions and the answers:
+      These are the questions and the answers from the user, please analyze them:
 
       ${new Array(questions.length)
         .fill(null)
@@ -145,8 +145,6 @@ export class ChatGPTService {
         )}
       `
     );
-
-    console.log({ response });
 
     return JSON.parse(response) as AnswerToBookChapterQuestion[];
   }

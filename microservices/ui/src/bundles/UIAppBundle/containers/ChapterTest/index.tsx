@@ -7,7 +7,7 @@ import { Book } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
 import { extractError } from "@app/utils/apollo";
 import { use, useRouter } from "@bluelibs/x-ui-next";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { toast } from "react-toastify";
 
 export interface Props {
@@ -61,7 +61,7 @@ const ChapterTestContainer: React.FC<Props> = (props) => {
     });
   };
 
-  if (loading || submitLoading) {
+  if (loading) {
     return <PageLoader />;
   }
 
@@ -69,7 +69,12 @@ const ChapterTestContainer: React.FC<Props> = (props) => {
     return <ChapterTestResults {...{ goBack }} results={testResults} />;
   }
 
-  return <ChapterTest {...{ onSubmit }} questions={data!.EndUsersGetChapterTest as EndUserBookTestQuestion[]} />;
+  return (
+    <Fragment>
+      {submitLoading && <PageLoader />}
+      <ChapterTest {...{ onSubmit }} questions={data!.EndUsersGetChapterTest as EndUserBookTestQuestion[]} />
+    </Fragment>
+  );
 };
 
 export default ChapterTestContainer;
