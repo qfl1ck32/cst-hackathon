@@ -28,7 +28,9 @@ const Search: React.FC<Props> = (props) => {
         <Input autoComplete="off" width="500px" error={errors.title?.message} height="40px" {...register("title")} placeholder="Title" />
 
         <div className={styles.button}>
-          <Button type="submit">Add to library</Button>
+          <Button style={{ color: "#212121" }} type="submit">
+            Add to library
+          </Button>
         </div>
       </form>
     </div>
