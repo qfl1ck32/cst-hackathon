@@ -9,9 +9,7 @@ export interface Props {
 }
 
 const Banner: React.FC<Props> = (props) => {
-  // const progress = (props.experience / LEVEL_UP_EXPERIENCE) * 100;
-
-  const progress = 50;
+  const progress = (props.experience / LEVEL_UP_EXPERIENCE) * 100;
 
   return (
     <div className={styles.container}>

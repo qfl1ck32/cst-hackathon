@@ -9,9 +9,9 @@ const BannerContainer: React.FC = () => {
   return (
     <Banner
       {...{
-        username: user.username,
-        level: user.endUser.level,
-        experience: user.endUser.experience,
+        username: user?.username,
+        level: user?.endUser?.level,
+        experience: user?.endUser?.experience,
       }}
     />
   );
