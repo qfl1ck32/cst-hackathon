@@ -36,7 +36,14 @@ const Login: React.FC<Props> = (props) => {
             placeholder="Username or email"
           />
 
-          <Input style={{ marginTop: "10px" }} type="password" error={errors.password?.message} {...register("password")} placeholder="Password" />
+          <Input
+            autoComplete="off"
+            style={{ marginTop: "10px" }}
+            type="password"
+            error={errors.password?.message}
+            {...register("password")}
+            placeholder="Password"
+          />
         </div>
 
         <div className={styles.button}>

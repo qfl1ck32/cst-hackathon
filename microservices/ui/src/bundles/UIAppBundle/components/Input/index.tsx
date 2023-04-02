@@ -14,7 +14,7 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
   return (
     <Fragment>
-      <input style={{ height, width }} className={styles.input} ref={ref} {...inputProps} />
+      <input autoComplete="off" style={{ height, width }} className={styles.input} ref={ref} {...inputProps} />
       {/* {props.error && <p className={styles.error}>{props.error}</p>} */}
     </Fragment>
   );

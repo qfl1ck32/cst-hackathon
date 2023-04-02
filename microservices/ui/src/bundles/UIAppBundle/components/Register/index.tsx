@@ -31,11 +31,18 @@ const Register: React.FC<Props> = (props) => {
         <div className={styles.title}>Sign Up</div>
 
         <div className={styles.fields}>
-          <Input style={{ marginTop: "10px" }} error={errors.username?.message} {...register("username")} placeholder="Username" />
+          <Input autoComplete="off" style={{ marginTop: "10px" }} error={errors.username?.message} {...register("username")} placeholder="Username" />
 
-          <Input style={{ marginTop: "10px" }} error={errors.email?.message} {...register("email")} placeholder="Email" />
+          <Input autoComplete="off" style={{ marginTop: "10px" }} error={errors.email?.message} {...register("email")} placeholder="Email" />
 
-          <Input style={{ marginTop: "10px" }} type="password" error={errors.password?.message} {...register("password")} placeholder="Password" />
+          <Input
+            autoComplete="off"
+            style={{ marginTop: "10px" }}
+            type="password"
+            error={errors.password?.message}
+            {...register("password")}
+            placeholder="Password"
+          />
         </div>
 
         <div className={styles.button}>

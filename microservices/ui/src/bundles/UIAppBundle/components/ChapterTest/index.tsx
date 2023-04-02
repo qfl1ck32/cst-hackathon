@@ -102,7 +102,7 @@ const ChapterTest: React.FC<Props> = (props) => {
         )}
 
         {question.type === EndUserBookTestQuestionType.Text && (
-          <Input width="80%" value={answers[questionIndex]} onChange={(e) => updateAnswer(e.target.value, false)} type="text" />
+          <Input autoComplete="off" width="80%" value={answers[questionIndex]} onChange={(e) => updateAnswer(e.target.value, false)} type="text" />
         )}
       </div>
 

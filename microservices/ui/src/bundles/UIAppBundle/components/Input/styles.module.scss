@@ -17,6 +17,10 @@
     letter-spacing: -0.02em;
 
     color: #212121;
+
+    &:focus::placeholder {
+        color: transparent;
+    }
 }
 
 .error {

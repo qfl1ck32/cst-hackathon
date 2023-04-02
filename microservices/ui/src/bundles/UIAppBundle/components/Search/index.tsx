@@ -25,7 +25,7 @@ const Search: React.FC<Props> = (props) => {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit(props.onSearch)}>
-        <Input width="500px" error={errors.title?.message} height="40px" {...register("title")} placeholder="Title" />
+        <Input autoComplete="off" width="500px" error={errors.title?.message} height="40px" {...register("title")} placeholder="Title" />
 
         <div className={styles.button}>
           <Button type="submit">Add to library</Button>
