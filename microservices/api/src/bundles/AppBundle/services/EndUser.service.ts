@@ -459,6 +459,8 @@ export class EndUserService {
       progress: 1,
 
       book: {
+        author: 1,
+
         title: 1,
       },
     });
@@ -646,6 +648,8 @@ export class EndUserService {
     return {
       hasPassed,
 
+      // ugh
+      attempts: chapterTest.numberOfTries + 1,
       score,
 
       answers: response,

@@ -4,6 +4,8 @@ import { EndUserBook, useEndUsersGetBooksQuery } from "@app/graphql/generated/gr
 import { Book } from "@app/routes";
 import { useRouter } from "@bluelibs/x-ui-next";
 
+import styles from "./styles.module.scss";
+
 const LibraryContainer: React.FC = () => {
   const { data, loading } = useEndUsersGetBooksQuery();
 
@@ -19,7 +21,11 @@ const LibraryContainer: React.FC = () => {
 
   if (loading) return <PageLoader />;
 
-  return <Library {...{ onGoToEndUserBook }} endUserBooks={data!.EndUsersGetBooks as EndUserBook[]} />;
+  return (
+    <div className={styles.container}>
+      <Library {...{ onGoToEndUserBook }} endUserBooks={data!.EndUsersGetBooks as EndUserBook[]} />
+    </div>
+  );
 };
 
 export default LibraryContainer;

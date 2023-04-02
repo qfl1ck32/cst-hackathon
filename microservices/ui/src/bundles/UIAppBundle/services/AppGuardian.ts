@@ -16,7 +16,7 @@ type AppUserType = GuardianUserType &
 type AppRegisterType = GuardianUserRegistrationType;
 
 export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
-  protected async retrieveUser(): Promise<AppUserType> {
+  public async retrieveUser(): Promise<AppUserType> {
     return this.apolloClient
       .query({
         query: gql`
@@ -39,6 +39,10 @@ export class AppGuardian extends GuardianSmart<AppUserType, AppRegisterType> {
       .then((response) => {
         return response.data.me;
       });
+  }
+
+  public async load() {
+    super.load();
   }
 }
 

@@ -8,5 +8,6 @@ export class EndUserSubmitTestResponseAnswer {
 export class EndUserSubmitTestResponse {
   hasPassed: boolean;
   score: number;
+  attempts: number;
   answers: EndUserSubmitTestResponseAnswer[];
 }

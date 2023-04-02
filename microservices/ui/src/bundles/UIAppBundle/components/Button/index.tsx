@@ -5,14 +5,17 @@ import styles from "./styles.module.scss";
 
 export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
+
+  height?: number;
+  width?: number;
 }
 
 const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
-  const { children, ...buttonProps } = props;
+  const { children, height, width, ...buttonProps } = props;
 
   return (
-    <button className={styles.container} {...buttonProps} ref={ref}>
-      <div className={styles.children}>{children}</div>
+    <button style={{ height, width }} className={styles.container} {...buttonProps} ref={ref}>
+      {children}
     </button>
   );
 });

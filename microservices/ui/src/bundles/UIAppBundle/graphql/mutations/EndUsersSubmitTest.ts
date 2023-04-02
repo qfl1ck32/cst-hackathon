@@ -5,6 +5,7 @@ export default gql`
     EndUsersSubmitTest(input: $input) {
       hasPassed
       score
+      attempts
 
       answers {
         question

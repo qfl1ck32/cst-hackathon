@@ -1,7 +1,7 @@
 import Hero from "@app/components/Hero";
 import Login, { FormValues } from "@app/components/Login";
 import useOnSubmit from "@app/hooks/useOnSubmit";
-import { Home } from "@app/routes";
+import { Home, Library } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
 import { extractError } from "@app/utils/apollo";
 import { use, useRouter } from "@bluelibs/x-ui-next";
@@ -19,7 +19,7 @@ const LoginContainer: React.FC = () => {
 
       toast.info("You have been logged in successfully.");
 
-      router.go(Home);
+      router.go(Library);
     },
 
     onError: (err) => {

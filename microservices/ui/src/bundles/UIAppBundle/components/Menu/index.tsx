@@ -12,7 +12,7 @@ export interface Tab {
 export interface Props {
   tabs: Tab[];
 
-  onLogout?: () => void;
+  onLogout?: () => Promise<void>;
 }
 
 const Menu: React.FC<Props> = (props) => {
@@ -28,7 +28,7 @@ const Menu: React.FC<Props> = (props) => {
       <div className={styles.center}>
         {props.tabs.map((tab, index) => (
           <div className={styles.tab}>
-            <Button key={index}>
+            <Button onClick={tab.onClick} key={index}>
               <div className={styles.text}>{tab.name}</div>
             </Button>
           </div>
@@ -38,7 +38,9 @@ const Menu: React.FC<Props> = (props) => {
       {props.onLogout && (
         <div className={styles.bottom}>
           <Button>
-            <div className={styles.text}>Logout</div>
+            <div onClick={props.onLogout} className={styles.text}>
+              Logout
+            </div>
           </Button>
         </div>
       )}

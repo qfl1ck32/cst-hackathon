@@ -1,4 +1,5 @@
 import { LEVEL_UP_EXPERIENCE } from "@app/constants";
+import ProgressBar from "@app/components/ProgressBar";
 import styles from "./styles.module.scss";
 
 export interface Props {
@@ -14,9 +15,7 @@ const Banner: React.FC<Props> = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.progress}>
-        <div className={styles.bar} style={{ width: `${progress}%` }} />
-      </div>
+      <ProgressBar height={42.5} progress={progress} />
 
       <div className={styles["user-data"]}>
         <div className={styles["user-data__level"]}>LvL {props.level}</div>

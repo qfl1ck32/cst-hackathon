@@ -1,6 +1,8 @@
 .container {
     display: grid;
 
+    max-height: 100vh;
+
 grid-template-columns: 250px auto;
   grid-template-rows: 100px auto;
   grid-template-areas:
@@ -16,7 +18,8 @@ grid-template-columns: 250px auto;
 }
 
 .content {
-    height: 100%;
+    height: auto;
+
     background-image: url('/images/background.jpeg');
     background-size: cover;
     background-position: center;

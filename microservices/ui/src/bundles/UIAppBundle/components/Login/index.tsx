@@ -29,15 +29,18 @@ const Login: React.FC<Props> = (props) => {
         <div className={styles.title}>Log In</div>
 
         <div className={styles.fields}>
-          <Input error={errors.usernameOrEmail?.message} {...register("usernameOrEmail")} placeholder="Username or email" />
+          <Input
+            style={{ marginTop: "10px" }}
+            error={errors.usernameOrEmail?.message}
+            {...register("usernameOrEmail")}
+            placeholder="Username or email"
+          />
 
-          <Input type="password" error={errors.password?.message} {...register("password")} placeholder="Password" />
+          <Input style={{ marginTop: "10px" }} type="password" error={errors.password?.message} {...register("password")} placeholder="Password" />
         </div>
 
         <div className={styles.button}>
-          <Button isLoading={props.isLoading} type="submit">
-            Login
-          </Button>
+          <Button type="submit">Login</Button>
         </div>
       </form>
     </div>

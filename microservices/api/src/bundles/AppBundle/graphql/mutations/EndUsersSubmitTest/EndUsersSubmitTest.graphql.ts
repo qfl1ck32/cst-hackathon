@@ -7,6 +7,7 @@ export default /* GraphQL */ `
 
   type EndUsersSubmitTestResponse {
     hasPassed: Boolean!
+    attempts: Int!
     score: Int!
     answers: [EndUsersSubmitTestResponseAnswer!]!
   }

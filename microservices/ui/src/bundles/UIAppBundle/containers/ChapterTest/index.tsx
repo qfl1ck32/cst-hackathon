@@ -35,6 +35,8 @@ const ChapterTestContainer: React.FC<Props> = (props) => {
 
   const [onSubmit, submitLoading] = useOnSubmit({
     onSubmit: async (answers: string[]) => {
+      toast.success("Submitting the test. This might take a while...");
+
       const response = await endUserService.submitTest({
         answers,
         chapterId: props.chapterId,
@@ -43,7 +45,7 @@ const ChapterTestContainer: React.FC<Props> = (props) => {
 
       setTestResults(response as EndUsersSubmitTestResponse);
 
-      toast.success("Test submitted successfully");
+      toast.success("Test submitted successfully.");
     },
 
     onError: (err) => {

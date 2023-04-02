@@ -321,6 +321,7 @@ export type EndUsersSubmitTestInput = {
 export type EndUsersSubmitTestResponse = {
   __typename?: "EndUsersSubmitTestResponse";
   answers: Array<EndUsersSubmitTestResponseAnswer>;
+  attempts: Scalars["Int"];
   hasPassed: Scalars["Boolean"];
   score: Scalars["Int"];
 };
@@ -973,6 +974,7 @@ export type EndUsersSubmitTestMutation = {
     __typename?: "EndUsersSubmitTestResponse";
     hasPassed: boolean;
     score: number;
+    attempts: number;
     answers: Array<{
       __typename?: "EndUsersSubmitTestResponseAnswer";
       question: string;
@@ -1013,7 +1015,7 @@ export type EndUsersGetBooksQuery = {
     __typename?: "EndUserBook";
     _id?: any | null;
     progress: number;
-    book: { __typename?: "Book"; title: string };
+    book: { __typename?: "Book"; author: string; title: string };
   } | null>;
 };
 
@@ -1282,6 +1284,7 @@ export const EndUsersSubmitTestDocument = gql`
     EndUsersSubmitTest(input: $input) {
       hasPassed
       score
+      attempts
       answers {
         question
         answer
@@ -1407,6 +1410,7 @@ export const EndUsersGetBooksDocument = gql`
       _id
       progress
       book {
+        author
         title
       }
     }

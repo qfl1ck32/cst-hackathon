@@ -5,9 +5,7 @@ import BookSvg from "@public/svg/book.svg";
 const Hero: React.FC = () => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.svg}>
-        <BookSvg />
-      </div>
+      <BookSvg />
 
       <div className={styles.text}>BookQuest</div>
     </div>

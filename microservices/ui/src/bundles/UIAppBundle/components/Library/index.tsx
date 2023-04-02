@@ -1,5 +1,7 @@
 import { EndUserBook } from "@app/graphql/generated/graphql";
 
+import styles from "./styles.module.scss";
+
 export interface Props {
   endUserBooks: EndUserBook[];
   onGoToEndUserBook: (endUserBookId: string) => void;
@@ -7,17 +9,22 @@ export interface Props {
 
 const Library: React.FC<Props> = (props) => {
   return (
-    <div>
-      <h1>Library</h1>
+    <div className={styles.container}>
+      {!props.endUserBooks.length && (
+        <div className={styles["no-books"]}>
+          <h2>You don't have any books in your library yet.</h2>
+        </div>
+      )}
 
-      <div>
-        {props.endUserBooks.map((endUserBook, index) => (
-          <div onClick={() => props.onGoToEndUserBook(endUserBook._id)} key={index}>
+      {props.endUserBooks.map((endUserBook, index) => (
+        <div onClick={() => props.onGoToEndUserBook(endUserBook._id)} key={index}>
+          <div className={styles.book}>
             <h2>{endUserBook.book.title}</h2>
-            <h2>Progress: {endUserBook.progress.toFixed(2)}%</h2>
+            <h3>({endUserBook.book.author})</h3>
+            <h4>Progress: {endUserBook.progress.toFixed(2)}%</h4>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

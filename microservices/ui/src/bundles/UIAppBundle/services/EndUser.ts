@@ -44,6 +44,8 @@ export class EndUserService {
     const token = response.data?.EndUsersLogin as string;
 
     await this.appGuardian.storeToken(token);
+
+    await this.appGuardian.load();
   }
 
   async register(input: EndUsersRegisterInput) {

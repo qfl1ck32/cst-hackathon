@@ -1,6 +1,11 @@
 import { EndUserBookTestQuestion, EndUserBookTestQuestionType } from "@app/graphql/generated/graphql";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Button from "@app/components/Button";
+
+import styles from "./styles.module.scss";
+import ProgressBar from "../ProgressBar";
+import Input from "../Input";
+import classNames from "classnames";
 
 export interface Props {
   questions: EndUserBookTestQuestion[];
@@ -12,8 +17,6 @@ const ChapterTest: React.FC<Props> = (props) => {
 
   const [questionIndex, setQuestionIndex] = useState(0);
 
-  const [isPreview, setIsPreview] = useState(false);
-
   const updateAnswer = (answer: string, goToNext?: boolean) => {
     const newAnswers = [...answers];
 
@@ -22,7 +25,7 @@ const ChapterTest: React.FC<Props> = (props) => {
     setAnswers(newAnswers);
 
     if (goToNext) {
-      goToNextQuestion();
+      // goToNextQuestion();
     }
   };
 
@@ -48,56 +51,78 @@ const ChapterTest: React.FC<Props> = (props) => {
   const question = props.questions[questionIndex];
 
   return (
-    <div>
-      <h1>Chapter Test</h1>
-
-      {isPreview ? (
-        <div>
-          {props.questions.map((question, index) => (
-            <div key={index}>
-              <p>Question: {question.text}</p>
-              <p>Answer: {answers[index]}</p>
-            </div>
-          ))}
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <div className={styles.progress}>
+          <ProgressBar progressColor="#F2D388" width="80%" height={40} progress={(100 * questionIndex) / (props.questions.length - 1)} />
+          <div className={styles.index}>
+            {questionIndex + 1} / {props.questions.length}
+          </div>
         </div>
-      ) : (
-        <div>
-          <p>Index: {questionIndex + 1}</p>
-          <p>Question: {question.text}</p>
+      </div>
 
-          {question.type === EndUserBookTestQuestionType.MultipleChoice && (
-            <div>
-              <p>Choices:</p>
-              {question.choices!.map((choice, index) => (
-                <div onClick={() => updateAnswer(choice as string, true)} key={index}>
-                  {index + 1}: {choice}
-                </div>
-              ))}
+      <div className={styles.wrapper}>{<h1>{question.text}</h1>}</div>
+
+      <div className={classNames(styles.wrapper)}>
+        {question.type === EndUserBookTestQuestionType.MultipleChoice && (
+          <div className={styles.choices}>
+            {question.choices!.map((choice, index) => (
+              <div
+                className={classNames(styles["choices-box"], {
+                  [styles["choices-box--selected"]]: answers[questionIndex] === choice,
+                })}
+                onClick={() => updateAnswer(choice as string, true)}
+                key={index}
+              >
+                {choice}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {question.type === EndUserBookTestQuestionType.Boolean && (
+          <div className={styles.choices}>
+            <div
+              className={classNames(styles["choices-box"], {
+                [styles["choices-box--selected"]]: answers[questionIndex] === "true",
+              })}
+              onClick={() => updateAnswer("true", true)}
+            >
+              True
             </div>
+            <div
+              className={classNames(styles["choices-box"], {
+                [styles["choices-box--selected"]]: answers[questionIndex] === "false",
+              })}
+              onClick={() => updateAnswer("false", true)}
+            >
+              False
+            </div>
+          </div>
+        )}
+
+        {question.type === EndUserBookTestQuestionType.Text && (
+          <Input width="80%" value={answers[questionIndex]} onChange={(e) => updateAnswer(e.target.value, false)} type="text" />
+        )}
+      </div>
+
+      <div className={styles.wrapper}>
+        <div className={styles.buttons}>
+          {
+            <Button disabled={isFirstQuestion} onClick={goToPreviousQuestion}>
+              Previous
+            </Button>
+          }
+
+          {(!isLastQuestion || !answers[questionIndex]) && (
+            <Button disabled={isLastQuestion || !answers[questionIndex]} onClick={goToNextQuestion}>
+              Next
+            </Button>
           )}
 
-          {question.type === EndUserBookTestQuestionType.Boolean && (
-            <div>
-              <div onClick={() => updateAnswer("true", true)}>True</div>
-              <div onClick={() => updateAnswer("false", true)}>False</div>
-            </div>
-          )}
-
-          {question.type === EndUserBookTestQuestionType.Text && (
-            <div>
-              <input value={answers[questionIndex]} onChange={(e) => updateAnswer(e.target.value, false)} type="text" />
-            </div>
-          )}
+          {isLastQuestion && answers[questionIndex] && <Button onClick={() => props.onSubmit(answers)}>Submit</Button>}
         </div>
-      )}
-
-      {!isFirstQuestion && !isPreview && <Button onClick={goToPreviousQuestion}>Previous</Button>}
-      {!isLastQuestion && !isPreview && <Button onClick={goToNextQuestion}>Next</Button>}
-
-      {isLastQuestion && !isPreview && answers[questionIndex] && <Button onClick={() => setIsPreview(true)}>Preview answers</Button>}
-
-      {isLastQuestion && isPreview && <Button onClick={() => setIsPreview(false)}>Go back</Button>}
-      {isLastQuestion && isPreview && <Button onClick={() => props.onSubmit(answers)}>Submit</Button>}
+      </div>
     </div>
   );
 };

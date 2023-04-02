@@ -9,16 +9,29 @@
     &:not(:disabled):active {
         animation: press 0.1s linear forwards;
     }
-}
 
-.children {
     font-weight: 700;
     font-size: 30px;
     line-height: 39px;
     text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF;
-}
+
+      svg {
+        color: green;
+
+        height: 10px;
+        width: 100px;
+    }
+
+    &:disabled {
+      background-color: gray;
+    }
+
+    &:not(:disabled):hover {
+      cursor: pointer;
+    }
+  }
 
 
 @keyframes press {

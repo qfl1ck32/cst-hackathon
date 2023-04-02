@@ -8,6 +8,7 @@ export default gql`
       progress
 
       book {
+        author
         title
       }
     }

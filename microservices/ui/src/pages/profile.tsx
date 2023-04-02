@@ -1,5 +1,11 @@
+import Layout from "@app/containers/Layout";
+
 const Profile: React.FC = () => {
-  return <h5>TODO</h5>;
+  return (
+    <Layout>
+      <div>Profile</div>
+    </Layout>
+  );
 };
 
 export default Profile;
