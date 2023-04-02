@@ -5,7 +5,9 @@ import { Book } from "@app/routes";
 import { useRouter } from "@bluelibs/x-ui-next";
 
 const LibraryContainer: React.FC = () => {
-  const { data, loading } = useEndUsersGetBooksQuery();
+  const { data, loading } = useEndUsersGetBooksQuery({
+    fetchPolicy: "network-only",
+  });
 
   const router = useRouter();
 

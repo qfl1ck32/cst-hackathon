@@ -21,6 +21,10 @@
     &:focus::placeholder {
         color: transparent;
     }
+
+    &:focus {
+        outline: none;
+    }
 }
 
 .error {
