@@ -29,7 +29,6 @@ export class AppFixture {
 
   async init() {
     return;
-
     if (!(await this.shouldRun())) {
       return;
     }

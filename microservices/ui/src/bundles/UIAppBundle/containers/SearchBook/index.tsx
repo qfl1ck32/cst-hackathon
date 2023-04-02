@@ -21,9 +21,10 @@ const SearchBookContainer: React.FC = () => {
 
       if (book?.exists) {
         toast.success("We have knowledge about the book. Adding it to your library...");
+
         await onAddToLibrary(book as EndUsersSearchBookResponse);
       } else {
-        toast.info(`No book found with the title "${input.title}"`);
+        toast.info(`No book found with the title "${input.title}."`);
       }
     },
 

@@ -17,7 +17,7 @@ const LoginContainer: React.FC = () => {
     onSubmit: async (input: FormValues) => {
       await endUserService.login(input);
 
-      toast.info("You have been logged in successfully.");
+      toast.info("You have successfully logged in.");
 
       router.go(Library);
     },

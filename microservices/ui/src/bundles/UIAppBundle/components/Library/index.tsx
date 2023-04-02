@@ -12,7 +12,7 @@ const Library: React.FC<Props> = (props) => {
     <div className={styles.container}>
       {!props.endUserBooks.length && (
         <div className={styles["no-books"]}>
-          <h2>You don't have any books in your library yet.</h2>
+          <h2>You don&apos;t have any books in your library yet.</h2>
         </div>
       )}
 

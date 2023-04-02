@@ -10,7 +10,7 @@ export interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   width?: number;
 }
 
-const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
+const Button = forwardRef<HTMLButtonElement, Props>(function ButtonComponent(props, ref) {
   const { children, height, width, ...buttonProps } = props;
 
   return (

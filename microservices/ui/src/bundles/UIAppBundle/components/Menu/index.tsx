@@ -27,7 +27,7 @@ const Menu: React.FC<Props> = (props) => {
 
       <div className={styles.center}>
         {props.tabs.map((tab, index) => (
-          <div className={styles.tab}>
+          <div key={index} className={styles.tab}>
             <Button onClick={tab.onClick} key={index}>
               <div className={styles.text}>{tab.name}</div>
             </Button>

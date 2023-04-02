@@ -9,7 +9,7 @@ export interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   height?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
+const Input = forwardRef<HTMLInputElement, Props>(function InputComponent(props, ref) {
   const { error, height, width, ...inputProps } = props;
 
   return (

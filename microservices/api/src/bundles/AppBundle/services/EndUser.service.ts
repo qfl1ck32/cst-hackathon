@@ -28,7 +28,11 @@ import {
   EndUserAlreadyOwnsBookException,
   EndUserDoesNotOwnBookException,
 } from "../exceptions";
-import { ChatGPTService, QuestionAboutBookChapter } from "./ChatGPT.service";
+import {
+  AnswerToBookChapterQuestion,
+  ChatGPTService,
+  QuestionAboutBookChapter,
+} from "./ChatGPT.service";
 import {
   EndUserBookChapterDetails,
   EndUserBookDetails,
@@ -569,12 +573,20 @@ export class EndUserService {
       _id: chapterTest.testId,
     });
 
-    const response = await this.chatGPTService.checkAnswers(
-      endUserBook.book.title,
-      chapter.title,
-      test.questions.map((q) => q.text),
-      input.answers
-    );
+    let response: AnswerToBookChapterQuestion[];
+
+    try {
+      response = await this.chatGPTService.checkAnswers(
+        endUserBook.book.title,
+        chapter.title,
+        test.questions.map((q) => q.text),
+        input.answers
+      );
+    } catch (err) {
+      throw new Error(
+        "Our AI is tired and didn't succeed correcting the test. Please submit your test again."
+      );
+    }
 
     const score = response.reduce((acc, curr) => {
       return acc + Number(curr.correct);

@@ -102,7 +102,7 @@ export class ChatGPTService {
       [
         {
           "text": string, // the question
-          "type": "MULTIPLE_CHOICE" | "BOOLEAN" | "TEXT",
+          "type": "MULTIPLE_CHOICE" | "BOOLEAN" | "TEXT", // MULTIPLE_CHOICE means that you have multiple results, but only one is correct
           "choices": string[] // if type === "multiple"
         }
       ]
@@ -129,7 +129,7 @@ export class ChatGPTService {
           "question": string,
           "answer": string,
           "correct": boolean, // this field should be true if the answer is correct
-          "explanation": string, // if correct === "false"
+          "explanation": string, // this should be the real answer if the answer is incorrect
         }
       ]
 
@@ -145,8 +145,6 @@ export class ChatGPTService {
         )}
       `
     );
-
-    console.log(response);
 
     return JSON.parse(response) as AnswerToBookChapterQuestion[];
   }
