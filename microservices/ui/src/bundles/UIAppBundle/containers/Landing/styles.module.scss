@@ -1,8 +1,21 @@
 .container {
-    background-color: #675D50;
+    height: 100vh;
+
+    background-image: url('/images/landing.jpeg');
+    background-size: cover;
+    background-position: center;
+
+    padding: 60px;
 }
 
-.header {
-    background-color: red;
+.buttons {
     display: flex;
+    justify-content: flex-end;
+}
+
+.text {
+    color: #FFFBEE;
+    font-size: 100px;
+
+    margin-bottom: 40px;
 }

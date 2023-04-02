@@ -5,16 +5,15 @@
 
     width: 100%;
 
+  padding: 80px;
+
+
   box-sizing: border-box;
 
 
     &:not(:disabled):active {
         animation: press 0.1s linear forwards;
     }
-}
-
-.wrapper {
-  padding: 80px;
 }
 
 .no-books {
