@@ -3,8 +3,9 @@ import Button from "@app/components/Button";
 
 import styles from "./styles.module.scss";
 import { MAX_SCORE } from "@app/constants";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Popup from "../Popup";
+import { useAppGuardian } from "@app/services/AppGuardian";
 
 export interface Props {
   results: EndUsersSubmitTestResponse;
@@ -14,6 +15,13 @@ export interface Props {
 
 const ChapterTestResults: React.FC<Props> = (props) => {
   const [selectedAnswer, setSelectedAnswer] = useState<EndUsersSubmitTestResponseAnswer>();
+
+  const appGuardian = useAppGuardian();
+
+  useEffect(() => {
+    // to refresh the level & experience
+    appGuardian.load();
+  }, []);
 
   return (
     <div className={styles.container}>
