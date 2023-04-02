@@ -6,6 +6,7 @@ import { Test } from "@app/routes";
 import { EndUserService } from "@app/services/EndUser";
 import { extractError } from "@app/utils/apollo";
 import { use, useRouter } from "@bluelibs/x-ui-next";
+import { Fragment } from "react";
 import { toast } from "react-toastify";
 
 export interface Props {
@@ -27,8 +28,10 @@ const LibraryBookContainer: React.FC<Props> = (props) => {
 
   const endUserService = use(EndUserService);
 
-  const [startTest, isLoading] = useOnSubmit({
+  const [startTest, startTestLoading] = useOnSubmit({
     onSubmit: async (chapterId: string) => {
+      toast.info("Generating your test. This might take a couple of seconds...");
+
       await endUserService.generateTest({
         chapterId,
         endUserBookId: props.endUserBookId,
@@ -53,7 +56,13 @@ const LibraryBookContainer: React.FC<Props> = (props) => {
     return <PageLoader />;
   }
 
-  return <LibraryBook {...{ startTest, isLoading }} bookDetails={data!.EndUsersGetBook as EndUserBookDetails} />;
+  return (
+    <Fragment>
+      {startTestLoading && <PageLoader />}
+
+      <LibraryBook {...{ startTest }} bookDetails={data!.EndUsersGetBook as EndUserBookDetails} />
+    </Fragment>
+  );
 };
 
 export default LibraryBookContainer;

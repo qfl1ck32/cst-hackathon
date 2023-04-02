@@ -38,7 +38,9 @@ const ChapterTestResults: React.FC<Props> = (props) => {
       </div>
 
       <div className={styles.button}>
-        <Button onClick={props.goBack}>Return to book</Button>
+        <Button style={{ color: "#313131" }} onClick={props.goBack}>
+          Return to the book
+        </Button>
       </div>
 
       <Popup isOpen={!!selectedAnswer} onClose={() => setSelectedAnswer(undefined)} backgroundColor="#D9CAB3">

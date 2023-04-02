@@ -13,20 +13,12 @@ import Popup from "../Popup";
 export interface Props {
   bookDetails: EndUserBookDetails;
   startTest: (chapterId: string) => Promise<void>;
-  isLoading: boolean;
 }
 
 const LibraryBook: React.FC<Props> = (props) => {
   const [selectedChapter, setSelectedChapter] = useState<EndUserBookChapterDetails>();
 
   const { bookDetails } = props;
-
-  {
-    /* TODO: make this nicer xD */
-  }
-  if (props.isLoading) {
-    return <PageLoader />;
-  }
 
   return (
     <div className={styles.container}>
